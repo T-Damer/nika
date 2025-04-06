@@ -1,13 +1,8 @@
 {
   "welcome": {
-    "title": "Welcome to Flo",
+    "title": "Welcome to mene",
     "subtitle": "Your personal period tracker and health assistant",
-    "getStarted": "Get Started",
-    "alreadyHaveAccount": "I already have an account",
-    "termsNotice": "By continuing, you agree to our",
-    "termsLink": "Terms of Service",
-    "and": "and",
-    "privacyLink": "Privacy Policy"
+    "getStarted": "Get Started"
   },
   "nameStep": {
     "title": "What's your name?",
@@ -44,7 +39,7 @@
     "subtitle": "This helps us provide more accurate insights"
   },
   "goalsStep": {
-    "title": "What are your goals with using Flo?",
+    "title": "What are your goals with using mene?",
     "subtitle": "Select all that apply to personalize your experience"
   },
   "activityLevelStep": {
@@ -75,7 +70,7 @@
   },
   "preferencesStep": {
     "title": "Set your preferences",
-    "subtitle": "Customize your experience with Flo"
+    "subtitle": "Customize your experience with mene"
   },
   "completeStep": {
     "title": "All Set!",
