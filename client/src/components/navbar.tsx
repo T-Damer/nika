@@ -9,11 +9,11 @@ export function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 flex justify-around p-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-neutral-200 dark:border-gray-800 flex justify-around p-2 z-50">
       <NavLink 
         to="/"
         className={({ isActive: active }) => 
-          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400'}`
+          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'}`
         }
       >
         <Home className="h-6 w-6" />
@@ -23,7 +23,7 @@ export function Navbar() {
       <NavLink 
         to="/calendar"
         className={({ isActive: active }) => 
-          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400'}`
+          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'}`
         }
       >
         <CalendarIcon className="h-6 w-6" />
@@ -33,7 +33,7 @@ export function Navbar() {
       <NavLink 
         to="/log"
         className={({ isActive: active }) => 
-          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400'}`
+          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'}`
         }
       >
         <PenSquare className="h-6 w-6" />
@@ -43,7 +43,7 @@ export function Navbar() {
       <NavLink 
         to="/insights"
         className={({ isActive: active }) => 
-          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400'}`
+          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'}`
         }
       >
         <BarChart className="h-6 w-6" />
@@ -53,7 +53,7 @@ export function Navbar() {
       <NavLink 
         to="/profile"
         className={({ isActive: active }) => 
-          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400'}`
+          `flex flex-col items-center p-2 ${active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'}`
         }
       >
         <User className="h-6 w-6" />

@@ -10,7 +10,9 @@ export function HealthTipCard({ tip }: HealthTipCardProps) {
     <div 
       className={cn(
         "rounded-xl p-4",
-        tip.highlighted ? "bg-brand-primary/10" : "bg-neutral-50"
+        tip.highlighted 
+          ? "bg-brand-primary/10 dark:bg-brand-primary/20" 
+          : "bg-neutral-50 dark:bg-gray-800"
       )}
     >
       <div className="flex items-start">
@@ -29,7 +31,7 @@ export function HealthTipCard({ tip }: HealthTipCardProps) {
           )}>
             {tip.title}
           </h3>
-          <p className="text-sm text-neutral-800">{tip.content}</p>
+          <p className="text-sm text-neutral-800 dark:text-neutral-200">{tip.content}</p>
         </div>
       </div>
     </div>

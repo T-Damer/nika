@@ -143,15 +143,13 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <h1 className="font-heading font-bold text-2xl gradient-text mb-6">mene</h1>
-          
           {/* Cycle Information Card */}
           <CycleProgress userData={user} />
           
           {/* Week Calendar */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-heading font-semibold text-lg">{t('calendar.title')}</h2>
+              <h2 className="font-heading font-semibold text-lg dark:text-white">{t('calendar.title')}</h2>
               <button className="text-primary text-sm font-medium" onClick={() => navigate('/calendar')}>
                 {t('calendar.viewAll')}
               </button>
@@ -228,7 +226,7 @@ export default function Home() {
           {/* Health Tips */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-heading font-semibold text-lg">{t('healthTips.title')}</h2>
+              <h2 className="font-heading font-semibold text-lg dark:text-white">{t('healthTips.title')}</h2>
               <button className="text-primary text-sm font-medium" onClick={() => navigate('/insights')}>
                 {t('healthTips.viewAll')}
               </button>

@@ -25,22 +25,22 @@ export function CycleProgress({ userData }: CycleProgressProps) {
   const fertileWindowWidth = (6 / userData.cycleLength) * 100;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-heading font-semibold text-lg">{t('cycleInfo.title')}</h2>
-        <span className="text-sm text-neutral-600">
+        <h2 className="font-heading font-semibold text-lg dark:text-white">{t('cycleInfo.title')}</h2>
+        <span className="text-sm text-neutral-600 dark:text-neutral-400">
           {nextPeriodDate && format(nextPeriodDate, 'MMMM yyyy', { locale: currentLocale })}
         </span>
       </div>
       
       <div className="mb-4">
-        <div className="text-sm text-neutral-600 mb-1">{t('cycleInfo.currentPhase')}</div>
+        <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">{t('cycleInfo.currentPhase')}</div>
         <div className="font-medium gradient-text">
           {t(`phases.${currentPhase.name}`)} ({t('cycleInfo.day')} {currentDay} {t('cycleInfo.ofCycle')})
         </div>
       </div>
       
-      <div className="bg-neutral-50 rounded-xl p-2 mb-4">
+      <div className="bg-neutral-50 dark:bg-gray-700 rounded-xl p-2 mb-4">
         <div className="flex h-3 rounded-full overflow-hidden">
           {/* Period section */}
           <div 
@@ -62,27 +62,27 @@ export function CycleProgress({ userData }: CycleProgressProps) {
           
           {/* Remaining days */}
           <div 
-            className="bg-neutral-200 rounded-r-full" 
+            className="bg-neutral-200 dark:bg-gray-600 rounded-r-full" 
             style={{ width: `${100 - Math.max(currentPercentage, periodPercentage)}%` }}
           ></div>
         </div>
-        <div className="flex justify-between text-xs mt-1">
+        <div className="flex justify-between text-xs mt-1 text-neutral-700 dark:text-neutral-300">
           <span>{t('cycleInfo.period')}</span>
           <span>{t('cycleInfo.ovulation')}</span>
           <span>{t('cycleInfo.nextPeriod')}</span>
         </div>
       </div>
       
-      <div className="flex justify-between text-sm text-neutral-600">
+      <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
         <div>
           <div>{t('cycleInfo.nextPeriod')}</div>
-          <div className="font-medium text-neutral-900">
+          <div className="font-medium text-neutral-900 dark:text-white">
             {nextPeriodDate && format(nextPeriodDate, 'MMM d', { locale: currentLocale })}
           </div>
         </div>
         <div>
           <div>{t('cycleInfo.fertileWindow')}</div>
-          <div className="font-medium text-neutral-900">
+          <div className="font-medium text-neutral-900 dark:text-white">
             {fertileWindow.start && fertileWindow.end ? 
               `${format(fertileWindow.start, 'MMM d', { locale: currentLocale })}-${format(fertileWindow.end, 'd', { locale: currentLocale })}` : 
               '-'}
@@ -90,7 +90,7 @@ export function CycleProgress({ userData }: CycleProgressProps) {
         </div>
         <div>
           <div>{t('cycleInfo.cycleLength')}</div>
-          <div className="font-medium text-neutral-900">
+          <div className="font-medium text-neutral-900 dark:text-white">
             {userData.cycleLength} {t('cycleInfo.days')}
           </div>
         </div>
