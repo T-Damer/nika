@@ -7,9 +7,9 @@ import { Label } from "@/components/ui/label";
 interface PreferencesStepProps {
   initialValues: {
     notifications: boolean;
-    darkMode: boolean;
+    theme: 'light' | 'dark' | 'system';
   };
-  onNext: (preferences: { notifications: boolean; darkMode: boolean }) => void;
+  onNext: (preferences: { notifications: boolean; theme: 'light' | 'dark' | 'system' }) => void;
   onBack: () => void;
 }
 
@@ -42,16 +42,55 @@ export function PreferencesStep({ initialValues, onNext, onBack }: PreferencesSt
               />
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="space-y-2">
               <div className="space-y-0.5">
-                <Label htmlFor="darkMode">{t('preferences.darkMode')}</Label>
-                <p className="text-sm text-neutral-600">{t('preferences.darkModeDescription')}</p>
+                <Label>{t('preferences.theme')}</Label>
+                <p className="text-sm text-neutral-600">{t('preferences.themeDescription')}</p>
               </div>
-              <Switch
-                id="darkMode"
-                checked={preferences.darkMode}
-                onCheckedChange={(checked) => setPreferences({ ...preferences, darkMode: checked })}
-              />
+              <div className="space-y-2 mt-2">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    id="themeSystem"
+                    name="theme"
+                    value="system"
+                    checked={preferences.theme === 'system'}
+                    onChange={() => setPreferences({ ...preferences, theme: 'system' })}
+                    className="h-4 w-4 text-primary"
+                  />
+                  <Label htmlFor="themeSystem" className="text-sm font-normal cursor-pointer">
+                    {t('preferences.themeSystem')}
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    id="themeLight"
+                    name="theme"
+                    value="light"
+                    checked={preferences.theme === 'light'}
+                    onChange={() => setPreferences({ ...preferences, theme: 'light' })}
+                    className="h-4 w-4 text-primary"
+                  />
+                  <Label htmlFor="themeLight" className="text-sm font-normal cursor-pointer">
+                    {t('preferences.themeLight')}
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    id="themeDark"
+                    name="theme"
+                    value="dark"
+                    checked={preferences.theme === 'dark'}
+                    onChange={() => setPreferences({ ...preferences, theme: 'dark' })}
+                    className="h-4 w-4 text-primary"
+                  />
+                  <Label htmlFor="themeDark" className="text-sm font-normal cursor-pointer">
+                    {t('preferences.themeDark')}
+                  </Label>
+                </div>
+              </div>
             </div>
           </div>
         </div>

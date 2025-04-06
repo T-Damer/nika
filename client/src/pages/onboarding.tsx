@@ -71,12 +71,12 @@ export default function Onboarding() {
     navigate('/', { replace: true });
   };
   
-  // Toggle dark mode
-  const toggleDarkMode = () => {
+  // Toggle theme between light and dark
+  const toggleTheme = () => {
     updateUser({
       preferences: {
         ...user.preferences,
-        darkMode: !user.preferences.darkMode
+        theme: user.preferences.theme === 'dark' ? 'light' : 'dark'
       }
     });
   };
@@ -157,12 +157,12 @@ export default function Onboarding() {
     handleNext();
   };
   
-  const updatePreferences = (preferences: { notifications: boolean; darkMode: boolean }) => {
+  const updatePreferences = (preferences: { notifications: boolean; theme: 'light' | 'dark' | 'system' }) => {
     updateUser({ 
       preferences: { 
         ...user.preferences, 
         notifications: preferences.notifications, 
-        darkMode: preferences.darkMode 
+        theme: preferences.theme 
       } 
     });
     handleNext();
@@ -204,7 +204,7 @@ export default function Onboarding() {
       case 15:
         return <MedicationsStep initialValues={user.medications} onNext={updateMedications} onBack={handleBack} />;
       case 16:
-        return <PreferencesStep initialValues={{ notifications: user.preferences.notifications, darkMode: user.preferences.darkMode }} onNext={updatePreferences} onBack={handleBack} />;
+        return <PreferencesStep initialValues={{ notifications: user.preferences.notifications, theme: user.preferences.theme }} onNext={updatePreferences} onBack={handleBack} />;
       case 17:
         return <CompleteStep onComplete={handleComplete} />;
       default:
@@ -243,10 +243,10 @@ export default function Onboarding() {
         <Button 
           variant="ghost" 
           size="icon" 
-          onClick={toggleDarkMode}
-          aria-label={user.preferences.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          onClick={toggleTheme}
+          aria-label={user.preferences.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {user.preferences.darkMode ? (
+          {user.preferences.theme === 'dark' ? (
             <Sun className="h-5 w-5" />
           ) : (
             <Moon className="h-5 w-5" />

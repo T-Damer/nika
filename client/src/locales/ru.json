@@ -195,8 +195,11 @@
   "preferences": {
     "notifications": "Уведомления",
     "notificationsDescription": "Получать напоминания о менструации и фертильности",
-    "darkMode": "Темная тема",
-    "darkModeDescription": "Использовать темную тему для приложения"
+    "theme": "Тема",
+    "themeDescription": "Выберите предпочитаемый внешний вид приложения",
+    "themeSystem": "Системная (автоматически)",
+    "themeLight": "Светлая тема",
+    "themeDark": "Темная тема"
   },
   "nav": {
     "home": "Главная",
@@ -332,7 +335,7 @@
     "selectPeriodLength": "Выберите длину менструации",
     "settings": "Настройки",
     "notifications": "Уведомления",
-    "darkMode": "Темная тема",
+    "theme": "Тема",
     "helpSupport": "Помощь и поддержка",
     "faq": "Часто задаваемые вопросы",
     "contactSupport": "Связаться с поддержкой",

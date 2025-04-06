@@ -195,8 +195,11 @@
   "preferences": {
     "notifications": "Notifications",
     "notificationsDescription": "Receive period and fertility reminders",
-    "darkMode": "Dark Mode",
-    "darkModeDescription": "Use dark theme for the app"
+    "theme": "Theme",
+    "themeDescription": "Choose your preferred app appearance",
+    "themeSystem": "System (automatic)",
+    "themeLight": "Light mode",
+    "themeDark": "Dark mode"
   },
   "nav": {
     "home": "Home",
@@ -332,7 +335,7 @@
     "selectPeriodLength": "Select period length",
     "settings": "Settings",
     "notifications": "Notifications",
-    "darkMode": "Dark Mode",
+    "theme": "Theme",
     "helpSupport": "Help & Support",
     "faq": "Frequently Asked Questions",
     "contactSupport": "Contact Support",

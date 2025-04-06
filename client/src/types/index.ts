@@ -19,7 +19,7 @@ export interface User {
   preferences: {
     language: 'en' | 'ru';
     notifications: boolean;
-    darkMode: boolean;
+    theme: 'light' | 'dark' | 'system';
   };
   onboardingCompleted: boolean;
 }

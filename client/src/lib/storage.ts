@@ -1,7 +1,7 @@
 import { User } from '../types';
 
-const USER_DATA_KEY = 'floUserData';
-const CYCLE_DATA_KEY = 'floCycleData';
+const USER_DATA_KEY = 'meneUserData';
+const CYCLE_DATA_KEY = 'meneCycleData';
 
 export const defaultUser: User = {
   name: '',
@@ -24,7 +24,7 @@ export const defaultUser: User = {
   preferences: {
     language: 'en',
     notifications: true,
-    darkMode: false
+    theme: 'system'
   },
   onboardingCompleted: false
 };

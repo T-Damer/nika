@@ -80,14 +80,32 @@ function AppContent() {
     }
   }, []);
   
-  // Apply dark mode effect
+  // Function to check if system prefers dark mode
+  const systemPrefersDarkMode = () => {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+
+  // Apply theme effect
   useEffect(() => {
-    if (user.preferences.darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const applyTheme = () => {
+      if (user.preferences.theme === 'dark' || 
+          (user.preferences.theme === 'system' && systemPrefersDarkMode())) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    applyTheme();
+
+    // Listen for system theme changes if using system theme
+    if (user.preferences.theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme();
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
-  }, [user.preferences.darkMode]);
+  }, [user.preferences.theme]);
 
   return (
     <>
