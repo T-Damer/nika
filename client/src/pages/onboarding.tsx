@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/user-context";
 import { ProgressDots } from "../components/onboarding/progress-dots";
@@ -20,6 +20,10 @@ import { MedicalConditionsStep } from "../components/onboarding/medical-conditio
 import { MedicationsStep } from "../components/onboarding/medications-step";
 import { PreferencesStep } from "../components/onboarding/preferences-step";
 import { CompleteStep } from "../components/onboarding/complete-step";
+import { LanguageToggle } from "@/components/ui/language-toggle";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Onboarding() {
   const { user, updateUser } = useUser();
@@ -27,6 +31,18 @@ export default function Onboarding() {
   const navigate = useNavigate();
   
   const totalSteps = 17;
+  
+  // Prevent body scrolling
+  useEffect(() => {
+    // Store original overflow setting
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    
+    // Restore on unmount
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
   
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
@@ -48,8 +64,23 @@ export default function Onboarding() {
   };
   
   const handleComplete = () => {
+    // Apply transition animation
     updateUser({ onboardingCompleted: true });
-    navigate('/');
+    
+    // Add a small delay for the animation to play
+    setTimeout(() => {
+      navigate('/');
+    }, 500);
+  };
+  
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    updateUser({
+      preferences: {
+        ...user.preferences,
+        darkMode: !user.preferences.darkMode
+      }
+    });
   };
   
   // Define step handlers to update user data
@@ -184,10 +215,45 @@ export default function Onboarding() {
   };
   
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 flex flex-col p-5">
+    <div className="flex flex-col min-h-screen overflow-hidden">
+      {/* Top navigation dots */}
+      <div className="p-5 pt-6">
         <ProgressDots currentStep={currentStep} totalSteps={totalSteps} />
-        {renderStep()}
+      </div>
+      
+      {/* Main content area with overflow control */}
+      <div className="flex-1 flex flex-col px-5 overflow-hidden">
+        <div className="scrollable-content flex-1 overflow-y-auto pb-20">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="flex-1 flex flex-col"
+            >
+              {renderStep()}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+      
+      {/* Bottom toolbar for language and theme */}
+      <div className="fixed bottom-0 left-0 right-0 py-3 px-5 bg-white dark:bg-gray-900 border-t border-neutral-200 dark:border-gray-800 flex justify-between items-center">
+        <LanguageToggle />
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={toggleDarkMode}
+          aria-label={user.preferences.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {user.preferences.darkMode ? (
+            <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
+          )}
+        </Button>
       </div>
     </div>
   );

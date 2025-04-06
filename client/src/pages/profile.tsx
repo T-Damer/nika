@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useUser } from "../contexts/user-context";
 import { Navbar } from "../components/navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,12 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { clearAllData } from "@/lib/storage";
-import { User, Settings, Calendar, Moon, Bell, HelpCircle, LogOut, Trash2 } from "lucide-react";
+import { User, Settings, Calendar, Moon, Bell, LogOut, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Profile() {
   const { t } = useTranslation();
   const { user, updateUser } = useUser();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState(user.name);
@@ -40,6 +42,11 @@ export default function Profile() {
       periodLength: parseInt(tempPeriodLength)
     });
     setIsEditing(false);
+    
+    toast({
+      title: t('profile.saveSuccess'),
+      description: t('profile.profileUpdated'),
+    });
   };
   
   const cancelEditing = () => {
@@ -64,7 +71,6 @@ export default function Profile() {
         darkMode: !user.preferences.darkMode
       }
     });
-    // In a real implementation, this would also toggle the app's theme
   };
   
   // Handle reset app data
@@ -124,7 +130,7 @@ export default function Profile() {
                 ) : (
                   <h2 className="text-lg font-medium">{user.name || t('profile.defaultName')}</h2>
                 )}
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">
                   {user.birthDay && user.birthMonth && user.birthYear 
                     ? `${t('profile.birthDate')}: ${user.birthDay}.${user.birthMonth}.${user.birthYear}` 
                     : t('profile.noBirthDate')}
@@ -177,12 +183,12 @@ export default function Profile() {
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="bg-neutral-50 p-3 rounded-lg">
-                  <div className="text-sm text-neutral-600">{t('profile.cycleLength')}</div>
+                <div className="bg-neutral-50 dark:bg-neutral-800 p-3 rounded-lg">
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">{t('profile.cycleLength')}</div>
                   <div className="font-medium">{user.cycleLength} {t('common.days')}</div>
                 </div>
-                <div className="bg-neutral-50 p-3 rounded-lg">
-                  <div className="text-sm text-neutral-600">{t('profile.periodLength')}</div>
+                <div className="bg-neutral-50 dark:bg-neutral-800 p-3 rounded-lg">
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">{t('profile.periodLength')}</div>
                   <div className="font-medium">{user.periodLength} {t('common.days')}</div>
                 </div>
               </div>
@@ -199,19 +205,25 @@ export default function Profile() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Bell className="h-5 w-5 text-neutral-600" />
-                  <Label htmlFor="notifications">{t('profile.notifications')}</Label>
+                  <Bell className="h-5 w-5 text-neutral-600 dark:text-neutral-400" />
+                  <Label htmlFor="notifications" className="text-neutral-600 dark:text-neutral-400">
+                    {t('profile.notifications')}
+                  </Label>
                 </div>
-                <Switch
-                  id="notifications"
-                  checked={user.preferences.notifications}
-                  onCheckedChange={toggleNotifications}
-                />
+                <div className="flex items-center">
+                  <span className="text-xs text-neutral-500 dark:text-neutral-500 mr-2">{t('profile.comingSoon')}</span>
+                  <Switch
+                    id="notifications"
+                    checked={false}
+                    disabled={true}
+                    aria-disabled={true}
+                  />
+                </div>
               </div>
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Moon className="h-5 w-5 text-neutral-600" />
+                  <Moon className="h-5 w-5 text-neutral-600 dark:text-neutral-400" />
                   <Label htmlFor="darkMode">{t('profile.darkMode')}</Label>
                 </div>
                 <Switch
@@ -224,70 +236,33 @@ export default function Profile() {
           </CardContent>
         </Card>
         
-        {/* Help and Support */}
-        <Card className="mb-6">
-          <CardHeader className="pb-2">
-            <CardTitle>{t('profile.helpSupport')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Button variant="ghost" className="w-full justify-start">
-                <HelpCircle className="h-5 w-5 mr-2" />
-                {t('profile.faq')}
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <Settings className="h-5 w-5 mr-2" />
-                {t('profile.contactSupport')}
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <User className="h-5 w-5 mr-2" />
-                {t('profile.privacyPolicy')}
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <Calendar className="h-5 w-5 mr-2" />
-                {t('profile.termsOfService')}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-        
-        {/* Danger Zone */}
-        <Card className="border-red-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-red-500">{t('profile.dangerZone')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start border-red-200 text-red-500 hover:text-red-600 hover:bg-red-50">
-                    <Trash2 className="h-5 w-5 mr-2" />
-                    {t('profile.resetData')}
+        {/* Reset Button Only */}
+        <Card>
+          <CardContent className="pt-6">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full justify-start border-red-200 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950">
+                  <Trash2 className="h-5 w-5 mr-2" />
+                  {t('profile.resetData')}
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t('profile.confirmReset')}</DialogTitle>
+                  <DialogDescription>
+                    {t('profile.resetWarning')}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => {}}>
+                    {t('common.cancel')}
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{t('profile.confirmReset')}</DialogTitle>
-                    <DialogDescription>
-                      {t('profile.resetWarning')}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => {}}>
-                      {t('common.cancel')}
-                    </Button>
-                    <Button variant="destructive" onClick={resetAppData}>
-                      {t('profile.confirmResetButton')}
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-              
-              <Button variant="outline" className="w-full justify-start border-red-200 text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => navigate('/onboarding')}>
-                <LogOut className="h-5 w-5 mr-2" />
-                {t('profile.logOut')}
-              </Button>
-            </div>
+                  <Button variant="destructive" onClick={resetAppData}>
+                    {t('profile.confirmResetButton')}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CardContent>
         </Card>
       </main>

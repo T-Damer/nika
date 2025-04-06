@@ -1,16 +1,26 @@
 import { useTranslation } from "react-i18next";
 import { useUser } from "../contexts/user-context";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Settings } from "lucide-react";
 import { CycleProgress } from "../components/cycle-progress";
 import { HealthTipCard } from "../components/health-tip-card";
 import { Navbar } from "../components/navbar";
 import { Button } from "@/components/ui/button";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isSameDay, parseISO, addDays } from "date-fns";
+import { motion } from "framer-motion";
+import { 
+  format, 
+  startOfDay, 
+  startOfWeek, 
+  addDays, 
+  eachDayOfInterval, 
+  isToday, 
+  isSameDay, 
+  parseISO, 
+  subDays,
+  addWeeks
+} from "date-fns";
 import { ru } from "date-fns/locale";
 import { calculateCycleDays, getCurrentPhase } from "@/lib/cycleCalculations";
-import { CalendarDay } from "@/components/ui/calendar-day";
 import { CalendarDayState, HealthTip } from "@/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -20,9 +30,12 @@ export default function Home() {
   const navigate = useNavigate();
   const currentLocale = i18n.language === 'ru' ? ru : undefined;
   
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [calendarDays, setCalendarDays] = useState<CalendarDayState[]>([]);
+  const today = new Date();
+  const [weekStartDate, setWeekStartDate] = useState(startOfWeek(today, { weekStartsOn: 1 }));
+  const [weekCalendarDays, setWeekCalendarDays] = useState<CalendarDayState[]>([]);
   const [healthTips, setHealthTips] = useState<HealthTip[]>([]);
+  
+  const scrollRef = useRef<HTMLDivElement>(null);
   
   // Redirect to onboarding if not completed
   useEffect(() => {
@@ -31,39 +44,23 @@ export default function Home() {
     }
   }, [user.onboardingCompleted, isLoading, navigate]);
   
-  // Calculate calendar days
+  // Calculate 7-day week calendar
   useEffect(() => {
     if (!user.lastPeriodStart) return;
     
     const cycleDays = calculateCycleDays(user);
-    const startOfCurrentMonth = startOfMonth(currentMonth);
-    const endOfCurrentMonth = endOfMonth(currentMonth);
-    const daysInMonth = eachDayOfInterval({ start: startOfCurrentMonth, end: endOfCurrentMonth });
     
-    // Adjust the calendar to start with Monday
-    const firstDayOfMonth = startOfCurrentMonth.getDay() || 7;
-    const prevMonthDays = firstDayOfMonth - 1;
+    // Display 14 days (current week + next week)
+    const daysToShow = 14; 
+    const weekViewDays = eachDayOfInterval({ 
+      start: weekStartDate, 
+      end: addDays(weekStartDate, daysToShow - 1) 
+    });
     
-    // Add days from previous month
-    const previousMonthDays: CalendarDayState[] = [];
-    for (let i = prevMonthDays - 1; i >= 0; i--) {
-      const date = addDays(startOfCurrentMonth, -i - 1);
-      previousMonthDays.push({
-        number: date.getDate(),
-        isCurrentMonth: false,
-        isPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period'),
-        isPredictedPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period' && d.predicted),
-        isFertile: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'fertile'),
-        isOvulation: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'ovulation'),
-        date,
-        isToday: isToday(date)
-      });
-    }
-    
-    // Current month days
-    const currentMonthDays: CalendarDayState[] = daysInMonth.map(date => ({
+    // Create calendar day states
+    const weekDays: CalendarDayState[] = weekViewDays.map(date => ({
       number: date.getDate(),
-      isCurrentMonth: true,
+      isCurrentMonth: true, // Not relevant for week view
       isPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period'),
       isPredictedPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period' && d.predicted),
       isFertile: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'fertile'),
@@ -72,28 +69,20 @@ export default function Home() {
       isToday: isToday(date)
     }));
     
-    // Add days from next month to fill out the grid (6 rows of 7 days)
-    const totalDaysToShow = 42; // 6 weeks
-    const nextMonthDays: CalendarDayState[] = [];
-    const daysToAdd = totalDaysToShow - (previousMonthDays.length + currentMonthDays.length);
+    setWeekCalendarDays(weekDays);
     
-    for (let i = 1; i <= daysToAdd; i++) {
-      const date = addDays(endOfCurrentMonth, i);
-      nextMonthDays.push({
-        number: date.getDate(),
-        isCurrentMonth: false,
-        isPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period'),
-        isPredictedPeriod: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'period' && d.predicted),
-        isFertile: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'fertile'),
-        isOvulation: cycleDays.some(d => isSameDay(parseISO(d.date), date) && d.type === 'ovulation'),
-        date,
-        isToday: isToday(date)
-      });
-    }
+    // Scroll to today
+    setTimeout(() => {
+      if (scrollRef.current) {
+        const todayIndex = weekDays.findIndex(day => day.isToday);
+        if (todayIndex >= 0) {
+          const dayWidth = 56; // 3.5rem (14) width + 0.5rem (2) margin
+          scrollRef.current.scrollLeft = todayIndex * dayWidth;
+        }
+      }
+    }, 100);
     
-    setCalendarDays([...previousMonthDays, ...currentMonthDays, ...nextMonthDays]);
-    
-  }, [currentMonth, user]);
+  }, [weekStartDate, user]);
   
   // Set health tips based on current phase
   useEffect(() => {
@@ -126,111 +115,132 @@ export default function Home() {
     
   }, [user, t]);
   
-  // Handle month navigation
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  // Navigate week view
+  const handlePrevWeek = () => {
+    setWeekStartDate(subDays(weekStartDate, 7));
   };
   
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  const handleNextWeek = () => {
+    setWeekStartDate(addDays(weekStartDate, 7));
   };
   
-  // Generate weekday labels
-  const weekDays = Array.from({ length: 7 }, (_, i) => 
-    format(new Date(2021, 0, i + 1), 'EEEEE', { locale: currentLocale })
-  );
+  // Handle day click
+  const handleDayClick = (date: Date) => {
+    navigate('/log');
+  };
+  
+  // Format day name
+  const formatDayName = (date: Date) => {
+    return format(date, 'EEEEEE', { locale: currentLocale });
+  };
   
   return (
     <div className="min-h-screen flex flex-col pb-16">
-      {/* Header */}
-      <header className="bg-white p-4 border-b">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="font-heading font-bold text-2xl gradient-text">mene</h1>
-          </div>
-          <div className="flex gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')}>
-              <Settings className="h-6 w-6" />
-            </Button>
-          </div>
-        </div>
-      </header>
-      
       {/* Main Content */}
-      <main className="flex-1 p-4">
-        {/* Cycle Information Card */}
-        <CycleProgress userData={user} />
-        
-        {/* Calendar */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-heading font-semibold text-lg">{t('calendar.title')}</h2>
-            <button className="text-primary text-sm font-medium" onClick={() => navigate('/calendar')}>
-              {t('calendar.viewAll')}
-            </button>
-          </div>
+      <main className="flex-1 pt-6 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h1 className="font-heading font-bold text-2xl gradient-text mb-6">mene</h1>
           
-          <div className="mb-3">
-            <div className="flex justify-between items-center mb-2">
-              <button className="p-1" onClick={handlePrevMonth}>
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <h3 className="font-medium">
-                {format(currentMonth, 'LLLL yyyy', { locale: currentLocale })}
-              </h3>
-              <button className="p-1" onClick={handleNextMonth}>
-                <ChevronRight className="h-5 w-5" />
+          {/* Cycle Information Card */}
+          <CycleProgress userData={user} />
+          
+          {/* Week Calendar */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="font-heading font-semibold text-lg">{t('calendar.title')}</h2>
+              <button className="text-primary text-sm font-medium" onClick={() => navigate('/calendar')}>
+                {t('calendar.viewAll')}
               </button>
             </div>
             
-            <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-neutral-600 text-center">
-              {weekDays.map((day, index) => (
-                <div key={index}>{day}</div>
-              ))}
+            <div className="mb-3">
+              <div className="flex justify-between items-center mb-2">
+                <button className="p-1" onClick={handlePrevWeek}>
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <h3 className="font-medium">
+                  {format(weekStartDate, 'MMMM yyyy', { locale: currentLocale })}
+                </h3>
+                <button className="p-1" onClick={handleNextWeek}>
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+              
+              {/* Week View Calendar */}
+              <div 
+                ref={scrollRef} 
+                className="week-calendar"
+              >
+                {weekCalendarDays.map((day, index) => (
+                  <div key={index} className="week-day">
+                    <div className="text-center mb-1 text-xs text-neutral-600 dark:text-neutral-400">
+                      {formatDayName(day.date)}
+                    </div>
+                    <div 
+                      className={`
+                        aspect-square rounded-full flex items-center justify-center text-sm relative
+                        ${day.isToday ? 'border border-primary' : ''} 
+                        ${day.isPeriod ? 'bg-primary/20' : day.isPredictedPeriod ? 'bg-primary/10' : ''}
+                      `}
+                      onClick={() => handleDayClick(day.date)}
+                    >
+                      <span className={day.isToday ? 'font-bold' : ''}>
+                        {day.number}
+                      </span>
+                      
+                      {/* Indicators */}
+                      {day.isOvulation && (
+                        <span className="absolute bottom-1 w-1 h-1 bg-accent rounded-full"></span>
+                      )}
+                      {day.isFertile && !day.isOvulation && (
+                        <span className="absolute bottom-1 w-1 h-1 bg-success rounded-full"></span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             
-            <div className="grid grid-cols-7 gap-1 text-sm">
-              {calendarDays.map((day, index) => (
-                <CalendarDay key={index} day={day} />
+            <div className="flex justify-between text-xs flex-wrap">
+              <div className="flex items-center mr-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-primary mr-1"></div>
+                <span>{t('calendar.period')}</span>
+              </div>
+              <div className="flex items-center mr-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-primary opacity-30 mr-1"></div>
+                <span>{t('calendar.predicted')}</span>
+              </div>
+              <div className="flex items-center mr-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
+                <span>{t('calendar.ovulation')}</span>
+              </div>
+              <div className="flex items-center mb-1">
+                <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
+                <span>{t('calendar.fertile')}</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Health Tips */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="font-heading font-semibold text-lg">{t('healthTips.title')}</h2>
+              <button className="text-primary text-sm font-medium" onClick={() => navigate('/insights')}>
+                {t('healthTips.viewAll')}
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {healthTips.map(tip => (
+                <HealthTipCard key={tip.id} tip={tip} />
               ))}
             </div>
           </div>
-          
-          <div className="flex justify-between text-xs flex-wrap">
-            <div className="flex items-center mr-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-primary mr-1"></div>
-              <span>{t('calendar.period')}</span>
-            </div>
-            <div className="flex items-center mr-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-primary opacity-30 mr-1"></div>
-              <span>{t('calendar.predicted')}</span>
-            </div>
-            <div className="flex items-center mr-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
-              <span>{t('calendar.ovulation')}</span>
-            </div>
-            <div className="flex items-center mb-1">
-              <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
-              <span>{t('calendar.fertile')}</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Health Tips */}
-        <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-heading font-semibold text-lg">{t('healthTips.title')}</h2>
-            <button className="text-primary text-sm font-medium" onClick={() => navigate('/insights')}>
-              {t('healthTips.viewAll')}
-            </button>
-          </div>
-          
-          <div className="space-y-4">
-            {healthTips.map(tip => (
-              <HealthTipCard key={tip.id} tip={tip} />
-            ))}
-          </div>
-        </div>
+        </motion.div>
       </main>
       
       {/* Bottom Navigation */}

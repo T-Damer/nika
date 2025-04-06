@@ -9,11 +9,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarIcon, Droplets, Heart, AlertCircle, Thermometer, Moon, SaveIcon } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
+import { CalendarIcon, Droplets, Heart, AlertCircle, Check, SaveIcon } from "lucide-react";
 
 export default function Log() {
   const { t, i18n } = useTranslation();
   const { user, updateUser } = useUser();
+  const { toast } = useToast();
   const currentLocale = i18n.language === 'ru' ? ru : undefined;
 
   const today = new Date();
@@ -23,6 +26,7 @@ export default function Log() {
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
   const [flowIntensity, setFlowIntensity] = useState(2);
   const [painLevel, setPainLevel] = useState(1);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Common symptoms based on user selected symptoms during onboarding
   const commonSymptoms = [
@@ -55,33 +59,62 @@ export default function Log() {
   };
 
   const saveLog = () => {
-    // In a real implementation, this would save to localStorage
-    // For now, we'll just log to console
-    console.log('Saving log for:', format(selectedDate, 'yyyy-MM-dd'));
-    console.log({
+    // Show saving state
+    setIsSaving(true);
+    
+    // Create log entry
+    const logEntry = {
       date: format(selectedDate, 'yyyy-MM-dd'),
       isPeriod: activeTab === "period",
       flowIntensity: activeTab === "period" ? flowIntensity : 0,
       painLevel,
       symptoms: selectedSymptoms,
       moods: selectedMoods
-    });
+    };
     
-    // Show success message (in a real app, use toast or other notification)
-    alert(t('log.saveSuccess'));
+    // Log to console for demo
+    console.log('Saving log for:', format(selectedDate, 'yyyy-MM-dd'));
+    console.log(logEntry);
+    
+    // In a real app, we'd save to localStorage or send to backend here
+    
+    // Simulate saving delay
+    setTimeout(() => {
+      // Show success toast notification
+      toast({
+        title: t('log.saveSuccess'),
+        description: t('log.dataRecorded'),
+        variant: "default",
+        duration: 3000,
+      });
+      
+      // Reset saving state
+      setIsSaving(false);
+      
+      // Reset form after successful save
+      setSelectedSymptoms([]);
+      setSelectedMoods([]);
+      setFlowIntensity(2);
+      setPainLevel(1);
+    }, 800);
   };
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
-      {/* Header */}
-      <header className="bg-primary text-white p-4 shadow">
-        <div className="flex justify-between items-center">
-          <h1 className="font-heading font-bold text-xl">{t('log.title')}</h1>
-        </div>
-      </header>
+      {/* Header (simplified) */}
+      <div className="pt-6 px-4">
+        <motion.h1 
+          className="font-heading font-bold text-2xl mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {t('log.title')}
+        </motion.h1>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-4">
+      <main className="flex-1 p-4 pt-0">
         {/* Date Selection */}
         <Card className="mb-4">
           <CardHeader className="pb-2">
@@ -125,7 +158,7 @@ export default function Log() {
                         onValueChange={(values) => setFlowIntensity(values[0])}
                       />
                     </div>
-                    <div className="flex justify-between text-xs text-neutral-600">
+                    <div className="flex justify-between text-xs text-neutral-600 dark:text-neutral-400">
                       <span>{t('log.flowLevels.light')}</span>
                       <span>{t('log.flowLevels.medium')}</span>
                       <span>{t('log.flowLevels.heavy')}</span>
@@ -144,7 +177,7 @@ export default function Log() {
                         onValueChange={(values) => setPainLevel(values[0])}
                       />
                     </div>
-                    <div className="flex justify-between text-xs text-neutral-600">
+                    <div className="flex justify-between text-xs text-neutral-600 dark:text-neutral-400">
                       <span>{t('log.painLevels.none')}</span>
                       <span>{t('log.painLevels.moderate')}</span>
                       <span>{t('log.painLevels.severe')}</span>
@@ -213,9 +246,26 @@ export default function Log() {
         <Button 
           className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
           onClick={saveLog}
+          disabled={isSaving}
         >
-          <SaveIcon className="mr-2 h-4 w-4" />
-          {t('log.saveButton')}
+          {isSaving ? (
+            <motion.div
+              className="flex items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {t('log.saving')}
+            </motion.div>
+          ) : (
+            <>
+              <SaveIcon className="mr-2 h-4 w-4" />
+              {t('log.saveButton')}
+            </>
+          )}
         </Button>
       </main>
 
