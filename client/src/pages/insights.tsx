@@ -164,7 +164,7 @@ export default function Insights() {
         {/* Cycle Phases Visualization */}
         <Card className="mb-6 overflow-hidden">
           <CardHeader className="pb-2">
-            <CardTitle>{t('insights.cyclePhases')}</CardTitle>
+            <CardTitle>{t('insights.phaseOverview')}</CardTitle>
           </CardHeader>
           <CardContent className="pb-5">
             {/* Phase timeline visualization */}

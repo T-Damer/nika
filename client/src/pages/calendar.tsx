@@ -115,53 +115,51 @@ export default function Calendar() {
   
   return (
     <div className="min-h-screen flex flex-col pb-16">
-      {/* Header */}
-      <header className="bg-primary text-white p-4 shadow">
-        <div className="flex justify-between items-center">
-          <h1 className="font-heading font-bold text-xl">{t('calendar.title')}</h1>
-        </div>
-      </header>
-      
       {/* Main Content */}
-      <main className="flex-1 p-4">
+      <main className="flex-1 pt-6 px-4">
+        <h1 className="font-heading font-bold text-2xl mb-4 dark:text-white">{t('calendar.title')}</h1>
+        
         <div className="flex justify-between items-center mb-4">
-          <button className="p-1" onClick={navigateToPreviousMonth}>
+          <button className="p-1 dark:text-white" onClick={navigateToPreviousMonth}>
             <ChevronLeft className="h-6 w-6" />
           </button>
-          <button className="p-1" onClick={navigateToNextMonth}>
+          <h2 className="font-medium dark:text-white">
+            {format(currentViewingMonth, 'MMMM yyyy', { locale: currentLocale })}
+          </h2>
+          <button className="p-1 dark:text-white" onClick={navigateToNextMonth}>
             <ChevronRight className="h-6 w-6" />
           </button>
         </div>
         
         {/* Calendar Legend */}
-        <div className="bg-white rounded-xl p-3 mb-4 flex justify-between flex-wrap">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-3 mb-4 flex justify-between flex-wrap">
           <div className="flex items-center mr-2 mb-1">
             <div className="w-3 h-3 rounded-full bg-primary mr-1"></div>
-            <span className="text-sm">{t('calendar.period')}</span>
+            <span className="text-sm dark:text-white">{t('calendar.period')}</span>
           </div>
           <div className="flex items-center mr-2 mb-1">
             <div className="w-3 h-3 rounded-full bg-primary opacity-30 mr-1"></div>
-            <span className="text-sm">{t('calendar.predicted')}</span>
+            <span className="text-sm dark:text-white">{t('calendar.predicted')}</span>
           </div>
           <div className="flex items-center mr-2 mb-1">
             <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
-            <span className="text-sm">{t('calendar.ovulation')}</span>
+            <span className="text-sm dark:text-white">{t('calendar.ovulation')}</span>
           </div>
           <div className="flex items-center mb-1">
             <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
-            <span className="text-sm">{t('calendar.fertile')}</span>
+            <span className="text-sm dark:text-white">{t('calendar.fertile')}</span>
           </div>
         </div>
         
         {/* Months */}
         {calendarMonths.map((monthData, index) => (
-          <div key={index} className="bg-white rounded-2xl shadow-sm p-5 mb-6">
-            <h3 className="font-medium mb-4">
+          <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
+            <h3 className="font-medium mb-4 dark:text-white">
               {format(monthData.month, 'LLLL yyyy', { locale: currentLocale })}
             </h3>
             
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-neutral-600 text-center">
+            <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-neutral-600 dark:text-neutral-400 text-center">
               {weekDays.map((day, idx) => (
                 <div key={idx}>{day}</div>
               ))}

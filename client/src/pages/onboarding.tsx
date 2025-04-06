@@ -60,17 +60,15 @@ export default function Onboarding() {
   
   const handleSkipOnboarding = () => {
     updateUser({ onboardingCompleted: true });
-    navigate('/');
+    navigate('/', { replace: true });
   };
   
   const handleComplete = () => {
     // Apply transition animation
     updateUser({ onboardingCompleted: true });
     
-    // Add a small delay for the animation to play
-    setTimeout(() => {
-      navigate('/');
-    }, 500);
+    // Navigate to home immediately
+    navigate('/', { replace: true });
   };
   
   // Toggle dark mode
