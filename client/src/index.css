@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-neutral-50 text-neutral-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .progress-dot {
+    @apply w-2 h-2 rounded-full bg-neutral-200 mx-[3px];
+  }
+  
+  .progress-dot.active {
+    @apply bg-primary w-2.5 h-2.5;
+  }
+
+  .calendar-day {
+    @apply w-full aspect-square flex items-center justify-center relative;
+  }
+  
+  .calendar-day.period {
+    @apply bg-primary/20 rounded-full;
+  }
+  
+  .calendar-day.period-predicted {
+    @apply bg-primary/10 rounded-full;
+  }
+  
+  .calendar-day.ovulation::after {
+    content: '';
+    @apply absolute w-1 h-1 bg-accent rounded-full bottom-0.5;
+  }
+  
+  .calendar-day.fertile::after {
+    content: '';
+    @apply absolute w-1 h-1 bg-success rounded-full bottom-0.5;
+  }
+}
