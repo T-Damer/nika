@@ -46,4 +46,12 @@
     content: '';
     @apply absolute w-1 h-1 bg-success rounded-full bottom-0.5;
   }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-primary to-brand-secondary text-transparent bg-clip-text font-bold;
+  }
+  
+  .brand-gradient {
+    @apply bg-gradient-to-r from-brand-primary to-brand-secondary;
+  }
 }

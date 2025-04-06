@@ -49,6 +49,10 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        brand: {
+          primary: "#E974B6", // Primary accent color
+          secondary: "#FF9B9B", // Secondary accent color
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

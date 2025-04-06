@@ -35,16 +35,16 @@ export function CycleProgress({ userData }: CycleProgressProps) {
       
       <div className="mb-4">
         <div className="text-sm text-neutral-600 mb-1">{t('cycleInfo.currentPhase')}</div>
-        <div className="font-medium text-primary">
+        <div className="font-medium gradient-text">
           {t(`phases.${currentPhase.name}`)} ({t('cycleInfo.day')} {currentDay} {t('cycleInfo.ofCycle')})
         </div>
       </div>
       
       <div className="bg-neutral-50 rounded-xl p-2 mb-4">
-        <div className="flex h-2 rounded-full overflow-hidden">
+        <div className="flex h-3 rounded-full overflow-hidden">
           {/* Period section */}
           <div 
-            className="bg-primary rounded-l-full" 
+            className="brand-gradient rounded-l-full" 
             style={{ width: `${periodPercentage}%` }}
           ></div>
           
@@ -56,7 +56,7 @@ export function CycleProgress({ userData }: CycleProgressProps) {
           
           {/* Ovulation */}
           <div 
-            className="bg-accent" 
+            className="bg-brand-secondary" 
             style={{ width: '2%', marginLeft: `${ovulationPosition - fertileWindowStart - fertileWindowWidth - periodPercentage}%` }}
           ></div>
           

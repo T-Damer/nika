@@ -8,11 +8,12 @@ export default function NotFound() {
   const { t } = useTranslation();
   
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md mx-4 shadow-lg border-2">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background">
+      <h1 className="text-4xl font-bold gradient-text mb-8">mene</h1>
+      <Card className="w-full max-w-md mx-4 shadow-lg border">
         <CardContent className="pt-6 flex flex-col items-center text-center">
-          <div className="rounded-full bg-red-100 p-3 mb-4">
-            <AlertCircle className="h-8 w-8 text-red-500" />
+          <div className="rounded-full bg-brand-primary/10 p-3 mb-4">
+            <AlertCircle className="h-8 w-8 text-brand-primary" />
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
             {t('errors.notFound.title', '404 Page Not Found')}
@@ -22,7 +23,7 @@ export default function NotFound() {
           </p>
         </CardContent>
         <CardFooter className="flex justify-center pb-6">
-          <Button asChild className="gap-2">
+          <Button asChild className="brand-gradient text-white hover:opacity-90 transition-opacity gap-2">
             <Link to="/">
               <Home className="h-4 w-4" />
               {t('common.backToHome', 'Back to Home')}

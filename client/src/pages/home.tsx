@@ -143,13 +143,13 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col pb-16">
       {/* Header */}
-      <header className="bg-primary text-white p-4 shadow">
+      <header className="bg-white p-4 border-b">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="font-heading font-bold text-xl">Flo</h1>
+            <h1 className="font-heading font-bold text-2xl gradient-text">mene</h1>
           </div>
           <div className="flex gap-4">
-            <Button variant="ghost" size="icon" className="text-white" onClick={() => navigate('/profile')}>
+            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')}>
               <Settings className="h-6 w-6" />
             </Button>
           </div>

@@ -10,14 +10,14 @@ export function HealthTipCard({ tip }: HealthTipCardProps) {
     <div 
       className={cn(
         "rounded-xl p-4",
-        tip.highlighted ? "bg-primary-light bg-opacity-30" : "bg-neutral-50"
+        tip.highlighted ? "bg-brand-primary/10" : "bg-neutral-50"
       )}
     >
       <div className="flex items-start">
         <div 
           className={cn(
             "rounded-full p-2 mr-3 text-white",
-            tip.highlighted ? "bg-primary" : "bg-accent"
+            tip.highlighted ? "brand-gradient" : "bg-brand-secondary"
           )}
         >
           <IconComponent icon={tip.icon} />
@@ -25,7 +25,7 @@ export function HealthTipCard({ tip }: HealthTipCardProps) {
         <div>
           <h3 className={cn(
             "font-medium mb-1",
-            tip.highlighted ? "text-primary" : "text-accent-dark"
+            tip.highlighted ? "gradient-text" : "text-brand-secondary"
           )}>
             {tip.title}
           </h3>
