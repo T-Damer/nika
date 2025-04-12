@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { useUser } from '@/contexts/user-context'
 import { updateUserLanguage } from '@/lib/storage'
 import { useEffect, useState } from 'react'

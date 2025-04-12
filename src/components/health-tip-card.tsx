@@ -7,19 +7,12 @@ interface HealthTipCardProps {
 
 export function HealthTipCard({ tip }: HealthTipCardProps) {
   return (
-    <div
-      className={cn(
-        'rounded-xl p-4',
-        tip.highlighted
-          ? 'bg-brand-primary/10 dark:bg-brand-primary/20'
-          : 'bg-neutral-50 dark:bg-gray-800'
-      )}
-    >
+    <div className={cn('rounded-xl p-4', 'bg-neutral-50 dark:bg-gray-800')}>
       <div className="flex items-start">
         <div
           className={cn(
             'rounded-full p-2 mr-3 text-white',
-            tip.highlighted ? 'brand-gradient' : 'bg-brand-secondary'
+            tip.highlighted ? 'brand-gradient' : 'bg-secondary'
           )}
         >
           <IconComponent icon={tip.icon} />

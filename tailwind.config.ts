@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default {
-  content: ['./index.html', './src/**/!(tailwind).{ts,tsx}'],
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   plugins: [require('@tailwindcss/typography'), require('tailwindcss-animate')],
   future: { hoverOnlyWhenSupported: true },
   theme: {
@@ -11,8 +11,10 @@ export default {
         heading: ['Inter', 'sans-serif'],
       },
       colors: {
+        accent: 'var(--accent)',
         primary: 'var(--brand-primary)',
         secondary: 'var(--brand-secondary)',
+        success: 'var(--success)',
       },
       keyframes: {
         'accordion-down': {

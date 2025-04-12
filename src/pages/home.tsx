@@ -21,7 +21,15 @@ import {
 import { enUS, ru } from 'date-fns/locale'
 import { calculateCycleDays, getCurrentPhase } from '@/lib/cycleCalculations'
 import { CalendarDayState, HealthTip } from '@/types'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeIcon,
+  EyeOffIcon,
+  LucideEye,
+  ScanEye,
+} from 'lucide-react'
 
 export default function Home() {
   const { t, i18n } = useTranslation()
@@ -112,10 +120,10 @@ export default function Home() {
           currentPhase.name === 'menstrual'
             ? 'water'
             : currentPhase.name === 'follicular'
-            ? 'energy'
-            : currentPhase.name === 'ovulatory'
-            ? 'heart'
-            : 'food',
+              ? 'energy'
+              : currentPhase.name === 'ovulatory'
+                ? 'heart'
+                : 'food',
         forPhase: currentPhase.name,
         highlighted: true,
       },
@@ -152,133 +160,128 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-16">
+    <div className="min-h-screen flex flex-col pb-16 my-4">
       {/* Main Content */}
-      <main className="flex-1 pt-6 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {/* Cycle Information Card */}
-          <CycleProgress userData={user} />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <CycleProgress userData={user} />
 
-          {/* Week Calendar */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-heading font-semibold text-lg dark:text-white">
-                {t('calendar.title')}
-              </h2>
-              <button
-                className="text-primary text-sm font-medium"
-                onClick={() => navigate('/calendar')}
-              >
-                {t('calendar.viewAll')}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <span className="font-heading font-semibold text-lg dark:text-white">
+              {t('calendar.title')}
+            </span>
+            <button
+              className="text-primary text-sm font-medium"
+              onClick={() => navigate('/calendar')}
+            >
+              <Eye />
+            </button>
+          </div>
+
+          <div className="mb-3">
+            <div className="flex justify-between items-center mb-2">
+              <button className="p-1" onClick={handlePrevWeek}>
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <h3 className="font-medium">
+                {format(weekStartDate, 'MMMM yyyy', {
+                  locale: currentLocale,
+                })}
+              </h3>
+              <button className="p-1" onClick={handleNextWeek}>
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="mb-3">
-              <div className="flex justify-between items-center mb-2">
-                <button className="p-1" onClick={handlePrevWeek}>
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <h3 className="font-medium">
-                  {format(weekStartDate, 'MMMM yyyy', {
-                    locale: currentLocale,
-                  })}
-                </h3>
-                <button className="p-1" onClick={handleNextWeek}>
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-
-              <div
-                ref={scrollRef}
-                className="flex overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
-              >
-                {weekCalendarDays.map((day, index) => (
+            <div
+              ref={scrollRef}
+              className="flex overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
+            >
+              {weekCalendarDays.map((day, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-14 mx-1 snap-center"
+                >
+                  <div className="text-center mb-1 text-xs text-neutral-600 dark:text-neutral-400">
+                    {formatDayName(day.date)}
+                  </div>
                   <div
-                    key={index}
-                    className="flex-shrink-0 w-14 mx-1 snap-center"
-                  >
-                    <div className="text-center mb-1 text-xs text-neutral-600 dark:text-neutral-400">
-                      {formatDayName(day.date)}
-                    </div>
-                    <div
-                      className={`
+                    className={`
                         aspect-square rounded-full flex items-center justify-center text-sm relative
                         ${day.isToday ? 'border border-primary' : ''} 
                         ${
                           day.isPeriod
-                            ? 'bg-primary/20'
+                            ? 'bg-primary bg-opacity-20'
                             : day.isPredictedPeriod
-                            ? 'bg-primary/10'
-                            : ''
+                              ? 'bg-primary bg-opacity-10'
+                              : ''
                         }
                       `}
-                      onClick={() => handleDayClick(day.date)}
-                    >
-                      <span className={day.isToday ? 'font-bold' : ''}>
-                        {day.number}
-                      </span>
+                    onClick={() => handleDayClick(day.date)}
+                  >
+                    <span className={day.isToday ? 'font-bold' : ''}>
+                      {day.number}
+                    </span>
 
-                      {/* Indicators */}
-                      {day.isOvulation && (
-                        <span className="absolute bottom-1 w-1 h-1 bg-accent rounded-full"></span>
-                      )}
-                      {day.isFertile && !day.isOvulation && (
-                        <span className="absolute bottom-1 w-1 h-1 bg-success rounded-full"></span>
-                      )}
-                    </div>
+                    {/* Indicators */}
+                    {day.isOvulation && (
+                      <span className="absolute bottom-1 w-1 h-1 bg-accent rounded-full"></span>
+                    )}
+                    {day.isFertile && !day.isOvulation && (
+                      <span className="absolute bottom-1 w-1 h-1 bg-success rounded-full"></span>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-between text-xs flex-wrap">
-              <div className="flex items-center mr-2 mb-1">
-                <div className="w-3 h-3 rounded-full bg-primary mr-1"></div>
-                <span>{t('calendar.period')}</span>
-              </div>
-              <div className="flex items-center mr-2 mb-1">
-                <div className="w-3 h-3 rounded-full bg-primary opacity-30 mr-1"></div>
-                <span>{t('calendar.predicted')}</span>
-              </div>
-              <div className="flex items-center mr-2 mb-1">
-                <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
-                <span>{t('calendar.ovulation')}</span>
-              </div>
-              <div className="flex items-center mb-1">
-                <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
-                <span>{t('calendar.fertile')}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Health Tips */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-heading font-semibold text-lg dark:text-white">
-                {t('healthTips.title')}
-              </h2>
-              <button
-                className="text-primary text-sm font-medium"
-                onClick={() => navigate('/insights')}
-              >
-                {t('healthTips.viewAll')}
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              {healthTips.map((tip) => (
-                <HealthTipCard key={tip.id} tip={tip} />
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
-      </main>
 
-      {/* Bottom Navigation */}
+          <div className="flex justify-between text-xs flex-wrap">
+            <div className="flex items-center mr-2 mb-1">
+              <div className="w-3 h-3 rounded-full bg-primary mr-1"></div>
+              <span>{t('calendar.period')}</span>
+            </div>
+            <div className="flex items-center mr-2 mb-1">
+              <div className="w-3 h-3 rounded-full bg-primary opacity-30 mr-1"></div>
+              <span>{t('calendar.predicted')}</span>
+            </div>
+            <div className="flex items-center mr-2 mb-1">
+              <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
+              <span>{t('calendar.ovulation')}</span>
+            </div>
+            <div className="flex items-center mb-1">
+              <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
+              <span>{t('calendar.fertile')}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Health Tips */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <span className="font-heading font-semibold text-lg dark:text-white">
+              {t('healthTips.title')}
+            </span>
+            <button
+              className="text-primary text-sm font-medium"
+              onClick={() => navigate('/insights')}
+            >
+              <Eye />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {healthTips.map((tip) => (
+              <HealthTipCard key={tip.id} tip={tip} />
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
       <Navbar />
     </div>
   )

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { AlertCircle, Home } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +12,7 @@ export default function NotFound() {
       <h1 className="text-4xl font-bold gradient-text mb-8">mene</h1>
       <Card className="w-full max-w-md mx-4 shadow-lg border">
         <CardContent className="pt-6 flex flex-col items-center text-center">
-          <div className="rounded-full bg-brand-primary/10 p-3 mb-4">
+          <div className="rounded-full bg-primary bg-opacity-10 p-3 mb-4">
             <AlertCircle className="h-8 w-8 text-brand-primary" />
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">

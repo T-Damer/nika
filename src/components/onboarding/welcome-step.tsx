@@ -1,5 +1,5 @@
 import { Header1 } from '@/components/Text'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { CalendarIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 

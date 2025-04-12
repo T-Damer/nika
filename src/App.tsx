@@ -1,5 +1,4 @@
 import { Toaster } from '@/components/ui/toaster'
-import { useUser } from '@/contexts/user-context'
 import useScrollTop from '@/hooks/useScrollTopOnNavigate'
 import Calendar from '@/pages/calendar'
 import Home from '@/pages/home'

@@ -12,8 +12,6 @@ export function Navbar() {
   const { t } = useTranslation()
   const location = useLocation()
 
-  const isActive = (path: string) => location.pathname === path
-
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-neutral-200 dark:border-gray-800 flex justify-around p-2 z-50">
       <NavLink

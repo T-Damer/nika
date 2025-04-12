@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/navbar'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Slider } from '@/components/ui/slider'
@@ -11,6 +11,32 @@ import { motion } from 'framer-motion'
 import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+const commonSymptoms = [
+  'cramps',
+  'headache',
+  'bloating',
+  'backPain',
+  'breastTenderness',
+  'acne',
+  'fatigue',
+  'cravings',
+  'nausea',
+  'spotting',
+]
+
+const commonMoods = [
+  'happy',
+  'calm',
+  'anxious',
+  'irritable',
+  'sad',
+  'emotional',
+  'energetic',
+  'tired',
+  'motivated',
+  'unmotivated',
+]
 
 export default function Log() {
   const { t, i18n } = useTranslation()
@@ -25,32 +51,6 @@ export default function Log() {
   const [flowIntensity, setFlowIntensity] = useState(2)
   const [painLevel, setPainLevel] = useState(1)
   const [isSaving, setIsSaving] = useState(false)
-
-  const commonSymptoms = [
-    'cramps',
-    'headache',
-    'bloating',
-    'backPain',
-    'breastTenderness',
-    'acne',
-    'fatigue',
-    'cravings',
-    'nausea',
-    'spotting',
-  ]
-
-  const commonMoods = [
-    'happy',
-    'calm',
-    'anxious',
-    'irritable',
-    'sad',
-    'emotional',
-    'energetic',
-    'tired',
-    'motivated',
-    'unmotivated',
-  ]
 
   const toggleSymptom = (symptom: string) => {
     if (selectedSymptoms.includes(symptom)) {
@@ -69,10 +69,8 @@ export default function Log() {
   }
 
   const saveLog = () => {
-    // Show saving state
     setIsSaving(true)
 
-    // Create log entry
     const logEntry = {
       date: format(selectedDate, 'yyyy-MM-dd'),
       isPeriod: activeTab === 'period',
@@ -111,23 +109,18 @@ export default function Log() {
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
-      {/* Header (simplified) */}
-      <div className="pt-6 px-4">
-        <motion.h1
-          className="font-heading font-bold text-2xl mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {t('log.title')}
-        </motion.h1>
-      </div>
+      <motion.h1
+        className="font-heading font-bold text-2xl mb-4 mt-4"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {t('log.title')}
+      </motion.h1>
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 pt-0">
-        {/* Date Selection */}
+      <main className="pt-0">
         <Card className="mb-4">
-          <CardHeader className="pb-2">
+          <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="text-lg font-medium">
                 {t('log.dateTitle')}
@@ -140,7 +133,6 @@ export default function Log() {
           </CardHeader>
         </Card>
 
-        {/* Tracking Tabs */}
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -157,12 +149,10 @@ export default function Log() {
             </TabsTrigger>
           </TabsList>
 
-          {/* Period Tab */}
           <TabsContent value="period">
             <Card>
               <CardContent className="pt-4">
                 <div className="space-y-6">
-                  {/* Flow Intensity */}
                   <div>
                     <h3 className="text-sm font-medium mb-2">
                       {t('log.flowIntensity')}
@@ -269,7 +259,6 @@ export default function Log() {
           </TabsContent>
         </Tabs>
 
-        {/* Save Button */}
         <Button
           className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
           onClick={saveLog}
@@ -312,7 +301,6 @@ export default function Log() {
         </Button>
       </main>
 
-      {/* Bottom Navigation */}
       <Navbar />
     </div>
   )

@@ -34,9 +34,9 @@ export function CycleProgress({ userData }: CycleProgressProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-heading font-semibold text-lg dark:text-white">
+        <span className="font-heading font-semibold text-lg dark:text-white">
           {t('cycleInfo.title')}
-        </h2>
+        </span>
         <span className="text-sm text-neutral-600 dark:text-neutral-400">
           {nextPeriodDate &&
             format(nextPeriodDate, 'MMMM yyyy', { locale: currentLocale })}
@@ -61,7 +61,6 @@ export function CycleProgress({ userData }: CycleProgressProps) {
             style={{ width: `${periodPercentage}%` }}
           ></div>
 
-          {/* Fertile window */}
           <div
             className="bg-success"
             style={{
@@ -70,9 +69,8 @@ export function CycleProgress({ userData }: CycleProgressProps) {
             }}
           ></div>
 
-          {/* Ovulation */}
           <div
-            className="bg-brand-secondary"
+            className="bg-secondary"
             style={{
               width: '2%',
               marginLeft: `${
