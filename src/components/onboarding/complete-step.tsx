@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/ffs'
 import { useTranslation } from 'react-i18next'
 import { Header2 } from '../Text'
 

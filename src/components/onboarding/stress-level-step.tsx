@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/ffs'
 import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

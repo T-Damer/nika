@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/navbar'
 import { Header1 } from '@/components/Text'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/ffs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
