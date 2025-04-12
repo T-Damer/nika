@@ -189,7 +189,7 @@ export default function Insights() {
 
               {/* Current day indicator */}
               <div
-                className="absolute top-0 bottom-0 w-1 bg-white dark:bg-black shadow-md"
+                className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-md"
                 style={{
                   left: `${((currentCycleDay - 1) / user.cycleLength) * 100}%`,
                   transform: 'translateX(-50%)',
