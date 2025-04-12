@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/ffs'
+import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/ffs'
+import { Button } from '@/components/ui/Button'
 import {
   eachDayOfInterval,
   endOfMonth,
