@@ -1,7 +1,8 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface MoodStepProps {
   initialValues: string[]
@@ -41,14 +42,12 @@ export function MoodStep({ initialValues, onNext, onBack }: MoodStepProps) {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
-      <h2 className="font-heading font-bold text-2xl mb-6 text-center">
-        {t('moodStep.title')}
-      </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs text-center">
+      <Header2>{t('moodStep.title')}</Header2>
+      <p className="text-neutral-800 mb-6 text-center">
         {t('moodStep.subtitle')}
       </p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 max-h-60 overflow-y-auto">
           <div className="grid grid-cols-2 gap-3">
             {commonMoods.map((mood) => (

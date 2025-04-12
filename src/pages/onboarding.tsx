@@ -1,29 +1,28 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useUser } from '@/contexts/user-context'
-import { ProgressDots } from '@/components/onboarding/progress-dots'
-import { WelcomeStep } from '@/components/onboarding/welcome-step'
-import { NameStep } from '@/components/onboarding/name-step'
-import { BirthDateStep } from '@/components/onboarding/birth-date-step'
-import { LastPeriodStep } from '@/components/onboarding/last-period-step'
-import { CycleLengthStep } from '@/components/onboarding/cycle-length-step'
-import { PeriodLengthStep } from '@/components/onboarding/period-length-step'
-import { SymptomsStep } from '@/components/onboarding/symptoms-step'
-import { MoodStep } from '@/components/onboarding/mood-step'
-import { ContraceptionStep } from '@/components/onboarding/contraception-step'
-import { GoalsStep } from '@/components/onboarding/goals-step'
 import { ActivityLevelStep } from '@/components/onboarding/activity-level-step'
-import { SleepPatternsStep } from '@/components/onboarding/sleep-patterns-step'
+import { BirthDateStep } from '@/components/onboarding/birth-date-step'
+import { CompleteStep } from '@/components/onboarding/complete-step'
+import { ContraceptionStep } from '@/components/onboarding/contraception-step'
+import { CycleLengthStep } from '@/components/onboarding/cycle-length-step'
 import { DietStep } from '@/components/onboarding/diet-step'
-import { StressLevelStep } from '@/components/onboarding/stress-level-step'
+import { GoalsStep } from '@/components/onboarding/goals-step'
+import { LastPeriodStep } from '@/components/onboarding/last-period-step'
 import { MedicalConditionsStep } from '@/components/onboarding/medical-conditions-step'
 import { MedicationsStep } from '@/components/onboarding/medications-step'
-import { PreferencesStep } from '@/components/onboarding/preferences-step'
-import { CompleteStep } from '@/components/onboarding/complete-step'
+import { MoodStep } from '@/components/onboarding/mood-step'
+import { NameStep } from '@/components/onboarding/NameStep'
+import { PeriodLengthStep } from '@/components/onboarding/period-length-step'
+import { ProgressDots } from '@/components/onboarding/progress-dots'
+import { SleepPatternsStep } from '@/components/onboarding/sleep-patterns-step'
+import { StressLevelStep } from '@/components/onboarding/stress-level-step'
+import { SymptomsStep } from '@/components/onboarding/symptoms-step'
+import { WelcomeStep } from '@/components/onboarding/welcome-step'
+import { Button } from '@/components/ui/Button'
 import { LanguageToggle } from '@/components/ui/language-toggle'
-import { Moon, Sun } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useUser } from '@/contexts/user-context'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Moon, Sun } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Onboarding() {
   const { user, updateUser } = useUser()
@@ -52,15 +51,6 @@ export default function Onboarding() {
 
     // Navigate to home immediately
     navigate('/', { replace: true })
-  }
-
-  const toggleTheme = () => {
-    updateUser({
-      preferences: {
-        ...user.preferences,
-        theme: user.preferences.theme === 'dark' ? 'light' : 'dark',
-      },
-    })
   }
 
   // Define step handlers to update user data
@@ -136,20 +126,6 @@ export default function Onboarding() {
 
   const updateMedications = (medications: string[]) => {
     updateUser({ medications })
-    handleNext()
-  }
-
-  const updatePreferences = (preferences: {
-    notifications: boolean
-    theme: 'light' | 'dark' | 'system'
-  }) => {
-    updateUser({
-      preferences: {
-        ...user.preferences,
-        notifications: preferences.notifications,
-        theme: preferences.theme,
-      },
-    })
     handleNext()
   }
 
@@ -280,17 +256,6 @@ export default function Onboarding() {
           />
         )
       case 16:
-        return (
-          <PreferencesStep
-            initialValues={{
-              notifications: user.preferences.notifications,
-              theme: user.preferences.theme,
-            }}
-            onNext={updatePreferences}
-            onBack={handleBack}
-          />
-        )
-      case 17:
         return <CompleteStep onComplete={handleComplete} />
       default:
         return null
@@ -324,22 +289,6 @@ export default function Onboarding() {
 
       <div className="fixed bottom-0 left-0 right-0 py-3 px-5 bg-white dark:bg-gray-900 border-t border-neutral-200 dark:border-gray-800 flex justify-between items-center">
         <LanguageToggle />
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleTheme}
-          aria-label={
-            user.preferences.theme === 'dark'
-              ? 'Switch to light mode'
-              : 'Switch to dark mode'
-          }
-        >
-          {user.preferences.theme === 'dark' ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
       </div>
     </div>
   )

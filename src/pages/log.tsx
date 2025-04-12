@@ -1,24 +1,16 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { useUser } from '../contexts/user-context'
-import { Navbar } from '../components/navbar'
-import { format } from 'date-fns'
-import { enUS, ru } from 'date-fns/locale'
-import { Button } from '@/components/ui/button'
+import { Navbar } from '@/components/navbar'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Slider } from '@/components/ui/slider'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
+import { format } from 'date-fns'
+import { enUS, ru } from 'date-fns/locale'
 import { motion } from 'framer-motion'
-import {
-  CalendarIcon,
-  Droplets,
-  Heart,
-  AlertCircle,
-  Check,
-  SaveIcon,
-} from 'lucide-react'
+import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function Log() {
   const { t, i18n } = useTranslation()

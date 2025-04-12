@@ -1,55 +1,59 @@
-import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Minus, Plus } from "lucide-react";
+import { Button } from '@/components/ui/Button'
+import { Minus, Plus } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface PeriodLengthStepProps {
-  initialValue: number;
-  onNext: (length: number) => void;
-  onBack: () => void;
+  initialValue: number
+  onNext: (length: number) => void
+  onBack: () => void
 }
 
-export function PeriodLengthStep({ initialValue, onNext, onBack }: PeriodLengthStepProps) {
-  const { t } = useTranslation();
-  const [periodLength, setPeriodLength] = useState(initialValue);
-  
+export function PeriodLengthStep({
+  initialValue,
+  onNext,
+  onBack,
+}: PeriodLengthStepProps) {
+  const { t } = useTranslation()
+  const [periodLength, setPeriodLength] = useState(initialValue)
+
   const incrementPeriodLength = () => {
     if (periodLength < 10) {
-      setPeriodLength(periodLength + 1);
+      setPeriodLength(periodLength + 1)
     }
-  };
-  
+  }
+
   const decrementPeriodLength = () => {
     if (periodLength > 2) {
-      setPeriodLength(periodLength - 1);
+      setPeriodLength(periodLength - 1)
     }
-  };
-  
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNext(periodLength);
-  };
-  
+    e.preventDefault()
+    onNext(periodLength)
+  }
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
-      <h2 className="font-heading font-bold text-2xl mb-6">{t('periodLengthStep.title')}</h2>
-      
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
+      <Header2>{t('periodLengthStep.title')}</Header2>
+
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-center justify-between mb-6">
-          <button 
+          <button
             type="button"
             className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
             onClick={decrementPeriodLength}
           >
             <Minus className="w-4 h-4" />
           </button>
-          
-          <div className="text-center">
-            <span className="text-4xl font-bold text-primary">{periodLength}</span>
-            <p className="text-neutral-600">{t('common.days')}</p>
-          </div>
-          
-          <button 
+
+          <span className="text-4xl font-bold text-primary">
+            {periodLength}
+          </span>
+
+          <button
             type="button"
             className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
             onClick={incrementPeriodLength}
@@ -57,14 +61,14 @@ export function PeriodLengthStep({ initialValue, onNext, onBack }: PeriodLengthS
             <Plus className="w-4 h-4" />
           </button>
         </div>
-        
-        <Button 
+
+        <Button
           type="submit"
           className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
         >
           {t('common.continue')}
         </Button>
-        
+
         <Button
           type="button"
           variant="ghost"
@@ -75,5 +79,5 @@ export function PeriodLengthStep({ initialValue, onNext, onBack }: PeriodLengthS
         </Button>
       </form>
     </div>
-  );
+  )
 }

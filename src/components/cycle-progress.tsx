@@ -119,12 +119,7 @@ export function CycleProgress({ userData }: CycleProgressProps) {
               : '-'}
           </div>
         </div>
-        <div>
-          <div>{t('cycleInfo.cycleLength')}</div>
-          <div className="font-medium text-neutral-900 dark:text-white">
-            {userData.cycleLength} {t('cycleInfo.days')}
-          </div>
-        </div>
+        <div>{t('cycleInfo.cycleLength')}</div>
       </div>
     </div>
   )

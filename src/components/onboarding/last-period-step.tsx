@@ -1,17 +1,16 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { Button } from '@/components/ui/Button'
 import {
-  format,
-  startOfMonth,
-  endOfMonth,
   eachDayOfInterval,
-  isSameMonth,
-  isToday,
+  endOfMonth,
+  format,
   isSameDay,
+  isToday,
+  startOfMonth,
 } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
-import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface LastPeriodStepProps {
   initialValue: string
@@ -76,20 +75,21 @@ export function LastPeriodStep({
       <h2 className="font-heading font-bold text-2xl mb-6">
         {t('lastPeriodStep.title')}
       </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs">
-        {t('lastPeriodStep.subtitle')}
-      </p>
+      <p className="text-neutral-800 mb-6">{t('lastPeriodStep.subtitle')}</p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6">
-          <div className="flex justify-between items-center mb-2">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full"
+      >
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 w-96">
+          <div className="flex justify-between items-center mb-8">
             <button type="button" className="p-1" onClick={handlePrevMonth}>
               <ChevronLeft className="h-5 w-5" />
             </button>
 
-            <h3 className="font-medium">
+            <span className="text-2xl font-bold">
               {format(currentMonth, 'LLLL yyyy', { locale: currentLocale })}
-            </h3>
+            </span>
 
             <button type="button" className="p-1" onClick={handleNextMonth}>
               <ChevronRight className="h-5 w-5" />
@@ -108,15 +108,16 @@ export function LastPeriodStep({
               <div
                 key={`prev-${index}`}
                 className="calendar-day text-neutral-400"
-              ></div>
+              />
             ))}
 
-            {/* Days of current month */}
             {daysInMonth.map((day) => (
               <div
                 key={day.toString()}
-                className={`calendar-day cursor-pointer ${
-                  selectedDate && isSameDay(day, selectedDate) ? 'period' : ''
+                className={`calendar-day rounded-full cursor-pointer ${
+                  selectedDate && isSameDay(day, selectedDate)
+                    ? 'bg-primary text-white'
+                    : ''
                 } ${isToday(day) ? 'font-bold' : ''}`}
                 onClick={() => handleDateSelect(day)}
               >

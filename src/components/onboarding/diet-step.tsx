@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface DietStepProps {
   initialValues: string[]
@@ -44,12 +44,12 @@ export function DietStep({ initialValues, onNext, onBack }: DietStepProps) {
       <h2 className="font-heading font-bold text-2xl mb-6 text-center">
         {t('dietStep.title')}
       </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs text-center">
+      <p className="text-neutral-800 mb-6 text-center">
         {t('dietStep.subtitle')}
       </p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 max-h-60 overflow-y-auto">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto">
           <div className="grid grid-cols-1 gap-3">
             {dietTypes.map((diet) => (
               <div key={diet} className="flex items-center space-x-2">
@@ -69,19 +69,11 @@ export function DietStep({ initialValues, onNext, onBack }: DietStepProps) {
           </div>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
-        >
+        <Button type="submit" size="full" disabled={!selectedDiets.length}>
           {t('common.continue')}
         </Button>
 
-        <Button
-          type="button"
-          variant="ghost"
-          className="w-full mt-3 text-neutral-800 font-medium py-2 px-6 rounded-full hover:bg-neutral-100 transition"
-          onClick={onBack}
-        >
+        <Button type="button" variant="ghost" size="full" onClick={onBack}>
           {t('common.back')}
         </Button>
       </form>

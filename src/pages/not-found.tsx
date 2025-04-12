@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { AlertCircle, Home } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { AlertCircle, Home } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 export default function NotFound() {
-  const { t } = useTranslation();
-  
+  const { t } = useTranslation()
+
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background">
       <h1 className="text-4xl font-bold gradient-text mb-8">mene</h1>
@@ -19,11 +19,17 @@ export default function NotFound() {
             {t('errors.notFound.title', '404 Page Not Found')}
           </h1>
           <p className="text-muted-foreground">
-            {t('errors.notFound.message', 'Sorry, the page you are looking for does not exist or has been moved.')}
+            {t(
+              'errors.notFound.message',
+              'Sorry, the page you are looking for does not exist or has been moved.'
+            )}
           </p>
         </CardContent>
         <CardFooter className="flex justify-center pb-6">
-          <Button asChild className="brand-gradient text-white hover:opacity-90 transition-opacity gap-2">
+          <Button
+            asChild
+            className="brand-gradient text-white hover:opacity-90 transition-opacity gap-2"
+          >
             <Link to="/">
               <Home className="h-4 w-4" />
               {t('common.backToHome', 'Back to Home')}
@@ -32,5 +38,5 @@ export default function NotFound() {
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }

@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button'
+import { useUser } from '@/contexts/user-context'
+import { updateUserLanguage } from '@/lib/storage'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
-import { updateUserLanguage } from '@/lib/storage'
-import { useUser } from '@/contexts/user-context'
 
 export function LanguageToggle() {
   const { i18n } = useTranslation()

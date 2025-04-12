@@ -1,7 +1,8 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Minus, Plus } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface CycleLengthStepProps {
   initialValue: number
@@ -36,14 +37,10 @@ export function CycleLengthStep({
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
-      <h2 className="font-heading font-bold text-2xl mb-6">
-        {t('cycleLengthStep.title')}
-      </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs">
-        {t('cycleLengthStep.subtitle')}
-      </p>
+      <Header2>{t('cycleLengthStep.title')}</Header2>
+      <p className="text-neutral-800 mb-6">{t('cycleLengthStep.subtitle')}</p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-center justify-between mb-6">
           <button
             type="button"
@@ -57,7 +54,6 @@ export function CycleLengthStep({
             <span className="text-4xl font-bold text-primary">
               {cycleLength}
             </span>
-            <p className="text-neutral-600">{t('common.days')}</p>
           </div>
 
           <button

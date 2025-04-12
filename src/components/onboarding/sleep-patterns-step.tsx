@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Button } from '@/components/ui/Button'
 import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface SleepPatternsStepProps {
   initialValue: string
@@ -36,12 +36,12 @@ export function SleepPatternsStep({
       <h2 className="font-heading font-bold text-2xl mb-6 text-center">
         {t('sleepPatternsStep.title')}
       </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs text-center">
+      <p className="text-neutral-800 mb-6 text-center">
         {t('sleepPatternsStep.subtitle')}
       </p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4">
           <RadioGroup value={sleepPattern} onValueChange={setSleepPattern}>
             {sleepPatterns.map((pattern) => (
               <div key={pattern} className="flex items-center space-x-2 py-2">
@@ -52,19 +52,11 @@ export function SleepPatternsStep({
           </RadioGroup>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
-        >
+        <Button type="submit" size="full" disabled={!sleepPattern}>
           {t('common.continue')}
         </Button>
 
-        <Button
-          type="button"
-          variant="ghost"
-          className="w-full mt-3 text-neutral-800 font-medium py-2 px-6 rounded-full hover:bg-neutral-100 transition"
-          onClick={onBack}
-        >
+        <Button type="button" variant="ghost" size="full" onClick={onBack}>
           {t('common.back')}
         </Button>
       </form>

@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Slider } from '@/components/ui/slider'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface StressLevelStepProps {
   initialValue: number
@@ -35,12 +35,12 @@ export function StressLevelStep({
       <h2 className="font-heading font-bold text-2xl mb-6 text-center">
         {t('stressLevelStep.title')}
       </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs text-center">
+      <p className="text-neutral-800 mb-6 text-center">
         {t('stressLevelStep.subtitle')}
       </p>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xs">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
           <div className="text-center mb-4">
             <span className="text-2xl font-bold text-primary">
               {getStressLevelText(stressLevel)}
@@ -63,19 +63,11 @@ export function StressLevelStep({
           </div>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
-        >
+        <Button type="submit" size="full" disabled={!stressLevel}>
           {t('common.continue')}
         </Button>
 
-        <Button
-          type="button"
-          variant="ghost"
-          className="w-full mt-3 text-neutral-800 font-medium py-2 px-6 rounded-full hover:bg-neutral-100 transition"
-          onClick={onBack}
-        >
+        <Button type="button" variant="ghost" size="full" onClick={onBack}>
           {t('common.back')}
         </Button>
       </form>

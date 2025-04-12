@@ -20,7 +20,7 @@
     "subtitle": "This helps us predict your future cycles"
   },
   "cycleLengthStep": {
-    "title": "How long is your cycle usually?",
+    "title": "How long is your cycle usually (days)?",
     "subtitle": "From the first day of one period to the first day of the next"
   },
   "periodLengthStep": {
@@ -117,7 +117,6 @@
     "trackPeriod": "Track my period",
     "predictFertility": "Predict fertility window",
     "becomePregnant": "Become pregnant",
-    "avoidPregnancy": "Avoid pregnancy",
     "monitorHealth": "Monitor my health",
     "trackSymptoms": "Track symptoms",
     "managePMS": "Manage PMS",
@@ -277,8 +276,18 @@
     "lutealDescription": "Rising progesterone and preparation for implantation"
   },
   "months": [
-    "January", "February", "March", "April", "May", "June", 
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
   ],
   "log": {
     "title": "Log Your Cycle",

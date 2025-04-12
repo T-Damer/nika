@@ -1,17 +1,17 @@
-import { Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
-import { UserProvider } from './contexts/user-context'
-import NotFound from '@/pages/not-found'
-import Home from '@/pages/home'
-import Onboarding from '@/pages/onboarding'
-import Calendar from '@/pages/calendar'
-import Log from '@/pages/log'
-import Insights from '@/pages/insights'
-import Profile from '@/pages/profile'
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useUser } from '@/contexts/user-context'
 import useScrollTop from '@/hooks/useScrollTopOnNavigate'
+import Calendar from '@/pages/calendar'
+import Home from '@/pages/home'
+import Insights from '@/pages/insights'
+import Log from '@/pages/log'
+import NotFound from '@/pages/not-found'
+import Onboarding from '@/pages/onboarding'
+import Profile from '@/pages/profile'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { UserProvider } from './contexts/user-context'
 
 function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
@@ -57,7 +57,6 @@ function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
 }
 
 function AppContent() {
-  const { user } = useUser()
   const [showWelcome, setShowWelcome] = useState(false)
 
   useScrollTop()
@@ -71,37 +70,8 @@ function AppContent() {
     }
   }, [])
 
-  const systemPrefersDarkMode = () => {
-    return (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    )
-  }
-
-  useEffect(() => {
-    const applyTheme = () => {
-      if (
-        user.preferences.theme === 'dark' ||
-        (user.preferences.theme === 'system' && systemPrefersDarkMode())
-      ) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    }
-
-    applyTheme()
-
-    if (user.preferences.theme === 'system') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => applyTheme()
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
-    }
-  }, [user.preferences.theme])
-
   return (
-    <>
+    <div className="container prose mx-auto max-w-prose flex flex-col min-h-[100dvh] px-5">
       <AnimatePresence>
         {showWelcome && (
           <WelcomeScreen onComplete={() => setShowWelcome(false)} />
@@ -118,7 +88,7 @@ function AppContent() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
-    </>
+    </div>
   )
 }
 

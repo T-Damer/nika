@@ -1,22 +1,7 @@
-import { useTranslation } from 'react-i18next'
-import { useUser } from '@/contexts/user-context'
 import { Navbar } from '@/components/navbar'
-import { useState, useEffect } from 'react'
-import { LanguageToggle } from '@/components/ui/language-toggle'
-import { useNavigate } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -26,17 +11,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { clearAllData } from '@/lib/storage'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { LanguageToggle } from '@/components/ui/language-toggle'
 import {
-  User,
-  Settings,
-  Calendar,
-  Moon,
-  Bell,
-  LogOut,
-  Trash2,
-} from 'lucide-react'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { useUser } from '@/contexts/user-context'
 import { useToast } from '@/hooks/use-toast'
+import { clearAllData } from '@/lib/storage'
+import { Bell, Moon, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 export default function Profile() {
   const { t } = useTranslation()

@@ -1,5 +1,6 @@
+import { Button } from '@/components/ui/Button'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
+import { Header2 } from '../Text'
 
 interface CompleteStepProps {
   onComplete: () => void
@@ -9,7 +10,7 @@ export function CompleteStep({ onComplete }: CompleteStepProps) {
   const { t } = useTranslation()
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col items-center justify-center text-center">
       <div className="mb-8 bg-primary-light p-4 rounded-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,21 +28,12 @@ export function CompleteStep({ onComplete }: CompleteStepProps) {
         </svg>
       </div>
 
-      <h2 className="font-heading font-bold text-2xl mb-3">
-        {t('completeStep.title')}
-      </h2>
-      <p className="text-neutral-800 mb-8 max-w-xs">
-        {t('completeStep.subtitle')}
-      </p>
+      <Header2>{t('completeStep.title')}</Header2>
+      <p className="text-neutral-800 mb-8">{t('completeStep.subtitle')}</p>
 
-      <div className="w-full max-w-xs">
-        <Button
-          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
-          onClick={onComplete}
-        >
-          {t('completeStep.goToDashboard')}
-        </Button>
-      </div>
+      <Button size="full" onClick={onComplete}>
+        {t('completeStep.goToDashboard')}
+      </Button>
     </div>
   )
 }

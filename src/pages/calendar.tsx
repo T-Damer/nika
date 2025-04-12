@@ -164,8 +164,7 @@ export default function Calendar() {
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
-      {/* Main Content */}
-      <main className="flex-1 pt-6 px-4">
+      <div className="flex-1 pt-6 px-4">
         <h1 className="font-heading font-bold text-2xl mb-4 dark:text-white">
           {t('calendar.title')}
         </h1>
@@ -225,14 +224,12 @@ export default function Calendar() {
               {format(monthData.month, 'LLLL yyyy', { locale: currentLocale })}
             </h3>
 
-            {/* Weekday headers */}
             <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-neutral-600 dark:text-neutral-400 text-center">
               {weekDays.map((day, idx) => (
                 <div key={idx}>{day}</div>
               ))}
             </div>
 
-            {/* Calendar days */}
             <div className="grid grid-cols-7 gap-1 text-sm">
               {monthData.days.map((day, dayIndex) => (
                 <CalendarDay
@@ -244,7 +241,7 @@ export default function Calendar() {
             </div>
           </div>
         ))}
-      </main>
+      </div>
 
       <Navbar />
     </div>
