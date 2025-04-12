@@ -10,14 +10,9 @@ export default {
         sans: ['Inter', 'sans-serif'],
         heading: ['Inter', 'sans-serif'],
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
       colors: {
-        primary: '#E974B6',
-        secondary: '#FF9B9B',
+        primary: 'var(--brand-primary)',
+        secondary: 'var(--brand-secondary)',
       },
       keyframes: {
         'accordion-down': {
