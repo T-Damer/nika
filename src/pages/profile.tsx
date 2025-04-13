@@ -30,6 +30,7 @@ import { Pen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
+import { DialogClose } from '@radix-ui/react-dialog'
 
 const cycleLengthOptions = Array.from({ length: 31 }, (_, i) => 21 + i)
 
@@ -231,9 +232,11 @@ export default function Profile() {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button variant="outline" onClick={() => {}}>
-                  {t('common.cancel')}
-                </Button>
+                <DialogClose>
+                  <Button variant="outline" onClick={() => {}}>
+                    {t('common.cancel')}
+                  </Button>
+                </DialogClose>
                 <Button variant="destructive" onClick={resetAppData}>
                   {t('profile.confirmResetButton')}
                 </Button>
