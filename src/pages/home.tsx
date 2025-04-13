@@ -1,146 +1,29 @@
 import { useTranslation } from 'react-i18next'
 import { useUser } from '@/contexts/user-context'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CycleProgress } from '@/components/cycle-progress'
-import { HealthTipCard } from '@/components/health-tip-card'
+import { CycleProgress } from '@/components/CycleProgressCard'
 import { Navbar } from '@/components/navbar'
 import { motion } from 'framer-motion'
-import {
-  format,
-  startOfDay,
-  startOfWeek,
-  addDays,
-  eachDayOfInterval,
-  isToday,
-  isSameDay,
-  parseISO,
-  subDays,
-  addWeeks,
-} from 'date-fns'
+import { format, addDays, subDays } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
-import { calculateCycleDays, getCurrentPhase } from '@/lib/cycleCalculations'
-import { CalendarDayState, HealthTip } from '@/types'
-import {
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  EyeIcon,
-  EyeOffIcon,
-  LucideEye,
-  ScanEye,
-} from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye } from 'lucide-react'
+import useCalendar from '@/hooks/useCalendar'
 
 export default function Home() {
   const { t, i18n } = useTranslation()
   const { user, isLoading } = useUser()
   const navigate = useNavigate()
-  const currentLocale = i18n.language === 'ru' ? ru : enUS
-
-  const today = new Date()
-  const [weekStartDate, setWeekStartDate] = useState(
-    startOfWeek(today, { weekStartsOn: 1 })
-  )
-  const [weekCalendarDays, setWeekCalendarDays] = useState<CalendarDayState[]>(
-    []
-  )
-  const [healthTips, setHealthTips] = useState<HealthTip[]>([])
-
+  const { weekCalendarDays, setWeekStartDate, weekStartDate } =
+    useCalendar(user)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Redirect to onboarding if not completed
   useEffect(() => {
     if (!isLoading && !user.onboardingCompleted) {
       navigate('/onboarding')
     }
   }, [user.onboardingCompleted, isLoading, navigate])
 
-  // Calculate 7-day week calendar
-  useEffect(() => {
-    if (!user.lastPeriodStart) return
-
-    const cycleDays = calculateCycleDays(user)
-
-    // Display 14 days (current week + next week)
-    const daysToShow = 14
-    const weekViewDays = eachDayOfInterval({
-      start: weekStartDate,
-      end: addDays(weekStartDate, daysToShow - 1),
-    })
-
-    // Create calendar day states
-    const weekDays: CalendarDayState[] = weekViewDays.map((date) => ({
-      number: date.getDate(),
-      isCurrentMonth: true, // Not relevant for week view
-      isPeriod: cycleDays.some(
-        (d) => isSameDay(parseISO(d.date), date) && d.type === 'period'
-      ),
-      isPredictedPeriod: cycleDays.some(
-        (d) =>
-          isSameDay(parseISO(d.date), date) &&
-          d.type === 'period' &&
-          d.predicted
-      ),
-      isFertile: cycleDays.some(
-        (d) => isSameDay(parseISO(d.date), date) && d.type === 'fertile'
-      ),
-      isOvulation: cycleDays.some(
-        (d) => isSameDay(parseISO(d.date), date) && d.type === 'ovulation'
-      ),
-      date,
-      isToday: isToday(date),
-    }))
-
-    setWeekCalendarDays(weekDays)
-
-    // Scroll to today
-    setTimeout(() => {
-      if (scrollRef.current) {
-        const todayIndex = weekDays.findIndex((day) => day.isToday)
-        if (todayIndex >= 0) {
-          const dayWidth = 56 // 3.5rem (14) width + 0.5rem (2) margin
-          scrollRef.current.scrollLeft = todayIndex * dayWidth
-        }
-      }
-    }, 100)
-  }, [weekStartDate, user])
-
-  // Set health tips based on current phase
-  useEffect(() => {
-    if (!user.lastPeriodStart) return
-
-    const currentPhase = getCurrentPhase(user)
-
-    const tips: HealthTip[] = [
-      {
-        id: '1',
-        title: t(`healthTips.${currentPhase.name}.title`),
-        content: t(`healthTips.${currentPhase.name}.content`),
-        icon:
-          currentPhase.name === 'menstrual'
-            ? 'water'
-            : currentPhase.name === 'follicular'
-              ? 'energy'
-              : currentPhase.name === 'ovulatory'
-                ? 'heart'
-                : 'food',
-        forPhase: currentPhase.name,
-        highlighted: true,
-      },
-      {
-        id: '2',
-        title: t('healthTips.selfCare.title'),
-        content: t('healthTips.selfCare.content'),
-        icon: 'heart',
-        forPhase: 'all',
-        highlighted: false,
-      },
-    ]
-
-    setHealthTips(tips)
-  }, [user, t])
-
-  // Navigate week view
   const handlePrevWeek = () => {
     setWeekStartDate(subDays(weekStartDate, 7))
   }
@@ -149,19 +32,14 @@ export default function Home() {
     setWeekStartDate(addDays(weekStartDate, 7))
   }
 
-  // Handle day click
-  const handleDayClick = (date: Date) => {
-    navigate('/log')
-  }
-
-  // Format day name
   const formatDayName = (date: Date) => {
     return format(date, 'EEEEEE', { locale: currentLocale })
   }
 
+  const currentLocale = i18n.language === 'ru' ? ru : enUS
+
   return (
     <div className="min-h-screen flex flex-col pb-16 my-4">
-      {/* Main Content */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -202,11 +80,8 @@ export default function Home() {
               className="flex overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
             >
               {weekCalendarDays.map((day, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-14 mx-1 snap-center"
-                >
-                  <div className="text-center mb-1 text-xs text-neutral-600 dark:text-neutral-400">
+                <div key={index} className="w-14 mx-1">
+                  <div className="text-center mb-1 text-xs text-neutral-400">
                     {formatDayName(day.date)}
                   </div>
                   <div
@@ -221,7 +96,9 @@ export default function Home() {
                               : ''
                         }
                       `}
-                    onClick={() => handleDayClick(day.date)}
+                    onClick={() => {
+                      console.log('selects day')
+                    }}
                   >
                     <span className={day.isToday ? 'font-bold' : ''}>
                       {day.number}
@@ -257,27 +134,6 @@ export default function Home() {
               <div className="w-3 h-3 rounded-full bg-success mr-1"></div>
               <span>{t('calendar.fertile')}</span>
             </div>
-          </div>
-        </div>
-
-        {/* Health Tips */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <span className="font-heading font-semibold text-lg dark:text-white">
-              {t('healthTips.title')}
-            </span>
-            <button
-              className="text-primary text-sm font-medium"
-              onClick={() => navigate('/insights')}
-            >
-              <Eye />
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {healthTips.map((tip) => (
-              <HealthTipCard key={tip.id} tip={tip} />
-            ))}
           </div>
         </div>
       </motion.div>

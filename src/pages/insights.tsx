@@ -1,20 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import { useUser } from '../contexts/user-context'
-import { Navbar } from '../components/navbar'
-import { HealthTipCard } from '../components/health-tip-card'
-import { HealthTip } from '@/types'
+import { useUser } from '@/contexts/user-context'
+import { Navbar } from '@/components/navbar'
+import { HealthTipCard } from '@/components/HealthTipCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { motion } from 'framer-motion'
-import {
-  BarChart as BarChartIcon,
-  Calendar,
-  Droplets,
-  Brain,
-  Heart,
-  Activity,
-} from 'lucide-react'
+import { Calendar, Droplets } from 'lucide-react'
 import { getCurrentCycleDay, getCurrentPhase } from '@/lib/cycleCalculations'
+import useHealthTips from '@/hooks/useHealthTips'
+import InsightsData from '@/lib/insights-data'
 
 export default function Insights() {
   const { t } = useTranslation()
@@ -22,123 +16,9 @@ export default function Insights() {
 
   const currentPhase = getCurrentPhase(user)
   const currentCycleDay = getCurrentCycleDay(user)
+  const { healthTips } = useHealthTips(user)
+  const { phases } = InsightsData({ user, currentPhase })
 
-  const phases = [
-    {
-      name: 'menstrual',
-      startDay: 1,
-      endDay: user.periodLength,
-      icon: <Droplets className="h-6 w-6" />,
-      className: 'bg-primary bg-opacity-20 text-primary',
-    },
-    {
-      name: 'follicular',
-      startDay: user.periodLength + 1,
-      endDay: user.cycleLength - 15,
-      icon: <Activity className="h-6 w-6" />,
-      className: 'bg-accent bg-opacity-20 text-accent',
-    },
-    {
-      name: 'ovulatory',
-      startDay: user.cycleLength - 14,
-      endDay: user.cycleLength - 12,
-      icon: <Heart className="h-6 w-6" />,
-      className: 'bg-success bg-opacity-20 text-success',
-    },
-    {
-      name: 'luteal',
-      startDay: user.cycleLength - 11,
-      endDay: user.cycleLength,
-      icon: <Brain className="h-6 w-6" />,
-      className: 'bg-amber-500 bg-opacity-20 text-amber-500',
-    },
-  ]
-
-  // Health tips based on cycle phases
-  const healthTips: HealthTip[] = [
-    {
-      id: 'menstrual-1',
-      title: t('healthTips.menstrual.title'),
-      content: t('healthTips.menstrual.content'),
-      icon: 'water',
-      forPhase: 'menstrual',
-      highlighted: currentPhase.name === 'menstrual',
-    },
-    {
-      id: 'menstrual-2',
-      title: t('healthTips.menstrual.nutrition'),
-      content: t('healthTips.menstrual.nutritionTip'),
-      icon: 'food',
-      forPhase: 'menstrual',
-      highlighted: false,
-    },
-    {
-      id: 'follicular-1',
-      title: t('healthTips.follicular.title'),
-      content: t('healthTips.follicular.content'),
-      icon: 'energy',
-      forPhase: 'follicular',
-      highlighted: currentPhase.name === 'follicular',
-    },
-    {
-      id: 'follicular-2',
-      title: t('healthTips.follicular.exercise'),
-      content: t('healthTips.follicular.exerciseTip'),
-      icon: 'energy',
-      forPhase: 'follicular',
-      highlighted: false,
-    },
-    {
-      id: 'ovulatory-1',
-      title: t('healthTips.ovulatory.title'),
-      content: t('healthTips.ovulatory.content'),
-      icon: 'heart',
-      forPhase: 'ovulatory',
-      highlighted: currentPhase.name === 'ovulatory',
-    },
-    {
-      id: 'ovulatory-2',
-      title: t('healthTips.ovulatory.social'),
-      content: t('healthTips.ovulatory.socialTip'),
-      icon: 'heart',
-      forPhase: 'ovulatory',
-      highlighted: false,
-    },
-    {
-      id: 'luteal-1',
-      title: t('healthTips.luteal.title'),
-      content: t('healthTips.luteal.content'),
-      icon: 'food',
-      forPhase: 'luteal',
-      highlighted: currentPhase.name === 'luteal',
-    },
-    {
-      id: 'luteal-2',
-      title: t('healthTips.luteal.selfCare'),
-      content: t('healthTips.luteal.selfCareTip'),
-      icon: 'heart',
-      forPhase: 'luteal',
-      highlighted: false,
-    },
-    {
-      id: 'general-1',
-      title: t('healthTips.general.sleep'),
-      content: t('healthTips.general.sleepTip'),
-      icon: 'sleep',
-      forPhase: 'all',
-      highlighted: false,
-    },
-    {
-      id: 'general-2',
-      title: t('healthTips.general.hydration'),
-      content: t('healthTips.general.hydrationTip'),
-      icon: 'water',
-      forPhase: 'all',
-      highlighted: false,
-    },
-  ]
-
-  // Filter tips by phase
   const filterTipsByPhase = (phase: string) => {
     return healthTips.filter(
       (tip) => tip.forPhase === phase || tip.forPhase === 'all'
@@ -146,7 +26,7 @@ export default function Insights() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-16">
+    <div className="flex flex-col pb-16">
       <motion.h1
         className="font-heading font-bold text-2xl my-4"
         initial={{ opacity: 0, y: 10 }}
@@ -165,7 +45,6 @@ export default function Insights() {
           <div className="mb-5">
             <div className="relative h-8 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
               {phases.map((phase, index) => {
-                // Calculate phase width based on day range
                 const phaseDuration = phase.endDay - phase.startDay + 1
                 const phaseWidth = (phaseDuration / user.cycleLength) * 100
                 const phaseStart =
@@ -222,16 +101,16 @@ export default function Insights() {
             >
               {phases.find((p) => p.name === currentPhase.name)?.icon}
             </div>
-            <div>
-              <h3 className="font-medium">
+            <div className="flex flex-col">
+              <span className="text-2xl font-medium">
                 {t(`phases.${currentPhase.name}`)}
-              </h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              </span>
+              <span className="text-sm text-neutral-600 dark:text-neutral-400">
                 {t(`phases.${currentPhase.name}Description`)}
-              </p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
+              </span>
+              <span className="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
                 {t('insights.dayOfCycle')} {currentCycleDay}/{user.cycleLength}
-              </p>
+              </span>
             </div>
           </div>
         </CardContent>

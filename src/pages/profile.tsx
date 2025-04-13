@@ -1,8 +1,8 @@
 import { Navbar } from '@/components/navbar'
-import { Header1 } from '@/components/Text'
+import { formatDuration } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -22,18 +22,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { useUser } from '@/contexts/user-context'
 import { useToast } from '@/hooks/use-toast'
 import { clearAllData } from '@/lib/storage'
 import { motion } from 'framer-motion'
-import { Bell, Moon, Pen, Trash2 } from 'lucide-react'
+import { Pen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import useLocale from '@/hooks/useLocale'
+
+const cycleLengthOptions = Array.from({ length: 31 }, (_, i) => 21 + i)
+
+const periodLengthOptions = Array.from({ length: 9 }, (_, i) => 2 + i)
 
 export default function Profile() {
-  const { t } = useTranslation()
+  const { t, locale } = useLocale()
   const { user, updateUser } = useUser()
   const navigate = useNavigate()
   const { toast } = useToast()
@@ -72,32 +75,10 @@ export default function Profile() {
     setIsEditing(false)
   }
 
-  // Handle notification preferences
-  const toggleNotifications = () => {
-    updateUser({
-      preferences: {
-        ...user.preferences,
-        notifications: !user.preferences.notifications,
-      },
-    })
-  }
-
-  // Handle reset app data
   const resetAppData = () => {
     clearAllData()
-    // Navigate to onboarding after resetting
     navigate('/onboarding')
   }
-
-  // Generate cycle length options
-  const cycleLengthOptions = Array.from({ length: 31 }, (_, i) =>
-    (21 + i).toString()
-  )
-
-  // Generate period length options
-  const periodLengthOptions = Array.from({ length: 9 }, (_, i) =>
-    (2 + i).toString()
-  )
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
@@ -114,13 +95,14 @@ export default function Profile() {
       <Card className="mb-6">
         <CardHeader className="pb-2">
           <div className="flex justify-end items-center">
-            {!isEditing ? (
+            {isEditing ? null : (
               <Button variant="ghost" size="sm" onClick={startEditing}>
                 <Pen />
               </Button>
-            ) : null}
+            )}
           </div>
         </CardHeader>
+
         <CardContent>
           <div className="flex items-center gap-4 mb-4">
             <Avatar className="h-16 w-16">
@@ -164,8 +146,11 @@ export default function Profile() {
                   </SelectTrigger>
                   <SelectContent>
                     {cycleLengthOptions.map((length) => (
-                      <SelectItem key={length} value={length}>
-                        {length} {t('common.days')}
+                      <SelectItem
+                        key={`cycle-length-${length}`}
+                        value={String(length)}
+                      >
+                        {formatDuration({ days: length }, { locale })}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -187,8 +172,11 @@ export default function Profile() {
                   </SelectTrigger>
                   <SelectContent>
                     {periodLengthOptions.map((length) => (
-                      <SelectItem key={length} value={length}>
-                        {length} {t('common.days')}
+                      <SelectItem
+                        key={`period-length-${length}`}
+                        value={String(length)}
+                      >
+                        {formatDuration({ days: length }, { locale })}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -209,7 +197,7 @@ export default function Profile() {
                   {t('profile.cycleLength')}
                 </div>
                 <div className="font-medium">
-                  {user.cycleLength} {t('common.days')}
+                  {formatDuration({ days: user.cycleLength }, { locale })}
                 </div>
               </div>
               <div className="bg-neutral-50 dark:bg-neutral-800 p-3 rounded-lg">
@@ -217,7 +205,7 @@ export default function Profile() {
                   {t('profile.periodLength')}
                 </div>
                 <div className="font-medium">
-                  {user.periodLength} {t('common.days')}
+                  {formatDuration({ days: user.periodLength }, { locale })}
                 </div>
               </div>
             </div>
@@ -225,7 +213,7 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      {/* Reset Button Only */}
+      {/* Reset */}
       <Card>
         <CardContent className="pt-6">
           <Dialog>

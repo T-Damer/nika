@@ -10,6 +10,16 @@ interface GoalsStepProps {
   onBack: () => void
 }
 
+const commonGoals = [
+  'trackPeriod',
+  'predictFertility',
+  'becomePregnant',
+  'monitorHealth',
+  'trackSymptoms',
+  'managePMS',
+  'improveWellbeing',
+]
+
 export function GoalsStep({ initialValues, onNext, onBack }: GoalsStepProps) {
   const { t } = useTranslation()
   const [selectedGoals, setSelectedGoals] = useState<string[]>(initialValues)
@@ -26,16 +36,6 @@ export function GoalsStep({ initialValues, onNext, onBack }: GoalsStepProps) {
     e.preventDefault()
     onNext(selectedGoals)
   }
-
-  const commonGoals = [
-    'trackPeriod',
-    'predictFertility',
-    'becomePregnant',
-    'monitorHealth',
-    'trackSymptoms',
-    'managePMS',
-    'improveWellbeing',
-  ]
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center">

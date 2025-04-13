@@ -14,13 +14,14 @@ import MonthHeader from '@/components/calendar/month-header'
 import WeekDaysHeader from '@/components/calendar/week-days-header'
 import { motion } from 'framer-motion'
 
+const monthsToDisplay = 1
+
 export default function Calendar() {
   const { t, i18n } = useTranslation()
   const { user } = useUser()
   const currentLocale = i18n.language === 'ru' ? ru : enUS
 
   const [currentViewingMonth, setCurrentViewingMonth] = useState(new Date())
-  const [monthsToDisplay] = useState(3)
   const [calendarMonths, setCalendarMonths] = useState<
     {
       month: Date
@@ -57,7 +58,7 @@ export default function Calendar() {
   }
 
   const weekDays = Array.from({ length: 7 }, (_, i) =>
-    format(new Date(2021, 0, i + 1), 'EEEEE', { locale: currentLocale })
+    format(new Date(2025, 0, i + 1), 'EEEEE', { locale: currentLocale })
   )
 
   return (
