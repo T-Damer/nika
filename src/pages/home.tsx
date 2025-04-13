@@ -9,9 +9,10 @@ import { format, addDays, subDays } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight, Eye } from 'lucide-react'
 import useCalendar from '@/hooks/useCalendar'
+import useLocale from '@/hooks/useLocale'
 
 export default function Home() {
-  const { t, i18n } = useTranslation()
+  const { t, locale } = useLocale()
   const { user, isLoading } = useUser()
   const navigate = useNavigate()
   const { weekCalendarDays, setWeekStartDate, weekStartDate } =
@@ -25,18 +26,16 @@ export default function Home() {
   }, [user.onboardingCompleted, isLoading, navigate])
 
   const handlePrevWeek = () => {
-    setWeekStartDate(subDays(weekStartDate, 7))
+    setWeekStartDate(subDays(weekStartDate, 14))
   }
 
   const handleNextWeek = () => {
-    setWeekStartDate(addDays(weekStartDate, 7))
+    setWeekStartDate(addDays(weekStartDate, 14))
   }
 
   const formatDayName = (date: Date) => {
-    return format(date, 'EEEEEE', { locale: currentLocale })
+    return format(date, 'EEEEEE', { locale })
   }
-
-  const currentLocale = i18n.language === 'ru' ? ru : enUS
 
   return (
     <div className="min-h-screen flex flex-col pb-16 my-4">
@@ -65,11 +64,9 @@ export default function Home() {
               <button className="p-1" onClick={handlePrevWeek}>
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <h3 className="font-medium">
-                {format(weekStartDate, 'MMMM yyyy', {
-                  locale: currentLocale,
-                })}
-              </h3>
+              <span className="text-2xl font-medium">
+                {format(weekStartDate, 'LLL yyyy', { locale })}
+              </span>
               <button className="p-1" onClick={handleNextWeek}>
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -90,7 +87,7 @@ export default function Home() {
                         ${day.isToday ? 'border border-primary' : ''} 
                         ${
                           day.isPeriod
-                            ? 'bg-primary bg-opacity-20'
+                            ? 'bg-primary bg-opacity-20 text-white'
                             : day.isPredictedPeriod
                               ? 'bg-primary bg-opacity-10'
                               : ''
@@ -106,10 +103,10 @@ export default function Home() {
 
                     {/* Indicators */}
                     {day.isOvulation && (
-                      <span className="absolute bottom-1 w-1 h-1 bg-accent rounded-full"></span>
+                      <span className="absolute -bottom-1.5 sm:bottom-1 w-1 h-1 bg-accent rounded-full"></span>
                     )}
                     {day.isFertile && !day.isOvulation && (
-                      <span className="absolute bottom-1 w-1 h-1 bg-success rounded-full"></span>
+                      <span className="absolute -bottom-1.5 sm:bottom-1 w-1 h-1 bg-success rounded-full"></span>
                     )}
                   </div>
                 </div>

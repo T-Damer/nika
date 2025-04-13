@@ -56,7 +56,7 @@ export default function CycleProgressBar({
         {phasesData.map(({ name, className }) => (
           <div
             key={name}
-            className={`w-1/3 flex gap-x-1 ${currentPhase.name === name ? 'font-bold' : ''}`}
+            className={`w-fit sm:w-1/3 flex gap-x-1 ${currentPhase.name === name ? 'font-bold' : ''}`}
           >
             <div className={`h-4 w-4 rounded-sm ${className}`} />
             <span>{t(`phases.${name}Short`)}</span>

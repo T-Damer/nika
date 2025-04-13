@@ -7,7 +7,7 @@ interface HealthTipCardProps {
 
 export function HealthTipCard({ tip }: HealthTipCardProps) {
   return (
-    <div className="flex rounded-xl p-4 bg-neutral-50 dark:bg-gray-800">
+    <div className="flex rounded-xl sm:p-4 bg-neutral-50 dark:bg-gray-800">
       <div
         className={cn(
           'flex items-center rounded-full p-2 mr-3 text-white',

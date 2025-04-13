@@ -26,7 +26,7 @@ import { useUser } from '@/contexts/user-context'
 import { useToast } from '@/hooks/use-toast'
 import { clearAllData } from '@/lib/storage'
 import { motion } from 'framer-motion'
-import { Pen, Trash2 } from 'lucide-react'
+import { Pen, Save, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
@@ -216,11 +216,16 @@ export default function Profile() {
 
       {/* Reset */}
       <Card>
-        <CardContent className="pt-6">
+        <CardContent className="flex flex-col gap-y-2 pt-6">
+          <Button size="full" disabled>
+            <Save />
+            {t('profile.exportData')}
+          </Button>
+
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="destructive" size="full">
-                <Trash2 className="h-5 w-5 mr-2" />
+                <Trash2 />
                 {t('profile.resetData')}
               </Button>
             </DialogTrigger>
@@ -233,11 +238,15 @@ export default function Profile() {
               </DialogHeader>
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="outline" onClick={() => {}}>
+                  <Button variant="outline" size="full">
                     {t('common.cancel')}
                   </Button>
                 </DialogClose>
-                <Button variant="destructive" onClick={resetAppData}>
+                <Button
+                  variant="destructive"
+                  size="full"
+                  onClick={resetAppData}
+                >
                   {t('profile.confirmResetButton')}
                 </Button>
               </DialogFooter>

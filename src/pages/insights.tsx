@@ -69,19 +69,6 @@ export default function Insights() {
 
       {/* Health Tips by Phase */}
       <Tabs defaultValue="current" className="w-full mb-6">
-        <TabsList className="grid grid-cols-4 w-full">
-          <TabsTrigger value="current">
-            {t('insights.tabs.current')}
-          </TabsTrigger>
-          <TabsTrigger value="menstrual">
-            {t('insights.tabs.menstrual')}
-          </TabsTrigger>
-          <TabsTrigger value="follicular">
-            {t('insights.tabs.follicular')}
-          </TabsTrigger>
-          <TabsTrigger value="luteal">{t('insights.tabs.luteal')}</TabsTrigger>
-        </TabsList>
-
         <TabsContent value="current">
           <Card>
             <CardHeader className="pb-2">
@@ -143,7 +130,6 @@ export default function Insights() {
         </TabsContent>
       </Tabs>
 
-      {/* Cycle Stats */}
       <Card className="mb-6">
         <CardHeader className="pb-4">
           <CardTitle>{t('insights.cycleStats')}</CardTitle>
@@ -154,7 +140,7 @@ export default function Insights() {
             <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <Calendar className="h-6 w-6 text-primary mb-2" />
               <span className="text-2xl font-medium">{user.cycleLength}</span>
-              <span className="text-sm text-neutral-600 dark:text-neutral-400">
+              <span className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
                 {t('insights.avgCycleLength')}
               </span>
             </div>
@@ -162,7 +148,7 @@ export default function Insights() {
             <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <Droplets className="h-6 w-6 text-primary mb-2" />
               <span className="text-2xl font-medium">{user.periodLength}</span>
-              <span className="text-sm text-neutral-600 dark:text-neutral-400">
+              <span className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
                 {t('insights.avgPeriodLength')}
               </span>
             </div>
