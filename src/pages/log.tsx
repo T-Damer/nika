@@ -171,9 +171,11 @@ export default function Log() {
                   </span>
                   <div className="flex justify-between gap-x-2 mb-2">
                     {[...Array(5).keys()].map((i) => (
-                      <div className="flex flex-col items-center">
+                      <div
+                        className="flex flex-col items-center"
+                        key={`flowIntensity=${i}`}
+                      >
                         <img
-                          key={`flowIntensity=${i}`}
                           src={`/mene-tracker/img/flowIntensity/${i}.png`}
                           onClick={() => setFlowIntensity(i)}
                           className={cn(
