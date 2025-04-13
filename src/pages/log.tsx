@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Slider } from '@/components/ui/slider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
 import { motion } from 'framer-motion'
@@ -86,9 +87,7 @@ export default function Log() {
 
     // In a real app, we'd save to localStorage or send to backend here
 
-    // Simulate saving delay
     setTimeout(() => {
-      // Show success toast notification
       toast({
         title: t('log.saveSuccess'),
         description: t('log.dataRecorded'),
@@ -96,10 +95,8 @@ export default function Log() {
         duration: 3000,
       })
 
-      // Reset saving state
       setIsSaving(false)
 
-      // Reset form after successful save
       setSelectedSymptoms([])
       setSelectedMoods([])
       setFlowIntensity(2)
@@ -153,24 +150,21 @@ export default function Log() {
             <Card>
               <CardContent className="pt-4">
                 <div className="space-y-6">
-                  <div>
-                    <h3 className="text-sm font-medium mb-2">
-                      {t('log.flowIntensity')}
-                    </h3>
-                    <div className="mb-2">
-                      <Slider
-                        min={1}
-                        max={5}
-                        step={1}
-                        value={[flowIntensity]}
-                        onValueChange={(values) => setFlowIntensity(values[0])}
+                  <span className="text-sm font-medium">
+                    {t('log.flowIntensity')}
+                  </span>
+                  <div className="flex justify-between gap-x-2 mb-2">
+                    {[...Array(5).keys()].map((i) => (
+                      <img
+                        key={`flowIntensity=${i}`}
+                        src={`/mene-tracker/img/flowIntensity/${i}.png`}
+                        onClick={() => setFlowIntensity(i)}
+                        className={cn(
+                          'transition-transform w-12 sm:w-16 cursor-pointer',
+                          flowIntensity === i ? 'drop-shadow-xl scale-110' : ''
+                        )}
                       />
-                    </div>
-                    <div className="flex justify-between text-xs text-neutral-600 dark:text-neutral-400">
-                      <span>{t('log.flowLevels.light')}</span>
-                      <span>{t('log.flowLevels.medium')}</span>
-                      <span>{t('log.flowLevels.heavy')}</span>
-                    </div>
+                    ))}
                   </div>
 
                   {/* Pain Level */}
@@ -189,7 +183,6 @@ export default function Log() {
                     </div>
                     <div className="flex justify-between text-xs text-neutral-600 dark:text-neutral-400">
                       <span>{t('log.painLevels.none')}</span>
-                      <span>{t('log.painLevels.moderate')}</span>
                       <span>{t('log.painLevels.severe')}</span>
                     </div>
                   </div>
