@@ -1,12 +1,12 @@
 import { useUser } from '@/contexts/user-context'
-import useHealthTips from '@/hooks/useHealthTips'
 import { t } from 'i18next'
 import { HealthTipCard } from '@/components/HealthTipCard'
 import { Eye } from 'lucide-react'
+import useInsights from '@/hooks/useInsights'
 
 export default function HealthTipsSection() {
   const { user } = useUser()
-  const { healthTips } = useHealthTips(user)
+  const { healthTips } = useInsights({ user })
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6">

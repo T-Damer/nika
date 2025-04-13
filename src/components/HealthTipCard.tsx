@@ -7,29 +7,29 @@ interface HealthTipCardProps {
 
 export function HealthTipCard({ tip }: HealthTipCardProps) {
   return (
-    <div className={cn('rounded-xl p-4', 'bg-neutral-50 dark:bg-gray-800')}>
-      <div className="flex items-start">
-        <div
+    <div className="flex rounded-xl p-4 bg-neutral-50 dark:bg-gray-800">
+      <div
+        className={cn(
+          'flex items-center rounded-full p-2 mr-3 text-white',
+          tip.highlighted ? 'brand-gradient' : 'bg-secondary'
+        )}
+      >
+        <IconComponent icon={tip.icon} />
+      </div>
+
+      <div className="flex flex-col">
+        <span
           className={cn(
-            'rounded-full p-2 mr-3 text-white',
-            tip.highlighted ? 'brand-gradient' : 'bg-secondary'
+            'text-xl font-medium mb-1',
+            tip.highlighted ? 'gradient-text' : 'text-brand-secondary'
           )}
         >
-          <IconComponent icon={tip.icon} />
-        </div>
-        <div>
-          <h3
-            className={cn(
-              'font-medium mb-1',
-              tip.highlighted ? 'gradient-text' : 'text-brand-secondary'
-            )}
-          >
-            {tip.title}
-          </h3>
-          <p className="text-sm text-neutral-800 dark:text-neutral-200">
-            {tip.content}
-          </p>
-        </div>
+          {tip.title}
+        </span>
+
+        <span className="text-sm text-neutral-800 dark:text-neutral-200">
+          {tip.content}
+        </span>
       </div>
     </div>
   )

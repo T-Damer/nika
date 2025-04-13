@@ -8,6 +8,7 @@ import {
 } from '@/lib/cycleCalculations'
 import useLocale from '@/hooks/useLocale'
 import CycleProgressBar from './CycleProgressBar'
+import useInsights from '@/hooks/useInsights'
 
 interface CycleProgressProps {
   userData: User
@@ -16,6 +17,7 @@ interface CycleProgressProps {
 export function CycleProgress({ userData }: CycleProgressProps) {
   const { t, locale } = useLocale()
 
+  const { phases } = useInsights({ user: userData })
   const currentDay = getCurrentCycleDay(userData)
   const currentPhase = getCurrentPhase(userData)
   const nextPeriodDate = getNextPeriodDate(userData)
@@ -35,13 +37,7 @@ export function CycleProgress({ userData }: CycleProgressProps) {
       </div>
 
       <div className="bg-neutral-50 dark:bg-gray-700 rounded-xl p-2 mb-4">
-        <CycleProgressBar userData={userData} currentDay={currentDay} />
-
-        <div className="flex justify-between text-xs mt-1 text-neutral-700 dark:text-neutral-300">
-          <span>{t('cycleInfo.period')}</span>
-          <span>{t('cycleInfo.ovulation')}</span>
-          <span>{t('cycleInfo.nextPeriod')}</span>
-        </div>
+        <CycleProgressBar user={userData} phases={phases} />
       </div>
 
       <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">

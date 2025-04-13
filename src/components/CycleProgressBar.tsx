@@ -1,55 +1,68 @@
+import { getCurrentPhase, getCurrentCycleDay } from '@/lib/cycleCalculations'
 import { User } from '@/types'
+import InsightsData from '@/types/InsightsData'
+import { t } from 'i18next'
 
 export default function CycleProgressBar({
-  userData,
-  currentDay,
+  user,
+  phases,
 }: {
-  userData: User
-  currentDay: number
+  user: User
+  phases: InsightsData[]
 }) {
-  const periodPercentage = (userData.periodLength / userData.cycleLength) * 100
-  const currentPercentage = (currentDay / userData.cycleLength) * 100
-  const ovulationPosition =
-    ((userData.cycleLength - 14) / userData.cycleLength) * 100
-  const fertileWindowStart =
-    ((userData.cycleLength - 19) / userData.cycleLength) * 100
-  const fertileWindowWidth = (6 / userData.cycleLength) * 100
+  const currentPhase = getCurrentPhase(user)
+  const currentCycleDay = getCurrentCycleDay(user)
+  const phasesData = phases.map((phase) => {
+    const phaseDuration = phase.endDay - phase.startDay + 1
+    const phaseWidth = (phaseDuration / user.cycleLength) * 100
+    const phaseStart = ((phase.startDay - 1) / user.cycleLength) * 100
+
+    return {
+      phaseWidth,
+      phaseStart,
+      name: phase.name,
+      className: phase.className,
+    }
+  })
 
   return (
-    <div className="flex h-3 rounded-full overflow-hidden">
-      <div
-        className="bg-success"
-        style={{
-          width: `${fertileWindowWidth}%`,
-          marginLeft: `${fertileWindowStart - periodPercentage}%`,
-        }}
-      ></div>
+    <div className="p-1">
+      <div className="relative h-8 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden mb-3">
+        {phasesData.map(({ phaseStart, phaseWidth, name, className }) => (
+          <div
+            key={name}
+            className={`absolute top-0 bottom-0 ${className} ${
+              currentPhase.name === name ? 'opacity-100' : 'opacity-50'
+            }`}
+            style={{
+              left: `${phaseStart}%`,
+              width: `${phaseWidth}%`,
+            }}
+          />
+        ))}
 
-      <div
-        className="brand-gradient rounded-l-full"
-        style={{ width: `${periodPercentage}%` }}
-      />
+        {/* Current day indicator */}
+        <div
+          className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-md"
+          style={{
+            left: `${((currentCycleDay - 1) / user.cycleLength) * 100}%`,
+            transform: 'translateX(-50%)',
+            zIndex: 10,
+          }}
+        />
+      </div>
 
-      <div
-        className="bg-secondary"
-        style={{
-          width: '2%',
-          marginLeft: `${
-            ovulationPosition -
-            fertileWindowStart -
-            fertileWindowWidth -
-            periodPercentage
-          }%`,
-        }}
-      ></div>
-
-      {/* Remaining days */}
-      <div
-        className="bg-neutral-200 dark:bg-gray-600 rounded-r-full"
-        style={{
-          width: `${100 - Math.max(currentPercentage, periodPercentage)}%`,
-        }}
-      ></div>
+      <div className="flex flex-wrap justify-between gap-2 items-center text-xs">
+        {phasesData.map(({ name, className }) => (
+          <div
+            key={name}
+            className={`w-1/3 flex gap-x-1 ${currentPhase.name === name ? 'font-bold' : ''}`}
+          >
+            <div className={`h-4 w-4 rounded-sm ${className}`} />
+            <span>{t(`phases.${name}Short`)}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

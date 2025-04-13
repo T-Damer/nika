@@ -1,14 +1,11 @@
-import { CyclePhase, HealthTip, User } from '@/types'
+import { getCurrentPhase } from '@/lib/cycleCalculations'
+import { HealthTip, User } from '@/types'
 import { t } from 'i18next'
 import { Droplets, Activity, Heart, Brain } from 'lucide-react'
 
-export default function insightsData({
-  user,
-  currentPhase,
-}: {
-  user: User
-  currentPhase: CyclePhase
-}) {
+export default function useInsights({ user }: { user: User }) {
+  const currentPhase = getCurrentPhase(user)
+
   const phases = [
     {
       name: 'menstrual',

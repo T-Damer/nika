@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { motion } from 'framer-motion'
 import { Calendar, Droplets } from 'lucide-react'
 import { getCurrentCycleDay, getCurrentPhase } from '@/lib/cycleCalculations'
-import useHealthTips from '@/hooks/useHealthTips'
-import InsightsData from '@/lib/insights-data'
+import CycleProgressBar from '@/components/CycleProgressBar'
+import useInsights from '@/hooks/useInsights'
 
 export default function Insights() {
   const { t } = useTranslation()
@@ -16,8 +16,7 @@ export default function Insights() {
 
   const currentPhase = getCurrentPhase(user)
   const currentCycleDay = getCurrentCycleDay(user)
-  const { healthTips } = useHealthTips(user)
-  const { phases } = InsightsData({ user, currentPhase })
+  const { phases, healthTips } = useInsights({ user })
 
   const filterTipsByPhase = (phase: string) => {
     return healthTips.filter(
@@ -40,60 +39,12 @@ export default function Insights() {
         <CardHeader className="pb-2">
           <CardTitle>{t('insights.phaseOverview')}</CardTitle>
         </CardHeader>
+
         <CardContent className="pb-5">
-          {/* Phase timeline visualization */}
-          <div className="mb-5">
-            <div className="relative h-8 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
-              {phases.map((phase, index) => {
-                const phaseDuration = phase.endDay - phase.startDay + 1
-                const phaseWidth = (phaseDuration / user.cycleLength) * 100
-                const phaseStart =
-                  ((phase.startDay - 1) / user.cycleLength) * 100
-
-                return (
-                  <div
-                    key={phase.name}
-                    className={`absolute top-0 bottom-0 ${phase.className} ${
-                      currentPhase.name === phase.name
-                        ? 'opacity-100'
-                        : 'opacity-50'
-                    }`}
-                    style={{
-                      left: `${phaseStart}%`,
-                      width: `${phaseWidth}%`,
-                    }}
-                  />
-                )
-              })}
-
-              {/* Current day indicator */}
-              <div
-                className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-md"
-                style={{
-                  left: `${((currentCycleDay - 1) / user.cycleLength) * 100}%`,
-                  transform: 'translateX(-50%)',
-                  zIndex: 10,
-                }}
-              />
-            </div>
-
-            {/* Phase labels */}
-            <div className="flex justify-between text-xs mt-1">
-              {phases.map((phase) => (
-                <div
-                  key={phase.name}
-                  className={`text-center ${
-                    currentPhase.name === phase.name ? 'font-bold' : ''
-                  }`}
-                >
-                  {t(`phases.${phase.name}Short`)}
-                </div>
-              ))}
-            </div>
-          </div>
+          <CycleProgressBar phases={phases} user={user} />
 
           {/* Current Phase Info */}
-          <div className="flex items-center">
+          <div className="flex items-center mt-4">
             <div
               className={`p-2 rounded-full ${
                 phases.find((p) => p.name === currentPhase.name)?.className
@@ -194,24 +145,26 @@ export default function Insights() {
 
       {/* Cycle Stats */}
       <Card className="mb-6">
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-4">
           <CardTitle>{t('insights.cycleStats')}</CardTitle>
         </CardHeader>
+
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <Calendar className="h-6 w-6 text-primary mb-2" />
-              <h3 className="font-medium">{user.cycleLength}</h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              <span className="text-2xl font-medium">{user.cycleLength}</span>
+              <span className="text-sm text-neutral-600 dark:text-neutral-400">
                 {t('insights.avgCycleLength')}
-              </p>
+              </span>
             </div>
+
             <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
               <Droplets className="h-6 w-6 text-primary mb-2" />
-              <h3 className="font-medium">{user.periodLength}</h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              <span className="text-2xl font-medium">{user.periodLength}</span>
+              <span className="text-sm text-neutral-600 dark:text-neutral-400">
                 {t('insights.avgPeriodLength')}
-              </p>
+              </span>
             </div>
           </div>
         </CardContent>

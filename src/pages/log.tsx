@@ -72,7 +72,7 @@ export default function Log() {
     setIsSaving(true)
 
     const logEntry = {
-      date: format(selectedDate, 'yyyy-MM-dd'),
+      date: format(selectedDate, 'dd.MM.yyyy'),
       isPeriod: activeTab === 'period',
       flowIntensity: activeTab === 'period' ? flowIntensity : 0,
       painLevel,
