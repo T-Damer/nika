@@ -308,7 +308,7 @@
       "medium": "Средняя",
       "heavy": "Тяжелая"
     },
-    "painLevel": "Уровень боли",
+    "painLevel": "Интенсивность боли",
     "painLevels": {
       "none": "Нет",
       "moderate": "Умеренная",

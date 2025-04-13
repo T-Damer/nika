@@ -8,11 +8,14 @@ import {
   parseISO,
   startOfWeek,
 } from 'date-fns'
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 
 const today = new Date()
 
-export default function useCalendar(user: User) {
+export default function useCalendar(
+  user: User,
+  scrollRef: RefObject<HTMLDivElement>
+) {
   const [weekStartDate, setWeekStartDate] = useState(
     startOfWeek(today, { weekStartsOn: 1 })
   )
