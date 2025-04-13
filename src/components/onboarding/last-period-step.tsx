@@ -11,6 +11,7 @@ import { enUS, ru } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface LastPeriodStepProps {
   initialValue: string
@@ -72,16 +73,14 @@ export function LastPeriodStep({
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
-      <h2 className="font-heading font-bold text-2xl mb-6">
-        {t('lastPeriodStep.title')}
-      </h2>
+      <Header2>{t('lastPeriodStep.title')}</Header2>
       <p className="text-neutral-800 mb-6">{t('lastPeriodStep.subtitle')}</p>
 
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center w-full"
       >
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 w-96">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 w-full">
           <div className="flex justify-between items-center mb-8">
             <button type="button" className="p-1" onClick={handlePrevMonth}>
               <ChevronLeft className="h-5 w-5" />

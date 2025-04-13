@@ -74,7 +74,7 @@ export function MedicationsStep({
                 />
                 <label
                   htmlFor={medication}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-sm font-medium text-left leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {t(`medications.${medication}`)}
                 </label>

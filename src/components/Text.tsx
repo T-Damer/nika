@@ -5,5 +5,9 @@ export function Header1({ children }: PropsWithChildren) {
 }
 
 export function Header2({ children }: PropsWithChildren) {
-  return <h2 className="font-heading font-bold text-2xl">{children}</h2>
+  return (
+    <span className="font-heading font-bold text-2xl text-center">
+      {children}
+    </span>
+  )
 }

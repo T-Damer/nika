@@ -61,12 +61,12 @@
   "medicalConditionsStep": {
     "title": "Есть ли у вас какие-либо заболевания?",
     "subtitle": "Выберите все подходящие, чтобы получать соответствующие советы",
-    "customPlaceholder": "Добавьте своё заболевание"
+    "customPlaceholder": "Добавить своё"
   },
   "medicationsStep": {
     "title": "Принимаете ли вы какие-либо лекарства?",
     "subtitle": "Некоторые лекарства могут влиять на ваш цикл",
-    "customPlaceholder": "Добавьте своё лекарство"
+    "customPlaceholder": "Добавить своё"
   },
   "preferencesStep": {
     "title": "Настройте ваши предпочтения",

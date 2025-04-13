@@ -48,24 +48,22 @@ export function MoodStep({ initialValues, onNext, onBack }: MoodStepProps) {
       </p>
 
       <form onSubmit={handleSubmit} className="w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 max-h-60 overflow-y-auto">
-          <div className="grid grid-cols-2 gap-3">
-            {commonMoods.map((mood) => (
-              <div key={mood} className="flex items-center space-x-2">
-                <Checkbox
-                  id={mood}
-                  checked={selectedMoods.includes(mood)}
-                  onCheckedChange={() => toggleMood(mood)}
-                />
-                <label
-                  htmlFor={mood}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t(`moods.${mood}`)}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-col gap-y-3 bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 max-h-60 overflow-y-auto">
+          {commonMoods.map((mood) => (
+            <div key={mood} className="flex items-center space-x-2">
+              <Checkbox
+                id={mood}
+                checked={selectedMoods.includes(mood)}
+                onCheckedChange={() => toggleMood(mood)}
+              />
+              <label
+                htmlFor={mood}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t(`moods.${mood}`)}
+              </label>
+            </div>
+          ))}
         </div>
 
         <Button

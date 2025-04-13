@@ -56,24 +56,22 @@ export function SymptomsStep({
         onSubmit={handleSubmit}
         className="w-full items-center flex flex-col gap-y-4"
       >
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto w-80">
-          <div className="grid grid-cols-1 gap-3">
-            {commonSymptoms.map((symptom) => (
-              <div key={symptom} className="flex items-center space-x-2">
-                <Checkbox
-                  id={symptom}
-                  checked={selectedSymptoms.includes(symptom)}
-                  onCheckedChange={() => toggleSymptom(symptom)}
-                />
-                <label
-                  htmlFor={symptom}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t(`symptoms.${symptom}`)}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-col gap-y-3 bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto w-full">
+          {commonSymptoms.map((symptom) => (
+            <div key={symptom} className="flex items-center space-x-2">
+              <Checkbox
+                id={symptom}
+                checked={selectedSymptoms.includes(symptom)}
+                onCheckedChange={() => toggleSymptom(symptom)}
+              />
+              <label
+                htmlFor={symptom}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t(`symptoms.${symptom}`)}
+              </label>
+            </div>
+          ))}
         </div>
 
         <Button type="submit" size="full">

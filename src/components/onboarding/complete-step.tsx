@@ -11,7 +11,7 @@ export function CompleteStep({ onComplete }: CompleteStepProps) {
 
   return (
     <div className="flex flex-col items-center justify-center text-center">
-      <div className="mb-8 bg-primary-light p-4 rounded-full">
+      <div className="mb-4 bg-primary-light p-4 rounded-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-12 w-12 text-primary"

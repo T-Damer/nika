@@ -3,6 +3,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface SleepPatternsStepProps {
   initialValue: string
@@ -33,9 +34,7 @@ export function SleepPatternsStep({
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
-      <h2 className="font-heading font-bold text-2xl mb-6 text-center">
-        {t('sleepPatternsStep.title')}
-      </h2>
+      <Header2>{t('sleepPatternsStep.title')}</Header2>
       <p className="text-neutral-800 mb-6 text-center">
         {t('sleepPatternsStep.subtitle')}
       </p>

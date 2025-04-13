@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button'
 import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface StressLevelStepProps {
   initialValue: number
@@ -32,9 +33,7 @@ export function StressLevelStep({
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
-      <h2 className="font-heading font-bold text-2xl mb-6 text-center">
-        {t('stressLevelStep.title')}
-      </h2>
+      <Header2>{t('stressLevelStep.title')}</Header2>
       <p className="text-neutral-800 mb-6 text-center">
         {t('stressLevelStep.subtitle')}
       </p>
