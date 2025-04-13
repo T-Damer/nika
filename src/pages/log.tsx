@@ -6,11 +6,11 @@ import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
+import useLocale from '@/hooks/useLocale'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
 import { motion } from 'framer-motion'
-import { t } from 'i18next'
 import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,18 +41,9 @@ const commonMoods = [
   'unmotivated',
 ]
 
-const flowAmount = [
-  t('log.flow0'),
-  t('log.flow1'),
-  t('log.flow2'),
-  t('log.flow3'),
-  t('log.flow4'),
-]
-
 export default function Log() {
-  const { t, i18n } = useTranslation()
+  const { t, locale } = useLocale()
   const { toast } = useToast()
-  const currentLocale = i18n.language === 'ru' ? ru : enUS
 
   const today = new Date()
   const [selectedDate, setSelectedDate] = useState(today)
@@ -78,6 +69,14 @@ export default function Log() {
       setSelectedMoods([...selectedMoods, mood])
     }
   }
+
+  const flowAmount = [
+    t('log.flow0'),
+    t('log.flow1'),
+    t('log.flow2'),
+    t('log.flow3'),
+    t('log.flow4'),
+  ]
 
   const saveLog = () => {
     setIsSaving(true)
@@ -134,7 +133,7 @@ export default function Log() {
               </CardTitle>
               <div className="flex items-center text-sm">
                 <CalendarIcon className="w-4 h-4 mr-1" />
-                {format(selectedDate, 'PPP', { locale: currentLocale })}
+                {format(selectedDate, 'PPP', { locale })}
               </div>
             </div>
           </CardHeader>
