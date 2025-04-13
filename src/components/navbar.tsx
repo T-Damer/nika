@@ -43,7 +43,7 @@ export function Navbar() {
         <NavLink
           to={link.href}
           className={({ isActive: active }) =>
-            `flex flex-col items-center hover:text-opacity-50 transition-colors p-2 ${
+            `flex flex-col items-center hover:text-opacity-50 active:brightness-110 transition-colors p-2 ${
               active ? 'text-primary' : 'text-neutral-400 dark:text-neutral-500'
             }`
           }
