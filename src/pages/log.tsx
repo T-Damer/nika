@@ -2,6 +2,7 @@ import { Navbar } from '@/components/navbar'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
@@ -9,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { enUS, ru } from 'date-fns/locale'
 import { motion } from 'framer-motion'
+import { t } from 'i18next'
 import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,6 +39,14 @@ const commonMoods = [
   'tired',
   'motivated',
   'unmotivated',
+]
+
+const flowAmount = [
+  t('log.flow0'),
+  t('log.flow1'),
+  t('log.flow2'),
+  t('log.flow3'),
+  t('log.flow4'),
 ]
 
 export default function Log() {
@@ -135,12 +145,18 @@ export default function Log() {
           onValueChange={setActiveTab}
           className="w-full mb-4"
         >
-          <TabsList className="grid grid-cols-2 w-full">
-            <TabsTrigger value="period" className="flex items-center gap-2">
+          <TabsList className="flex gap-x-1 w-full">
+            <TabsTrigger
+              value="period"
+              className="flex items-center gap-2 w-full"
+            >
               <Droplets className="h-4 w-4" />
               {t('log.tabs.period')}
             </TabsTrigger>
-            <TabsTrigger value="symptoms" className="flex items-center gap-2">
+            <TabsTrigger
+              value="symptoms"
+              className="flex items-center gap-2 w-full"
+            >
               <AlertCircle className="h-4 w-4" />
               {t('log.tabs.symptoms')}
             </TabsTrigger>
@@ -150,28 +166,39 @@ export default function Log() {
             <Card>
               <CardContent className="pt-4">
                 <div className="space-y-6">
-                  <span className="text-sm font-medium">
+                  <span className="text-xl font-medium">
                     {t('log.flowIntensity')}
                   </span>
                   <div className="flex justify-between gap-x-2 mb-2">
                     {[...Array(5).keys()].map((i) => (
-                      <img
-                        key={`flowIntensity=${i}`}
-                        src={`/mene-tracker/img/flowIntensity/${i}.png`}
-                        onClick={() => setFlowIntensity(i)}
-                        className={cn(
-                          'transition-transform w-12 sm:w-16 cursor-pointer',
-                          flowIntensity === i ? 'drop-shadow-xl scale-110' : ''
-                        )}
-                      />
+                      <div className="flex flex-col items-center">
+                        <img
+                          key={`flowIntensity=${i}`}
+                          src={`/mene-tracker/img/flowIntensity/${i}.png`}
+                          onClick={() => setFlowIntensity(i)}
+                          className={cn(
+                            'transition-transform h-24 w-12 sm:w-16 sm:h-32 cursor-pointer',
+                            flowIntensity === i
+                              ? 'drop-shadow-xl scale-110'
+                              : ''
+                          )}
+                        />
+                        <span className="text-sm">{flowAmount[i]}</span>
+                      </div>
                     ))}
                   </div>
 
-                  {/* Pain Level */}
+                  <div className="flex flex-row items-center gap-x-4">
+                    <span className="text-xl font-medium">
+                      {t('log.padsAmountDaily')}
+                    </span>
+                    <Input className="w-32" />
+                  </div>
+
                   <div>
-                    <h3 className="text-sm font-medium mb-2">
-                      {t('log.painLevel')}
-                    </h3>
+                    <div className="text-xl font-medium mb-2">
+                      <span>{t('log.painLevel')}</span>
+                    </div>
                     <div className="mb-2">
                       <Slider
                         min={0}
