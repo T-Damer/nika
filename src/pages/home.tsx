@@ -13,9 +13,11 @@ export default function Home() {
   const { t, locale } = useLocale()
   const { user, isLoading } = useUser()
   const navigate = useNavigate()
-  const { weekCalendarDays, setWeekStartDate, weekStartDate } =
-    useCalendar(user)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { weekCalendarDays, setWeekStartDate, weekStartDate } = useCalendar(
+    user,
+    scrollRef
+  )
 
   useEffect(() => {
     if (!isLoading && !user.onboardingCompleted) {
