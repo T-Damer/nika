@@ -80,7 +80,7 @@ export default function Calendar() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <span className="font-medium dark:text-white">
-          {format(currentViewingMonth, 'MMMM yyyy', {
+          {format(currentViewingMonth, 'LLLL yyyy', {
             locale: currentLocale,
           })}
         </span>
