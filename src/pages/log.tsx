@@ -168,17 +168,17 @@ export default function Log() {
                   <span className="text-xl font-medium">
                     {t('log.flowIntensity')}
                   </span>
-                  <div className="flex justify-between gap-x-2 mb-2">
+                  <div className="grid grid-cols-3 sm:flex justify-between gap-x-1 mb-2">
                     {[...Array(5).keys()].map((i) => (
                       <div
-                        className="flex flex-col items-center"
-                        key={`flowIntensity=${i}`}
+                        className="flex flex-col items-center "
+                        key={`flowIntensity-${i}`}
                       >
                         <img
                           src={`/mene-tracker/img/flowIntensity/${i}.png`}
                           onClick={() => setFlowIntensity(i)}
                           className={cn(
-                            'transition-transform h-24 w-12 sm:w-16 sm:h-32 cursor-pointer',
+                            'transition-transform h-24 w-12  sm:w-16 sm:h-32 cursor-pointer',
                             flowIntensity === i
                               ? 'drop-shadow-xl scale-110'
                               : ''
@@ -219,12 +219,10 @@ export default function Log() {
             </Card>
           </TabsContent>
 
-          {/* Symptoms Tab */}
           <TabsContent value="symptoms">
             <Card>
               <CardContent className="pt-4">
                 <div className="space-y-6">
-                  {/* Symptoms */}
                   <div>
                     <h3 className="text-sm font-medium mb-2">
                       {t('log.symptoms')}
@@ -251,7 +249,6 @@ export default function Log() {
                     </div>
                   </div>
 
-                  {/* Mood */}
                   <div>
                     <h3 className="text-sm font-medium mb-2">
                       {t('log.mood')}
