@@ -31,12 +31,15 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
 import { DialogClose } from '@radix-ui/react-dialog'
+import { useSetAtom } from 'jotai'
+import modalsAtom, { AvailableModals } from '@/lib/atoms/modalsAtom'
 
 const cycleLengthOptions = Array.from({ length: 31 }, (_, i) => 21 + i)
 
 const periodLengthOptions = Array.from({ length: 9 }, (_, i) => 2 + i)
 
 export default function Profile() {
+  const setModal = useSetAtom(modalsAtom)
   const { t, locale } = useLocale()
   const { user, updateUser } = useUser()
   const navigate = useNavigate()
@@ -214,7 +217,14 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      {/* Reset */}
+      <Button
+        variant="outline"
+        onClick={() => setModal(AvailableModals.questionary)}
+        className="mb-4"
+      >
+        Пройти опрос
+      </Button>
+
       <Card>
         <CardContent className="flex flex-col gap-y-2 pt-6">
           <Button size="full" disabled>

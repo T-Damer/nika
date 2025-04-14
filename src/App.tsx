@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { UserProvider } from './contexts/user-context'
+import Modals from './components/Modals'
 
 function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
@@ -86,7 +87,9 @@ function AppContent() {
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
       <Toaster />
+      <Modals />
     </div>
   )
 }
