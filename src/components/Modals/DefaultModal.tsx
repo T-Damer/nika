@@ -39,7 +39,7 @@ export default function ({
         <Drawer.Description>Modal</Drawer.Description>
         <Drawer.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-all will-change-auto" />
         <Drawer.Content
-          className={`flex flex-col rounded-t-3xl bg-neutral-100 max-h-[98vh] fixed bottom-0 left-0 right-0 mx-auto max-w-prose justify-self-center outline-none ${contentClassName}`}
+          className={`flex flex-col rounded-t-3xl bg-neutral-100 dark:bg-slate-800 max-h-[98vh] fixed bottom-0 left-0 right-0 mx-auto max-w-prose justify-self-center outline-none ${contentClassName}`}
         >
           <Drawer.Title className="hidden">Dialog window</Drawer.Title>
           <Drawer.Handle className="w-12 h-1 mb-1 mt-4" />

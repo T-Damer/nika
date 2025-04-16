@@ -34,12 +34,10 @@ export function StressLevelStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <Header2>{t('stressLevelStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 text-center">
-        {t('stressLevelStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('stressLevelStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
+        <div className="bg-neutral-50 dark:bg-slate-800 border border-neutral-200 rounded-xl p-6">
           <div className="text-center mb-4">
             <span className="text-2xl font-bold text-primary">
               {getStressLevelText(stressLevel)}
@@ -55,7 +53,7 @@ export function StressLevelStep({
             className="w-full"
           />
 
-          <div className="flex justify-between text-xs mt-2 text-neutral-600">
+          <div className="flex justify-between text-xs mt-2 text-neutral-600 dark:text-neutral-200">
             <span>{t('stressLevels.veryLow')}</span>
             <span>{t('stressLevels.moderate')}</span>
             <span>{t('stressLevels.veryHigh')}</span>

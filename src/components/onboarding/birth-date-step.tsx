@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/select'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Header2 } from '../Text'
 
 interface BirthDateStepProps {
   initialDay: string
@@ -46,17 +47,13 @@ export function BirthDateStep({
 
   return (
     <div className="flex flex-col items-center justify-center text-center">
-      <h2 className="font-heading font-bold text-2xl mb-6">
-        {t('birthDateStep.title')}
-      </h2>
-      <p className="text-neutral-800 mb-6 max-w-xs">
-        {t('birthDateStep.subtitle')}
-      </p>
+      <Header2>{t('birthDateStep.title')}</Header2>
+      <p className="mb-6 max-w-xs">{t('birthDateStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-3">
         <div className="flex gap-2 mb-6">
           <Select value={day} onValueChange={setDay}>
-            <SelectTrigger className="flex-1 bg-neutral-50 border border-neutral-200 rounded-xl">
+            <SelectTrigger className="bg-neutral-50 border border-neutral-200 rounded-xl">
               <SelectValue placeholder={t('birthDateStep.day')} />
             </SelectTrigger>
             <SelectContent>
@@ -71,7 +68,7 @@ export function BirthDateStep({
           </Select>
 
           <Select value={month} onValueChange={setMonth}>
-            <SelectTrigger className="flex-1 bg-neutral-50 border border-neutral-200 rounded-xl">
+            <SelectTrigger className="bg-neutral-50 border border-neutral-200 rounded-xl">
               <SelectValue placeholder={t('birthDateStep.month')} />
             </SelectTrigger>
             <SelectContent>
@@ -86,7 +83,7 @@ export function BirthDateStep({
           </Select>
 
           <Select value={year} onValueChange={setYear}>
-            <SelectTrigger className="flex-1 bg-neutral-50 border border-neutral-200 rounded-xl">
+            <SelectTrigger className="bg-neutral-50 border border-neutral-200 rounded-xl">
               <SelectValue placeholder={t('birthDateStep.year')} />
             </SelectTrigger>
             <SelectContent>

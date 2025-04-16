@@ -3,6 +3,7 @@ import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Header2 } from '../Text'
+import RoundButton from '../RoundButton'
 
 interface PeriodLengthStepProps {
   initialValue: number
@@ -36,30 +37,22 @@ export function PeriodLengthStep({
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col gap-y-4 items-center justify-center text-center">
       <Header2>{t('periodLengthStep.title')}</Header2>
 
       <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-center justify-between mb-6">
-          <button
-            type="button"
-            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
-            onClick={decrementPeriodLength}
-          >
+          <RoundButton onClick={decrementPeriodLength}>
             <Minus className="w-4 h-4" />
-          </button>
+          </RoundButton>
 
           <span className="text-4xl font-bold text-primary">
             {periodLength}
           </span>
 
-          <button
-            type="button"
-            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
-            onClick={incrementPeriodLength}
-          >
+          <RoundButton onClick={incrementPeriodLength}>
             <Plus className="w-4 h-4" />
-          </button>
+          </RoundButton>
         </div>
 
         <Button

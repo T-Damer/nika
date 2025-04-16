@@ -3,7 +3,8 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface ActivityLevelStepProps {
   initialValue: string
@@ -35,12 +36,10 @@ export function ActivityLevelStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <Header2>{t('activityLevelStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 text-center">
-        {t('activityLevelStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('activityLevelStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6">
+        <SelectorCard>
           <RadioGroup value={activityLevel} onValueChange={setActivityLevel}>
             {activityLevels.map((level) => (
               <div key={level} className="flex items-center space-x-2 py-2">
@@ -58,7 +57,7 @@ export function ActivityLevelStep({
               </div>
             ))}
           </RadioGroup>
-        </div>
+        </SelectorCard>
 
         <Button type="submit" size="full" disabled={!activityLevel}>
           {t('common.continue')}

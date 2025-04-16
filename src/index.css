@@ -2,14 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    color-scheme: light !important;
-  }
-}
-
 :root {
-  color-scheme: light;
   --accent: #e88974;
   --brand-primary: #e974b6;
   --brand-secondary: #ff9b9b;

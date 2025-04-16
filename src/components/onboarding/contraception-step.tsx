@@ -3,13 +3,27 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface ContraceptionStepProps {
   initialValue: string
   onNext: (contraception: string) => void
   onBack: () => void
 }
+
+const contraceptionMethods = [
+  'none',
+  'pill',
+  'iud',
+  'condom',
+  'implant',
+  'injection',
+  'patch',
+  'ring',
+  'withdrawal',
+  'rhythm',
+]
 
 export function ContraceptionStep({
   initialValue,
@@ -24,26 +38,13 @@ export function ContraceptionStep({
     onNext(contraception)
   }
 
-  const contraceptionMethods = [
-    'none',
-    'pill',
-    'iud',
-    'condom',
-    'implant',
-    'injection',
-    'patch',
-    'ring',
-    'withdrawal',
-    'rhythm',
-  ]
-
   return (
     <div className="flex flex-col items-center justify-center text-center">
       <Header2>{t('contraceptionStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6">{t('contraceptionStep.subtitle')}</p>
+      <p className="mb-6">{t('contraceptionStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto">
+        <SelectorCard>
           <RadioGroup value={contraception} onValueChange={setContraception}>
             {contraceptionMethods.map((method) => (
               <div key={method} className="flex items-center space-x-2 py-2">
@@ -52,7 +53,7 @@ export function ContraceptionStep({
               </div>
             ))}
           </RadioGroup>
-        </div>
+        </SelectorCard>
 
         <Button type="submit" size="full" disabled={!contraception}>
           {t('common.continue')}

@@ -29,7 +29,9 @@ export function CompleteStep({ onComplete }: CompleteStepProps) {
       </div>
 
       <Header2>{t('completeStep.title')}</Header2>
-      <p className="text-neutral-800 mb-8">{t('completeStep.subtitle')}</p>
+      <p className="text-neutral-800 dark:text-neutral-300 mb-8">
+        {t('completeStep.subtitle')}
+      </p>
 
       <Button size="full" onClick={onComplete}>
         {t('completeStep.goToDashboard')}

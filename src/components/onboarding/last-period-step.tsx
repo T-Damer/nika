@@ -74,13 +74,13 @@ export function LastPeriodStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
       <Header2>{t('lastPeriodStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6">{t('lastPeriodStep.subtitle')}</p>
+      <p className="mb-6">{t('lastPeriodStep.subtitle')}</p>
 
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center w-full"
       >
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 w-full">
+        <div className="bg-neutral-50 dark:bg-slate-800 border border-neutral-200 rounded-xl p-4 mb-6 w-full">
           <div className="flex justify-between items-center mb-8">
             <button type="button" className="p-1" onClick={handlePrevMonth}>
               <ChevronLeft className="h-5 w-5" />

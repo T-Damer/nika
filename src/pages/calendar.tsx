@@ -13,13 +13,13 @@ import { CalendarLegend } from '@/components/calendar/calendar-legend'
 import MonthHeader from '@/components/calendar/month-header'
 import WeekDaysHeader from '@/components/calendar/week-days-header'
 import { motion } from 'framer-motion'
+import useLocale from '@/hooks/useLocale'
 
 const monthsToDisplay = 1
 
 export default function Calendar() {
-  const { t, i18n } = useTranslation()
+  const { t, locale } = useLocale()
   const { user } = useUser()
-  const currentLocale = i18n.language === 'ru' ? ru : enUS
 
   const [currentViewingMonth, setCurrentViewingMonth] = useState(new Date())
   const [calendarMonths, setCalendarMonths] = useState<
@@ -58,7 +58,7 @@ export default function Calendar() {
   }
 
   const weekDays = Array.from({ length: 7 }, (_, i) =>
-    format(new Date(2025, 0, i + 1), 'EEEEE', { locale: currentLocale })
+    format(new Date(2025, 0, i + 1), 'EEEEE', { locale })
   )
 
   return (
@@ -80,9 +80,7 @@ export default function Calendar() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <span className="font-medium dark:text-white">
-          {format(currentViewingMonth, 'LLLL yyyy', {
-            locale: currentLocale,
-          })}
+          {format(currentViewingMonth, 'LLLL yyyy', { locale })}
         </span>
         <button className="p-1 dark:text-white" onClick={navigateToNextMonth}>
           <ChevronRight className="h-6 w-6" />
@@ -96,7 +94,7 @@ export default function Calendar() {
           key={index}
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6"
         >
-          <MonthHeader month={monthData.month} locale={currentLocale} />
+          <MonthHeader month={monthData.month} locale={locale} />
 
           <WeekDaysHeader weekDays={weekDays} />
 

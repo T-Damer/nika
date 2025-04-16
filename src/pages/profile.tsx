@@ -92,7 +92,9 @@ export default function Profile() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <span className="text-3xl font-bold">{t('profile.title')}</span>
+        <span className="text-3xl font-bold dark:text-white">
+          {t('profile.title')}
+        </span>
         <LanguageToggle />
       </motion.div>
 
@@ -196,7 +198,7 @@ export default function Profile() {
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4 mt-4">
-              <div className="bg-neutral-50 dark:bg-neutral-800 p-3 rounded-lg">
+              <div className="bg-neutral-50 dark:bg-slate-800 p-3 rounded-lg">
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   {t('profile.cycleLength')}
                 </div>
@@ -204,7 +206,7 @@ export default function Profile() {
                   {formatDuration({ days: user.cycleLength }, { locale })}
                 </div>
               </div>
-              <div className="bg-neutral-50 dark:bg-neutral-800 p-3 rounded-lg">
+              <div className="bg-neutral-50 dark:bg-slate-800 p-3 rounded-lg">
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   {t('profile.periodLength')}
                 </div>

@@ -3,7 +3,8 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface SleepPatternsStepProps {
   initialValue: string
@@ -35,12 +36,10 @@ export function SleepPatternsStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <Header2>{t('sleepPatternsStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 text-center">
-        {t('sleepPatternsStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('sleepPatternsStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4">
+        <SelectorCard>
           <RadioGroup value={sleepPattern} onValueChange={setSleepPattern}>
             {sleepPatterns.map((pattern) => (
               <div key={pattern} className="flex items-center space-x-2 py-2">
@@ -49,7 +48,7 @@ export function SleepPatternsStep({
               </div>
             ))}
           </RadioGroup>
-        </div>
+        </SelectorCard>
 
         <Button type="submit" size="full" disabled={!sleepPattern}>
           {t('common.continue')}

@@ -20,7 +20,7 @@ export function NameStep({ initialValue, onNext, onBack }: NameStepProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col gap-y-2 items-center justify-center text-center">
       <Header2>{t('nameStep.title')}</Header2>
 
       <form onSubmit={handleSubmit} className="flex flex-col w-full gap-y-3">

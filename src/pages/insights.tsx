@@ -9,6 +9,7 @@ import { Calendar, Droplets } from 'lucide-react'
 import { getCurrentCycleDay, getCurrentPhase } from '@/lib/cycleCalculations'
 import CycleProgressBar from '@/components/CycleProgressBar'
 import useInsights from '@/hooks/useInsights'
+import AnimatedEntryHeader from '@/components/AnimatedEntryHeader'
 
 export default function Insights() {
   const { t } = useTranslation()
@@ -26,14 +27,7 @@ export default function Insights() {
 
   return (
     <div className="flex flex-col pb-16">
-      <motion.h1
-        className="font-heading font-bold text-2xl my-4"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {t('insights.title')}
-      </motion.h1>
+      <AnimatedEntryHeader>{t('insights.title')}</AnimatedEntryHeader>
 
       <Card className="mb-6 overflow-hidden">
         <CardHeader className="pb-2">
@@ -137,7 +131,7 @@ export default function Insights() {
 
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+            <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-slate-800 rounded-lg">
               <Calendar className="h-6 w-6 text-primary mb-2" />
               <span className="text-2xl font-medium">{user.cycleLength}</span>
               <span className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
@@ -145,7 +139,7 @@ export default function Insights() {
               </span>
             </div>
 
-            <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+            <div className="flex flex-col items-center p-3 bg-neutral-50 dark:bg-slate-800 rounded-lg">
               <Droplets className="h-6 w-6 text-primary mb-2" />
               <span className="text-2xl font-medium">{user.periodLength}</span>
               <span className="text-sm text-neutral-600 dark:text-neutral-400 text-center">

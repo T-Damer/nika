@@ -3,13 +3,25 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface MedicationsStepProps {
   initialValues: string[]
   onNext: (medications: string[]) => void
   onBack: () => void
 }
+
+const commonMedications = [
+  'none',
+  'birthControlPill',
+  'antidepressants',
+  'painMedication',
+  'antiAnxiety',
+  'thyroidMedication',
+  'antiInflammatory',
+  'hormoneReplacement',
+]
 
 export function MedicationsStep({
   initialValues,
@@ -46,24 +58,13 @@ export function MedicationsStep({
     onNext(selectedMedications)
   }
 
-  const commonMedications = [
-    'none',
-    'birthControlPill',
-    'antidepressants',
-    'painMedication',
-    'antiAnxiety',
-    'thyroidMedication',
-    'antiInflammatory',
-    'hormoneReplacement',
-  ]
-
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
       <Header2>{t('medicationsStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6">{t('medicationsStep.subtitle')}</p>
+      <p className="mb-6">{t('medicationsStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto">
+        <SelectorCard>
           <div className="grid grid-cols-1 gap-3">
             {commonMedications.map((medication) => (
               <div key={medication} className="flex items-center space-x-2">
@@ -114,7 +115,7 @@ export function MedicationsStep({
               </Button>
             </div>
           </div>
-        </div>
+        </SelectorCard>
 
         <Button
           type="submit"

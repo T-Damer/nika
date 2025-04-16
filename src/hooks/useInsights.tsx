@@ -12,28 +12,28 @@ export default function useInsights({ user }: { user: User }) {
       startDay: 1,
       endDay: user.periodLength,
       icon: <Droplets className="h-6 w-6" />,
-      className: 'bg-primary bg-opacity-20 text-primary',
+      className: 'bg-primary text-primary',
     },
     {
       name: 'follicular',
       startDay: user.periodLength + 1,
       endDay: user.cycleLength - 15,
       icon: <Activity className="h-6 w-6" />,
-      className: 'bg-accent bg-opacity-20 text-accent',
+      className: 'bg-accent text-accent',
     },
     {
       name: 'ovulatory',
       startDay: user.cycleLength - 14,
       endDay: user.cycleLength - 12,
       icon: <Heart className="h-6 w-6" />,
-      className: 'bg-success bg-opacity-20 text-success',
+      className: 'bg-success text-success',
     },
     {
       name: 'luteal',
       startDay: user.cycleLength - 11,
       endDay: user.cycleLength,
       icon: <Brain className="h-6 w-6" />,
-      className: 'bg-amber-500 bg-opacity-20 text-amber-500',
+      className: 'bg-amber-500 text-amber-500',
     },
   ]
 

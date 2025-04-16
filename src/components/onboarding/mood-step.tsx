@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface MoodStepProps {
   initialValues: string[]
@@ -41,14 +42,12 @@ export function MoodStep({ initialValues, onNext, onBack }: MoodStepProps) {
   ]
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <Header2>{t('moodStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 text-center">
-        {t('moodStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('moodStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="w-full">
-        <div className="flex flex-col gap-y-3 bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-6 max-h-60 overflow-y-auto">
+        <SelectorCard>
           {commonMoods.map((mood) => (
             <div key={mood} className="flex items-center space-x-2">
               <Checkbox
@@ -64,11 +63,11 @@ export function MoodStep({ initialValues, onNext, onBack }: MoodStepProps) {
               </label>
             </div>
           ))}
-        </div>
+        </SelectorCard>
 
         <Button
           type="submit"
-          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
+          className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition mt-4"
         >
           {t('common.continue')}
         </Button>

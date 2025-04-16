@@ -1,7 +1,7 @@
 import { getCurrentPhase, getCurrentCycleDay } from '@/lib/cycleCalculations'
 import { User } from '@/types'
 import InsightsData from '@/types/InsightsData'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function CycleProgressBar({
   user,
@@ -10,6 +10,7 @@ export default function CycleProgressBar({
   user: User
   phases: InsightsData[]
 }) {
+  const { t } = useTranslation()
   const currentPhase = getCurrentPhase(user)
   const currentCycleDay = getCurrentCycleDay(user)
   const phasesData = phases.map((phase) => {
@@ -31,9 +32,7 @@ export default function CycleProgressBar({
         {phasesData.map(({ phaseStart, phaseWidth, name, className }) => (
           <div
             key={name}
-            className={`absolute top-0 bottom-0 ${className} ${
-              currentPhase.name === name ? 'opacity-100' : 'opacity-50'
-            }`}
+            className={`absolute top-0 bottom-0 ${className}`}
             style={{
               left: `${phaseStart}%`,
               width: `${phaseWidth}%`,
@@ -59,7 +58,7 @@ export default function CycleProgressBar({
             className={`w-fit sm:w-1/3 flex gap-x-1 ${currentPhase.name === name ? 'font-bold' : ''}`}
           >
             <div className={`h-4 w-4 rounded-sm ${className}`} />
-            <span>{t(`phases.${name}Short`)}</span>
+            <span className="dark:text-white">{t(`phases.${name}Short`)}</span>
           </div>
         ))}
       </div>

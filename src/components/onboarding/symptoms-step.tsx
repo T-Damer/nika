@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface SymptomsStepProps {
   initialValues: string[]
@@ -48,15 +49,13 @@ export function SymptomsStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <Header2>{t('symptomsStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 text-center">
-        {t('symptomsStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('symptomsStep.subtitle')}</p>
 
       <form
         onSubmit={handleSubmit}
         className="w-full items-center flex flex-col gap-y-4"
       >
-        <div className="flex flex-col gap-y-3 bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto w-full">
+        <SelectorCard>
           {commonSymptoms.map((symptom) => (
             <div key={symptom} className="flex items-center space-x-2">
               <Checkbox
@@ -72,7 +71,7 @@ export function SymptomsStep({
               </label>
             </div>
           ))}
-        </div>
+        </SelectorCard>
 
         <Button type="submit" size="full">
           {t('common.continue')}

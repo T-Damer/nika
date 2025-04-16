@@ -1,3 +1,4 @@
+import AnimatedEntryHeader from '@/components/AnimatedEntryHeader'
 import { Navbar } from '@/components/navbar'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -114,15 +115,8 @@ export default function Log() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-16">
-      <motion.h1
-        className="font-heading font-bold text-2xl mb-4 mt-4"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {t('log.title')}
-      </motion.h1>
+    <div className="flex flex-col pb-16">
+      <AnimatedEntryHeader>{t('log.title')}</AnimatedEntryHeader>
 
       <main className="pt-0">
         <Card className="mb-4">

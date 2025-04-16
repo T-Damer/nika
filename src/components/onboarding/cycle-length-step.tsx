@@ -3,6 +3,7 @@ import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Header2 } from '../Text'
+import RoundButton from '../RoundButton'
 
 interface CycleLengthStepProps {
   initialValue: number
@@ -38,17 +39,13 @@ export function CycleLengthStep({
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center">
       <Header2>{t('cycleLengthStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6">{t('cycleLengthStep.subtitle')}</p>
+      <p className="mb-6">{t('cycleLengthStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-center justify-between mb-6">
-          <button
-            type="button"
-            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
-            onClick={decrementCycleLength}
-          >
+          <RoundButton onClick={decrementCycleLength}>
             <Minus className="w-4 h-4" />
-          </button>
+          </RoundButton>
 
           <div className="text-center">
             <span className="text-4xl font-bold text-primary">
@@ -56,13 +53,9 @@ export function CycleLengthStep({
             </span>
           </div>
 
-          <button
-            type="button"
-            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary font-bold"
-            onClick={incrementCycleLength}
-          >
+          <RoundButton onClick={incrementCycleLength}>
             <Plus className="w-4 h-4" />
-          </button>
+          </RoundButton>
         </div>
 
         <Button

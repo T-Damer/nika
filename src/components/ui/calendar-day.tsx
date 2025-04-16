@@ -17,7 +17,7 @@ export function CalendarDay({ day, onClick }: CalendarDayProps) {
     <div
       className={cn(
         'calendar-day aspect-square flex items-center justify-center rounded-full cursor-pointer dark:text-white',
-        !day.isCurrentMonth && 'text-neutral-400 dark:text-neutral-500',
+        !day.isCurrentMonth && 'opacity-20',
         day.isPeriod && 'bg-primary bg-opacity-20 text-white',
         day.isPredictedPeriod && 'bg-primary bg-opacity-20',
         day.isOvulation && '!bg-accent !bg-opacity-20 text-white',

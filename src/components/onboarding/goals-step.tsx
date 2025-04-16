@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Header2 } from '../Text'
+import { Header2 } from '@/components/Text'
+import SelectorCard from '@/components/SelectorCard'
 
 interface GoalsStepProps {
   initialValues: string[]
@@ -40,12 +41,10 @@ export function GoalsStep({ initialValues, onNext, onBack }: GoalsStepProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center">
       <Header2>{t('goalsStep.title')}</Header2>
-      <p className="text-neutral-800 mb-6 max-w-xs text-center">
-        {t('goalsStep.subtitle')}
-      </p>
+      <p className="mb-6 text-center">{t('goalsStep.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 w-full">
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 max-h-60 overflow-y-auto">
+        <SelectorCard>
           <div className="grid grid-cols-1 gap-3">
             {commonGoals.map((goal) => (
               <div key={goal} className="flex items-center space-x-2">
@@ -63,7 +62,7 @@ export function GoalsStep({ initialValues, onNext, onBack }: GoalsStepProps) {
               </div>
             ))}
           </div>
-        </div>
+        </SelectorCard>
 
         <Button type="submit" size="full" disabled={!selectedGoals.length}>
           {t('common.continue')}

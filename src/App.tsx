@@ -43,14 +43,6 @@ function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
         >
           mene
         </motion.h1>
-        <motion.p
-          className="text-gray-500 dark:text-gray-400"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          Track your cycle. Understand your body.
-        </motion.p>
       </motion.div>
     </motion.div>
   )
@@ -71,7 +63,7 @@ function AppContent() {
   }, [])
 
   return (
-    <div className="container prose mx-auto max-w-prose flex flex-col min-h-[100dvh] px-5">
+    <div className="container prose mx-auto max-w-prose flex flex-col min-h-[100dvh] px-5 dark:text-white">
       <AnimatePresence>
         {showWelcome && (
           <WelcomeScreen onComplete={() => setShowWelcome(false)} />
