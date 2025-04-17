@@ -120,10 +120,6 @@ export default function Home() {
               <span>{t('calendar.period')}</span>
             </div>
             <div className="flex items-center mr-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-amber-500 mr-1"></div>
-              <span>{t('calendar.predicted')}</span>
-            </div>
-            <div className="flex items-center mr-2 mb-1">
               <div className="w-3 h-3 rounded-full bg-accent mr-1"></div>
               <span>{t('calendar.ovulation')}</span>
             </div>

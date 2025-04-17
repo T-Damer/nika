@@ -40,8 +40,8 @@ body {
     'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
   color: #171717;
+  background-color: #fafafa;
 }
 
 @media (prefers-color-scheme: dark) {

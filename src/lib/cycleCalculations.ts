@@ -3,84 +3,81 @@ import {
   addDays,
   addMonths,
   differenceInDays,
-  differenceInYears,
   format,
   isSameDay,
   parseISO,
   startOfDay,
 } from 'date-fns'
 
-/**
- * Calculate user's age from birthdate components
- */
-function calculateAge(user: User): number {
-  if (!user.birthYear || !user.birthMonth || !user.birthDay) {
-    return 25 // Default age if not provided
-  }
+const ovulationDefault = 14
 
-  const birthdate = new Date(
-    parseInt(user.birthYear),
-    parseInt(user.birthMonth) - 1, // Months are 0-indexed in JS Date
-    parseInt(user.birthDay)
-  )
+export const cycleConstants = {
+  lengthMin: 24,
+  lengthMax: 38,
+  durationMin: 4,
+  durationMax: 8,
+  bloodLossMin: 50,
+  bloodLossMax: 80,
+  variability: 4,
+  bleedDurationUnder25: 9,
+  bleedDurationUnder41: 7,
+  bleedDurationUnder45: 9,
 
-  return differenceInYears(new Date(), birthdate)
+  teen: {
+    age: 17,
+    lengthMin: 21,
+    lengthMax: 45,
+    durationMin: 2,
+    durationMax: 8,
+    bloodLossMin: 5,
+    bloodLossMax: 80,
+  },
 }
 
-/**
- * Calculate cycle days for the user
- * @param user User information including cycle details
- * @param monthsToPredict Number of months to predict into the future
- * @returns Array of cycle days with their types
- */
+const isoDateFormat = 'yyyy-MM-dd'
+
 export function calculateCycleDays(
   user: User,
   monthsToPredict: number = 3
 ): CycleDay[] {
   if (!user.lastPeriodStart) return []
 
-  const lastPeriodStartDate = parseISO(user.lastPeriodStart)
+  const { cycleLength, periodLength, lastPeriodStart } = user
+  const lastPeriodStartDate = parseISO(lastPeriodStart)
   const today = startOfDay(new Date())
   const endDate = addMonths(today, monthsToPredict)
   const cycleDays: CycleDay[] = []
 
-  // Get user age
-  const age = calculateAge(user)
-
-  // Validate cycle parameters based on age
-  const cycleLength = validateCycleLength(user.cycleLength, age)
-  const periodLength = validatePeriodLength(user.periodLength, age)
-
   let currentDate = lastPeriodStartDate
   let isPredicted = differenceInDays(currentDate, today) > 0
 
-  // Calculate past and future cycles
   while (currentDate <= endDate) {
-    // Add period days
     for (let i = 0; i < periodLength; i++) {
       const periodDay = addDays(currentDate, i)
       cycleDays.push({
-        date: format(periodDay, 'yyyy-MM-dd'),
+        date: format(periodDay, isoDateFormat),
         type: 'period',
         predicted: isPredicted || !isSameDay(periodDay, lastPeriodStartDate),
       })
     }
 
-    // Calculate ovulation (around 14 days before the next period)
-    const ovulationDay = addDays(currentDate, cycleLength - 14)
+    const ovulationDay = addDays(currentDate, cycleLength - ovulationDefault)
     cycleDays.push({
-      date: format(ovulationDay, 'yyyy-MM-dd'),
+      date: format(ovulationDay, isoDateFormat),
       type: 'ovulation',
       predicted: true,
     })
 
-    // Calculate fertile window (5 days before ovulation + ovulation day)
-    for (let i = 5; i > 0; i--) {
+    // -2days and ovulation and +2days
+    for (let i = 2; i > -3; i--) {
       const fertileDay = addDays(ovulationDay, -i)
+
       // Skip if this day is already marked as a period day
-      if (!cycleDays.some((d) => d.date === format(fertileDay, 'yyyy-MM-dd'))) {
+      if (
+        !cycleDays.some((d) => d.date === format(fertileDay, isoDateFormat))
+      ) {
         cycleDays.push({
-          date: format(fertileDay, 'yyyy-MM-dd'),
+          date: format(fertileDay, isoDateFormat),
           type: 'fertile',
           predicted: true,
         })
@@ -88,7 +85,6 @@ export function calculateCycleDays(
     }
 
     // Add normal days for days that don't have a specific type
-    // This is needed to maintain compatibility with your CycleDay type
     const cycleStartDay = currentDate
     const nextCycleStartDay = addDays(currentDate, cycleLength)
 
@@ -100,7 +96,7 @@ export function calculateCycleDays(
         !cycleDays.some((d) => isSameDay(parseISO(d.date), currentCycleDay))
       ) {
         cycleDays.push({
-          date: format(currentCycleDay, 'yyyy-MM-dd'),
+          date: format(currentCycleDay, 'dd.MM.yyyy'),
           type: 'normal',
           predicted: true,
         })
@@ -115,65 +111,24 @@ export function calculateCycleDays(
   return cycleDays
 }
 
-/**
- * Validates cycle length based on user age
- * Younger users tend to have more irregular cycles
- */
-function validateCycleLength(userCycleLength: number, age: number): number {
-  // Default average cycle length
-  const defaultCycleLength = 28
-
-  // For very young users or unrealistic values, use safer defaults
-  if (age < 15 || userCycleLength < 21 || userCycleLength > 45) {
-    return defaultCycleLength
-  }
-
-  return userCycleLength
-}
-
-/**
- * Validates period length based on user age
- */
-function validatePeriodLength(userPeriodLength: number, age: number): number {
-  // Default period length
-  const defaultPeriodLength = 5
-
-  // For very young users or unrealistic values, use safer defaults
-  if (age < 15 || userPeriodLength < 2 || userPeriodLength > 8) {
-    return defaultPeriodLength
-  }
-
-  return userPeriodLength
-}
-
-/**
- * Get the current day of the cycle
- */
 export function getCurrentCycleDay(user: User): number {
   if (!user.lastPeriodStart) return 0
 
   const lastPeriodStart = parseISO(user.lastPeriodStart)
   const today = startOfDay(new Date())
 
-  // Calculate days since last period started
   const daysSinceStart = differenceInDays(today, lastPeriodStart)
 
-  // If negative, the last period is in the future (which shouldn't happen normally)
   if (daysSinceStart < 0) return 0
 
-  // Calculate which day of the cycle we're on (1-based)
   const currentCycleDay = (daysSinceStart % user.cycleLength) + 1
 
   return currentCycleDay
 }
 
-/**
- * Get the current phase of the cycle
- */
 export function getCurrentPhase(user: User): CyclePhase {
   const currentCycleDay = getCurrentCycleDay(user)
 
-  // Define cycle phases
   const phases: CyclePhase[] = [
     { name: 'menstrual', startDay: 1, endDay: user.periodLength },
     {
@@ -183,7 +138,7 @@ export function getCurrentPhase(user: User): CyclePhase {
     },
     {
       name: 'ovulatory',
-      startDay: user.cycleLength - 14,
+      startDay: user.cycleLength - ovulationDefault,
       endDay: user.cycleLength - 12,
     },
     {
@@ -193,18 +148,14 @@ export function getCurrentPhase(user: User): CyclePhase {
     },
   ]
 
-  // Find the current phase
   const currentPhase = phases.find(
     (phase) =>
       currentCycleDay >= phase.startDay && currentCycleDay <= phase.endDay
   )
 
-  return currentPhase || phases[0] // Default to menstrual phase if not found
+  return currentPhase || phases[0]
 }
 
-/**
- * Calculate the next period date
- */
 export function getNextPeriodDate(user: User): Date | null {
   if (!user.lastPeriodStart) return null
 
@@ -212,7 +163,6 @@ export function getNextPeriodDate(user: User): Date | null {
   const today = startOfDay(new Date())
   const daysSinceStart = differenceInDays(today, lastPeriodStart)
 
-  // Calculate how many days until the next period
   const daysUntilNextPeriod =
     user.cycleLength - (daysSinceStart % user.cycleLength)
 
@@ -228,9 +178,6 @@ export function getNextPeriodDate(user: User): Date | null {
   return addDays(today, daysUntilNextPeriod)
 }
 
-/**
- * Get the fertile window dates
- */
 export function getFertileWindowDates(user: User): {
   start: Date | null
   end: Date | null
@@ -242,24 +189,20 @@ export function getFertileWindowDates(user: User): {
 
   // Fertile window is typically from 5 days before ovulation through ovulation day
   // Ovulation occurs about 14 days before the next period
-  const ovulationDate = addDays(nextPeriodDate, -14)
+  const ovulationDate = addDays(nextPeriodDate, -ovulationDefault)
   const fertileWindowStart = addDays(ovulationDate, -5)
   const fertileWindowEnd = ovulationDate
 
   return { start: fertileWindowStart, end: fertileWindowEnd }
 }
 
-/**
- * Generate a collection of health tips based on user data and current phase
- */
 export function generateHealthTips(user: User): HealthTip[] {
   const currentPhase = getCurrentPhase(user)
-  const age = calculateAge(user)
+  const age = user.age
   const phaseName = currentPhase.name
 
   const tips: HealthTip[] = []
 
-  // Base tips for all users by phase
   if (phaseName === 'menstrual') {
     tips.push({
       id: 'iron-foods',

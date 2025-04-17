@@ -16,11 +16,10 @@ import { SleepPatternsStep } from '@/components/onboarding/sleep-patterns-step'
 import { StressLevelStep } from '@/components/onboarding/stress-level-step'
 import { SymptomsStep } from '@/components/onboarding/symptoms-step'
 import { WelcomeStep } from '@/components/onboarding/welcome-step'
-import { Button } from '@/components/ui/Button'
 import { LanguageToggle } from '@/components/ui/language-toggle'
 import { useUser } from '@/contexts/user-context'
+import { calculateAge } from '@/lib/dates'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Moon, Sun } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -60,7 +59,9 @@ export default function Onboarding() {
   }
 
   const updateBirthDate = (day: string, month: string, year: string) => {
-    updateUser({ birthDay: day, birthMonth: month, birthYear: year })
+    const age = calculateAge(`${day}-${month}-${year}`)
+
+    updateUser({ birthDay: day, birthMonth: month, birthYear: year, age })
     handleNext()
   }
 

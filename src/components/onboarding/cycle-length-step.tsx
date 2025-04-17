@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Header2 } from '../Text'
 import RoundButton from '../RoundButton'
+import { cycleConstants } from '@/lib/cycleCalculations'
+import { useAtomValue } from 'jotai'
+import userAtom from '@/lib/atoms/userAtom'
 
 interface CycleLengthStepProps {
   initialValue: number
@@ -18,15 +21,18 @@ export function CycleLengthStep({
 }: CycleLengthStepProps) {
   const { t } = useTranslation()
   const [cycleLength, setCycleLength] = useState(initialValue)
+  const user = useAtomValue(userAtom)
+  const isTeen = user.age <= 17
+  const cycle = isTeen ? cycleConstants.teen : cycleConstants
 
   const incrementCycleLength = () => {
-    if (cycleLength < 50) {
+    if (cycleLength < cycle.lengthMax) {
       setCycleLength(cycleLength + 1)
     }
   }
 
   const decrementCycleLength = () => {
-    if (cycleLength > 20) {
+    if (cycleLength > cycle.lengthMin) {
       setCycleLength(cycleLength - 1)
     }
   }

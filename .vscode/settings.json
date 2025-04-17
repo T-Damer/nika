@@ -6,9 +6,9 @@
       "source.removeUnusedImports": "explicit",
       "source.addMissingImports": "explicit",
       "source.organizeImports": "explicit",
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
-  }
+  },
   "editor.quickSuggestions": {
     "strings": true
   },

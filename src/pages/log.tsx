@@ -8,46 +8,27 @@ import { Slider } from '@/components/ui/slider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import useLocale from '@/hooks/useLocale'
+import logHistory, {
+  commonMoods,
+  commonSymptoms,
+  LogEntry,
+  LogHistory,
+} from '@/lib/atoms/logHistory'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { enUS, ru } from 'date-fns/locale'
 import { motion } from 'framer-motion'
+import { useAtom } from 'jotai'
 import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-
-const commonSymptoms = [
-  'cramps',
-  'headache',
-  'bloating',
-  'backPain',
-  'breastTenderness',
-  'acne',
-  'fatigue',
-  'cravings',
-  'nausea',
-  'spotting',
-]
-
-const commonMoods = [
-  'happy',
-  'calm',
-  'anxious',
-  'irritable',
-  'sad',
-  'emotional',
-  'energetic',
-  'tired',
-  'motivated',
-  'unmotivated',
-]
 
 export default function Log() {
+  const [logEntry, setLogEntry] = useAtom(logHistory)
   const { t, locale } = useLocale()
   const { toast } = useToast()
 
   const today = new Date()
   const [selectedDate, setSelectedDate] = useState(today)
+  const [padsUsed, setPadsUsed] = useState(0)
   const [activeTab, setActiveTab] = useState('period')
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
   const [selectedMoods, setSelectedMoods] = useState<string[]>([])
@@ -80,38 +61,39 @@ export default function Log() {
   ]
 
   const saveLog = () => {
-    setIsSaving(true)
-
-    const logEntry = {
-      date: format(selectedDate, 'dd.MM.yyyy'),
-      isPeriod: activeTab === 'period',
-      flowIntensity: activeTab === 'period' ? flowIntensity : 0,
-      painLevel,
-      symptoms: selectedSymptoms,
-      moods: selectedMoods,
-    }
-
-    // Log to console for demo
-    console.log('Saving log for:', format(selectedDate, 'yyyy-MM-dd'))
-    console.log(logEntry)
-
-    // In a real app, we'd save to localStorage or send to backend here
-
-    setTimeout(() => {
+    const date = format(selectedDate, 'dd.MM.yyyy')
+    if (logEntry[date]) {
       toast({
-        title: t('log.saveSuccess'),
-        description: t('log.dataRecorded'),
-        variant: 'default',
+        title: t('log.entryExists'),
         duration: 3000,
       })
+      return
+    }
+    setIsSaving(true)
 
-      setIsSaving(false)
+    const newEntry: LogEntry = {
+      flowIntensity,
+      padsUsed,
+      painIntensity: painLevel,
+      symptoms: selectedSymptoms,
+      mood: selectedMoods,
+    }
 
-      setSelectedSymptoms([])
-      setSelectedMoods([])
-      setFlowIntensity(2)
-      setPainLevel(1)
-    }, 800)
+    setLogEntry((prev) => ({ ...prev, [date]: newEntry }))
+
+    toast({
+      title: t('log.saveSuccess'),
+      description: t('log.dataRecorded'),
+      variant: 'default',
+      duration: 3000,
+    })
+
+    setIsSaving(false)
+
+    setSelectedSymptoms([])
+    setSelectedMoods([])
+    setFlowIntensity(2)
+    setPainLevel(1)
   }
 
   return (
@@ -187,7 +169,15 @@ export default function Log() {
                     <span className="text-xl font-medium">
                       {t('log.padsAmountDaily')}
                     </span>
-                    <Input className="w-32" />
+                    <Input
+                      className="w-32"
+                      type="number"
+                      step={1}
+                      onChange={(e) =>
+                        setPadsUsed(e.currentTarget.valueAsNumber)
+                      }
+                      value={padsUsed}
+                    />
                   </div>
 
                   <div>
@@ -197,7 +187,7 @@ export default function Log() {
                     <div className="mb-2">
                       <Slider
                         min={0}
-                        max={5}
+                        max={4}
                         step={1}
                         value={[painLevel]}
                         onValueChange={(values) => setPainLevel(values[0])}

@@ -28,14 +28,12 @@ export default function useCalendar(
 
     const cycleDays = calculateCycleDays(user)
 
-    // Display 14 days (current week + next week)
     const daysToShow = 14
     const weekViewDays = eachDayOfInterval({
       start: weekStartDate,
       end: addDays(weekStartDate, daysToShow - 1),
     })
 
-    // Create calendar day states
     const weekDays: CalendarDayState[] = weekViewDays.map((date) => ({
       number: date.getDate(),
       isCurrentMonth: true, // Not relevant for week view
@@ -60,7 +58,6 @@ export default function useCalendar(
 
     setWeekCalendarDays(weekDays)
 
-    // Scroll to today
     setTimeout(() => {
       if (scrollRef.current) {
         const todayIndex = weekDays.findIndex((day) => day.isToday)
