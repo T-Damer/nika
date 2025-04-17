@@ -8,6 +8,7 @@ export const defaultUser: User = {
   birthDay: '',
   birthMonth: '',
   birthYear: '',
+  age: 0,
   lastPeriodStart: '',
   cycleLength: 28,
   periodLength: 5,
