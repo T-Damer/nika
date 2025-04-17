@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/navbar'
-import { formatDuration } from 'date-fns'
+import { format, formatDuration } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -27,12 +27,15 @@ import { useToast } from '@/hooks/use-toast'
 import { clearAllData } from '@/lib/storage'
 import { motion } from 'framer-motion'
 import { Pen, Save, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
 import { DialogClose } from '@radix-ui/react-dialog'
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import modalsAtom, { AvailableModals } from '@/lib/atoms/modalsAtom'
+import exportUserData from '@/lib/exportUserData'
+import logHistoryAtom from '@/lib/atoms/logHistory'
+import questionaryData from '@/lib/atoms/questionaryData'
 
 const cycleLengthOptions = Array.from({ length: 31 }, (_, i) => 21 + i)
 
@@ -40,6 +43,8 @@ const periodLengthOptions = Array.from({ length: 9 }, (_, i) => 2 + i)
 
 export default function Profile() {
   const setModal = useSetAtom(modalsAtom)
+  const logHistory = useAtomValue(logHistoryAtom)
+  const questionary = useAtomValue(questionaryData)
   const { t, locale } = useLocale()
   const { user, updateUser } = useUser()
   const navigate = useNavigate()
@@ -83,6 +88,13 @@ export default function Profile() {
     clearAllData()
     navigate('/onboarding')
   }
+
+  const exportData = useCallback(() => {
+    const today = format(new Date(), 'dd-mm-yyyy')
+    const fileName = user.name + ' ' + today
+
+    exportUserData(fileName, user, logHistory, questionary)
+  }, [user, logHistory, questionary])
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
@@ -229,7 +241,7 @@ export default function Profile() {
 
       <Card>
         <CardContent className="flex flex-col gap-y-2 pt-6">
-          <Button size="full" disabled>
+          <Button size="full" onClick={exportData}>
             <Save />
             {t('profile.exportData')}
           </Button>
