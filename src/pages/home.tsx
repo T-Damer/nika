@@ -14,10 +14,8 @@ export default function Home() {
   const { user, isLoading } = useUser()
   const navigate = useNavigate()
   const scrollRef = useRef<HTMLDivElement>(null)
-  const { weekCalendarDays, setWeekStartDate, weekStartDate } = useCalendar(
-    user,
-    scrollRef
-  )
+  const { weekCalendarDays, setWeekStartDate, weekStartDate, daysToShow } =
+    useCalendar(user, scrollRef)
 
   useEffect(() => {
     if (!isLoading && !user.onboardingCompleted) {
@@ -26,11 +24,11 @@ export default function Home() {
   }, [user.onboardingCompleted, isLoading, navigate])
 
   const handlePrevWeek = () => {
-    setWeekStartDate(subDays(weekStartDate, 14))
+    setWeekStartDate(subDays(weekStartDate, daysToShow))
   }
 
   const handleNextWeek = () => {
-    setWeekStartDate(addDays(weekStartDate, 14))
+    setWeekStartDate(addDays(weekStartDate, daysToShow))
   }
 
   const formatDayName = (date: Date) => {

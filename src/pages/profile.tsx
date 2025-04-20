@@ -26,7 +26,14 @@ import { useUser } from '@/contexts/user-context'
 import { useToast } from '@/hooks/use-toast'
 import { clearAllData } from '@/lib/storage'
 import { motion } from 'framer-motion'
-import { Pen, Save, Trash2 } from 'lucide-react'
+import {
+  Pen,
+  Save,
+  Trash2,
+  Dock,
+  ReceiptPoundSterling,
+  Receipt,
+} from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
@@ -231,53 +238,70 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      <Button
-        variant="outline"
-        onClick={() => setModal(AvailableModals.questionary)}
-        className="mb-4"
-      >
-        Пройти опрос
-      </Button>
+      <div className="flex flex-col gap-y-2 mb-4">
+        <Button
+          variant="outline"
+          onClick={() => setModal(AvailableModals.questionary)}
+        >
+          <Dock />
+          Пройти опрос
+        </Button>
 
-      <Card>
-        <CardContent className="flex flex-col gap-y-2 pt-6">
-          <Button size="full" onClick={exportData}>
-            <Save />
-            {t('profile.exportData')}
-          </Button>
+        <Button size="full" onClick={exportData}>
+          <Save />
+          {t('profile.exportData')}
+        </Button>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="destructive" size="full">
-                <Trash2 />
-                {t('profile.resetData')}
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t('profile.confirmReset')}</DialogTitle>
-                <DialogDescription>
-                  {t('profile.resetWarning')}
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline" size="full">
-                    {t('common.cancel')}
-                  </Button>
-                </DialogClose>
-                <Button
-                  variant="destructive"
-                  size="full"
-                  onClick={resetAppData}
-                >
-                  {t('profile.confirmResetButton')}
+        <Button
+          variant="secondary"
+          size="full"
+          onClick={() =>
+            window.open(
+              'https://www.gosuslugi.ru/newsearch/zapisatsya-k-vrachu-ginekologu',
+              '_blank'
+            )
+          }
+        >
+          Записаться к гинекологу
+        </Button>
+      </div>
+
+      <div className="flex-1 flex items-end">
+        <Card className="w-full">
+          <CardContent className="flex flex-col gap-y-2 pt-6 w-full">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="destructive" size="full">
+                  <Trash2 />
+                  {t('profile.resetData')}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </CardContent>
-      </Card>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t('profile.confirmReset')}</DialogTitle>
+                  <DialogDescription>
+                    {t('profile.resetWarning')}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose>
+                    <Button variant="outline" size="full">
+                      {t('common.cancel')}
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    variant="destructive"
+                    size="full"
+                    onClick={resetAppData}
+                  >
+                    {t('profile.confirmResetButton')}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </CardContent>
+        </Card>
+      </div>
 
       <Navbar />
     </div>

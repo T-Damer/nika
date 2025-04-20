@@ -11,6 +11,7 @@ import {
 import { RefObject, useEffect, useState } from 'react'
 
 const today = new Date()
+const daysToShow = 7
 
 export default function useCalendar(
   user: User,
@@ -28,7 +29,6 @@ export default function useCalendar(
 
     const cycleDays = calculateCycleDays(user)
 
-    const daysToShow = 14
     const weekViewDays = eachDayOfInterval({
       start: weekStartDate,
       end: addDays(weekStartDate, daysToShow - 1),
@@ -69,5 +69,5 @@ export default function useCalendar(
     }, 100)
   }, [weekStartDate, user])
 
-  return { weekCalendarDays, weekStartDate, setWeekStartDate }
+  return { weekCalendarDays, weekStartDate, setWeekStartDate, daysToShow }
 }
