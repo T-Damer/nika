@@ -1,7 +1,7 @@
 import { User } from '../types'
 
-const USER_DATA_KEY = 'meneUserData'
-const CYCLE_DATA_KEY = 'meneCycleData'
+const userDataKey = 'user-data'
+const CYCLE_DATA_KEY = 'cycle-data'
 
 export const defaultUser: User = {
   name: '',
@@ -32,7 +32,7 @@ export const defaultUser: User = {
 
 export const saveUserData = (userData: User): void => {
   try {
-    localStorage.setItem(USER_DATA_KEY, JSON.stringify(userData))
+    localStorage.setItem(userDataKey, JSON.stringify(userData))
   } catch (error) {
     console.error('Error saving user data:', error)
   }
@@ -40,7 +40,7 @@ export const saveUserData = (userData: User): void => {
 
 export const loadUserData = (): User => {
   try {
-    const savedData = localStorage.getItem(USER_DATA_KEY)
+    const savedData = localStorage.getItem(userDataKey)
     if (savedData) {
       return { ...defaultUser, ...JSON.parse(savedData) }
     }
@@ -72,7 +72,7 @@ export const loadCycleData = (): any => {
 
 export const clearAllData = (): void => {
   try {
-    localStorage.removeItem(USER_DATA_KEY)
+    localStorage.removeItem(userDataKey)
     localStorage.removeItem(CYCLE_DATA_KEY)
   } catch (error) {
     console.error('Error clearing data:', error)

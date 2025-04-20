@@ -151,7 +151,7 @@ export default function Log() {
                         key={`flowIntensity-${i}`}
                       >
                         <img
-                          src={`/mene-tracker/img/flowIntensity/${i}.png`}
+                          src={`/nika/img/flowIntensity/${i}.png`}
                           onClick={() => setFlowIntensity(i)}
                           className={cn(
                             'transition-transform h-24 w-12  sm:w-16 sm:h-32 cursor-pointer',

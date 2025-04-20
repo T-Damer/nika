@@ -7,7 +7,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   plugins: [react(), runtimeErrorOverlay(), tsconfigPaths()],
-  base: '/mene-tracker/',
+  base: '/nika/',
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),

@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "Welcome to mene",
+    "title": "Welcome to nika",
     "subtitle": "Your personal period tracker and health assistant",
     "getStarted": "Get Started"
   },
@@ -39,7 +39,7 @@
     "subtitle": "This helps us provide more accurate insights"
   },
   "goalsStep": {
-    "title": "What are your goals with using mene?",
+    "title": "What are your goals with using nika?",
     "subtitle": "Select all that apply to personalize your experience"
   },
   "activityLevelStep": {
@@ -70,7 +70,7 @@
   },
   "preferencesStep": {
     "title": "Set your preferences",
-    "subtitle": "Customize your experience with mene"
+    "subtitle": "Customize your experience with nika"
   },
   "completeStep": {
     "title": "All Set!",
