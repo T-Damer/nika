@@ -72,7 +72,7 @@ export default function Home() {
 
             <div
               ref={scrollRef}
-              className="flex overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
+              className="flex items-center justify-between overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
             >
               {weekCalendarDays.map((day, index) => (
                 <div key={index} className="w-14 mx-1">

@@ -39,8 +39,10 @@ export interface LogHistory {
   [data: string]: LogEntry
 }
 
+export const logHistoryVersionedKey = `logHistory-${storeVersion}`
+
 export default atomWithStorage<LogHistory>(
-  `logHistory-${storeVersion}`,
+  logHistoryVersionedKey,
   {},
   undefined,
   { getOnInit: true }

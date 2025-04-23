@@ -23,8 +23,10 @@ export const defaultQuestionary = {
 
 export type QuestionaryKeys = keyof QuestionaryStore
 
+export const questionaryVersionedKey = `questionary-${storeVersion}`
+
 export default atomWithStorage<QuestionaryStore>(
-  `questionary-${storeVersion}`,
+  questionaryVersionedKey,
   defaultQuestionary,
   undefined,
   { getOnInit: true }

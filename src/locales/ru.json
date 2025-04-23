@@ -61,7 +61,17 @@
   "medicalConditionsStep": {
     "title": "Есть ли у вас какие-либо заболевания?",
     "subtitle": "Выберите все подходящие, чтобы получать соответствующие советы",
-    "customPlaceholder": "Добавить своё"
+    "customPlaceholder": "Добавить своё",
+
+    "none": "Нет",
+    "pcos": "СПКЯ",
+    "endometriosis": "Эндометриоз",
+    "fibroids": "Миома",
+    "thyroidDisorders": "Заболевания щитовидной железы",
+    "diabetes": "Диабет",
+    "hypertension": "Гипертония",
+    "depression": "Депрессия",
+    "anxiety": "Тревожность"
   },
   "medicationsStep": {
     "title": "Принимаете ли вы какие-либо лекарства?",
@@ -76,18 +86,6 @@
     "title": "Всё готово!",
     "subtitle": "Ваши персонализированные прогнозы цикла готовы",
     "goToDashboard": "Начать пользоваться nika"
-  },
-  "symptoms": {
-    "cramps": "Спазмы",
-    "headache": "Головная боль",
-    "bloating": "Вздутие",
-    "backPain": "Боль в спине",
-    "breastTenderness": "Болезненность груди",
-    "acne": "Акне",
-    "fatigue": "Усталость",
-    "cravings": "Тяга к еде",
-    "nausea": "Тошнота",
-    "spotting": "Выделения"
   },
   "moods": {
     "happy": "Счастье",
@@ -168,17 +166,6 @@
     "moderate": "Умеренный",
     "high": "Высокий",
     "veryHigh": "Очень высокий"
-  },
-  "medicalConditions": {
-    "none": "Нет",
-    "pcos": "СПКЯ",
-    "endometriosis": "Эндометриоз",
-    "fibroids": "Миома",
-    "thyroidDisorders": "Заболевания щитовидной железы",
-    "diabetes": "Диабет",
-    "hypertension": "Гипертония",
-    "depression": "Депрессия",
-    "anxiety": "Тревожность"
   },
   "medications": {
     "none": "Нет",
@@ -383,6 +370,33 @@
     "add": "Добавить"
   },
   "onboarding": {
-    "progressIndicator": "Прогресс"
-  }
+    "progressIndicator": "Прогресс",
+    "symptoms": {
+      "cramps": "Спазмы",
+      "headache": "Головная боль",
+      "bloating": "Вздутие",
+      "backPain": "Боль в спине",
+      "breastTenderness": "Болезненность груди",
+      "acne": "Акне",
+      "fatigue": "Усталость",
+      "cravings": "Тяга к еде",
+      "nausea": "Тошнота",
+      "spotting": "Выделения"
+    }
+  },
+  "stressLevel": "Уровень стресса",
+  "onboardingCompleted": "Ознакомление заверешено",
+  "preferences.language": "Настройки языка",
+  "diet": "Диета",
+  "activityLevel": "Уровень активности",
+  "mood": "Настроение",
+  "periodLength": "Длина менструации",
+  "cycleLength": "Длина цикла",
+  "lastPeriodStart": "Начало последней менструации",
+  "age": "Возраст",
+  "birthYear": "Год рождения",
+  "birthMonth": "Месяц рождения",
+  "birthDay": "День рождения",
+  "name": "Имя",
+  "symptoms": "Симптомы"
 }

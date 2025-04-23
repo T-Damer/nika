@@ -12,7 +12,6 @@ import logHistory, {
   commonMoods,
   commonSymptoms,
   LogEntry,
-  LogHistory,
 } from '@/lib/atoms/logHistory'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
@@ -208,7 +207,7 @@ export default function Log() {
               <CardContent className="pt-4">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-sm font-medium mb-2">
+                    <h3 className="text-sm font-medium mb-2 dark:text-white">
                       {t('log.symptoms')}
                     </h3>
                     <div className="grid grid-cols-2 gap-2">
@@ -226,7 +225,7 @@ export default function Log() {
                             htmlFor={`symptom-${symptom}`}
                             className="text-sm font-medium leading-none"
                           >
-                            {t(`symptoms.${symptom}`)}
+                            {t(`onboarding.symptoms.${symptom}`)}
                           </label>
                         </div>
                       ))}
@@ -234,7 +233,7 @@ export default function Log() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium mb-2">
+                    <h3 className="text-sm font-medium mb-2 dark:text-white">
                       {t('log.mood')}
                     </h3>
                     <div className="grid grid-cols-2 gap-2">

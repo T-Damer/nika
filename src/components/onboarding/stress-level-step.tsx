@@ -54,9 +54,9 @@ export function StressLevelStep({
           />
 
           <div className="flex justify-between text-xs mt-2 text-neutral-600 dark:text-neutral-200">
-            <span>{t('stressLevels.veryLow')}</span>
+            <span>{t('stressLevels.low')}</span>
             <span>{t('stressLevels.moderate')}</span>
-            <span>{t('stressLevels.veryHigh')}</span>
+            <span>{t('stressLevels.high')}</span>
           </div>
         </div>
 

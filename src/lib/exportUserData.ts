@@ -1,10 +1,10 @@
-import { LogEntry, LogHistory } from '@/lib/atoms/logHistory'
+import { LogHistory } from '@/lib/atoms/logHistory'
 import { QuestionaryStore } from '@/lib/atoms/questionaryData'
+import i18n from '@/lib/i18n'
 import { User } from '@/types'
 import { saveAs } from 'file-saver'
 import { utils, write } from 'xlsx'
 
-// Helper to flatten objects and handle arrays
 const flattenObject = (obj: any, prefix = ''): Record<string, any> => {
   return Object.keys(obj).reduce(
     (acc, key) => {
@@ -24,17 +24,15 @@ const flattenObject = (obj: any, prefix = ''): Record<string, any> => {
   )
 }
 
-// Convert a single log entry to a flat object with date prefix
-const processLogEntry = (date: string, entry: LogEntry) => {
-  const flatEntry = flattenObject(entry)
-  const result: Record<string, any> = {}
-
-  for (const [key, value] of Object.entries(flatEntry)) {
-    result[`log.${date}.${key}`] = value
-  }
-
-  return result
-}
+const translateKeys = (rec: Record<string, any>): Record<string, any> =>
+  Object.entries(rec).reduce(
+    (acc, [rawKey, value]) => {
+      const label = i18n.t(rawKey, { defaultValue: rawKey })
+      acc[label] = value
+      return acc
+    },
+    {} as Record<string, any>
+  )
 
 export default function exportUserData(
   fileName: string,
@@ -45,10 +43,18 @@ export default function exportUserData(
   const workbook = utils.book_new()
 
   const flatUser = flattenObject(user)
+  const filteredUser = Object.fromEntries(
+    Object.entries(flatUser).filter(
+      ([key]) =>
+        !key.startsWith('preferences.') && key !== 'onboardingCompleted'
+    )
+  )
+  const translatedUser = translateKeys(filteredUser)
+
   utils.book_append_sheet(
     workbook,
-    utils.json_to_sheet([flatUser]),
-    'User Profile'
+    utils.json_to_sheet([translatedUser]),
+    'Пациент'
   )
 
   if (logHistory) {
@@ -60,7 +66,7 @@ export default function exportUserData(
     utils.book_append_sheet(
       workbook,
       utils.json_to_sheet(logEntries),
-      'Period Logs'
+      'Отметки о цикле'
     )
   }
 
@@ -69,7 +75,7 @@ export default function exportUserData(
     utils.book_append_sheet(
       workbook,
       utils.json_to_sheet([flatQuestionnaire]),
-      'Family History'
+      'Генеалогия'
     )
   }
 

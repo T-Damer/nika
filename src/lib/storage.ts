@@ -1,7 +1,9 @@
 import { User } from '../types'
+import { logHistoryVersionedKey } from './atoms/logHistory'
+import { questionaryVersionedKey } from './atoms/questionaryData'
 
 const userDataKey = 'user-data'
-const CYCLE_DATA_KEY = 'cycle-data'
+const cycleDataKey = 'cycle-data'
 
 export const defaultUser: User = {
   name: '',
@@ -52,7 +54,7 @@ export const loadUserData = (): User => {
 
 export const saveCycleData = (cycleData: any): void => {
   try {
-    localStorage.setItem(CYCLE_DATA_KEY, JSON.stringify(cycleData))
+    localStorage.setItem(cycleDataKey, JSON.stringify(cycleData))
   } catch (error) {
     console.error('Error saving cycle data:', error)
   }
@@ -60,7 +62,7 @@ export const saveCycleData = (cycleData: any): void => {
 
 export const loadCycleData = (): any => {
   try {
-    const savedData = localStorage.getItem(CYCLE_DATA_KEY)
+    const savedData = localStorage.getItem(cycleDataKey)
     if (savedData) {
       return JSON.parse(savedData)
     }
@@ -73,7 +75,9 @@ export const loadCycleData = (): any => {
 export const clearAllData = (): void => {
   try {
     localStorage.removeItem(userDataKey)
-    localStorage.removeItem(CYCLE_DATA_KEY)
+    localStorage.removeItem(cycleDataKey)
+    localStorage.removeItem(logHistoryVersionedKey)
+    localStorage.removeItem(questionaryVersionedKey)
   } catch (error) {
     console.error('Error clearing data:', error)
   }
