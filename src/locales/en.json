@@ -115,7 +115,6 @@
   },
   "goals": {
     "trackPeriod": "Track my period",
-    "predictFertility": "Predict fertility window",
     "becomePregnant": "Become pregnant",
     "monitorHealth": "Monitor my health",
     "trackSymptoms": "Track symptoms",

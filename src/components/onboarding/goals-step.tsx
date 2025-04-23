@@ -13,7 +13,6 @@ interface GoalsStepProps {
 
 const commonGoals = [
   'trackPeriod',
-  'predictFertility',
   'becomePregnant',
   'monitorHealth',
   'trackSymptoms',

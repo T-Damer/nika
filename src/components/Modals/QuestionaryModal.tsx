@@ -43,7 +43,7 @@ function ModalBody() {
   return (
     <div className="flex flex-col gap-y-2 items-center text-center">
       <Header2>
-        Скрининг анкета генеалогических гинекологических заболеваний
+        Скрининг анкета - генеалогия гинекологических заболеваний
       </Header2>
       <span className="text-neutral-500">
         Какие заболевания встречались в вашей семье?
