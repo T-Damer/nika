@@ -97,7 +97,7 @@ export default function Profile() {
   }
 
   const exportData = useCallback(() => {
-    const today = format(new Date(), 'dd-mm-yyyy')
+    const today = format(new Date(), 'dd-MM-yyyy')
     const fileName = user.name + ' ' + today
 
     exportUserData(fileName, user, logHistory, questionary)
