@@ -183,7 +183,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.26.10":
+"@babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.26.10":
   version: 7.27.0
   resolution: "@babel/runtime@npm:7.27.0"
   dependencies:
@@ -4238,15 +4238,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-browser-languagedetector@npm:^8.0.4":
-  version: 8.0.4
-  resolution: "i18next-browser-languagedetector@npm:8.0.4"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.2"
-  checksum: 10c0/82fb7333af5afdda6c31679713571a28095635a2120c95446e57d29cc1792afec42c437e2926f770c760ea58c372980c299233245c54756069b2e3fd6a05e53a
-  languageName: node
-  linkType: hard
-
 "i18next@npm:^24.2.3":
   version: 24.2.3
   resolution: "i18next@npm:24.2.3"
@@ -5211,7 +5202,6 @@ __metadata:
     file-saver: "npm:^2.0.5"
     framer-motion: "npm:^11.13.1"
     i18next: "npm:^24.2.3"
-    i18next-browser-languagedetector: "npm:^8.0.4"
     jotai: "npm:^2.12.2"
     lucide-react: "npm:^0.453.0"
     postcss: "npm:^8.4.47"
