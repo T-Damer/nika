@@ -1,4 +1,5 @@
 import AnimatedEntryHeader from '@/components/AnimatedEntryHeader'
+import LogSelect from '@/components/Log/LogSelect'
 import { Navbar } from '@/components/navbar'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,11 +13,18 @@ import logHistory, {
   commonMoods,
   commonSymptoms,
   LogEntry,
-  LogHistory,
 } from '@/lib/atoms/logHistory'
 import { cn } from '@/lib/utils'
+import {
+  MensColorTypes,
+  MensColorValues,
+  MensConsistencyValues,
+  MensSmellValues,
+  mensColor,
+  mensConsistency,
+  mensSmell,
+} from '@/types/Log'
 import { format } from 'date-fns'
-import { motion } from 'framer-motion'
 import { useAtom } from 'jotai'
 import { AlertCircle, CalendarIcon, Droplets, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -27,6 +35,11 @@ export default function Log() {
   const { toast } = useToast()
 
   const today = new Date()
+  const [color, setMensColor] = useState<MensColorValues>(mensColor.red)
+  const [consistency, setConsistency] = useState<MensConsistencyValues>(
+    mensConsistency.creamy
+  )
+  const [smell, setSmell] = useState<MensSmellValues>(mensSmell.no)
   const [selectedDate, setSelectedDate] = useState(today)
   const [padsUsed, setPadsUsed] = useState(0)
   const [activeTab, setActiveTab] = useState('period')
@@ -34,7 +47,6 @@ export default function Log() {
   const [selectedMoods, setSelectedMoods] = useState<string[]>([])
   const [flowIntensity, setFlowIntensity] = useState(2)
   const [painLevel, setPainLevel] = useState(1)
-  const [isSaving, setIsSaving] = useState(false)
 
   const toggleSymptom = (symptom: string) => {
     if (selectedSymptoms.includes(symptom)) {
@@ -69,10 +81,12 @@ export default function Log() {
       })
       return
     }
-    setIsSaving(true)
 
     const newEntry: LogEntry = {
       flowIntensity,
+      color,
+      consistency,
+      smell,
       padsUsed,
       painIntensity: painLevel,
       symptoms: selectedSymptoms,
@@ -87,8 +101,6 @@ export default function Log() {
       variant: 'default',
       duration: 3000,
     })
-
-    setIsSaving(false)
 
     setSelectedSymptoms([])
     setSelectedMoods([])
@@ -180,6 +192,27 @@ export default function Log() {
                     />
                   </div>
 
+                  <LogSelect<MensColorValues>
+                    header="Цвет выделений"
+                    value={color}
+                    onChange={setMensColor}
+                    options={mensColor}
+                  />
+
+                  <LogSelect<MensConsistencyValues>
+                    header="Консистентность"
+                    value={consistency}
+                    onChange={setConsistency}
+                    options={mensConsistency}
+                  />
+
+                  <LogSelect<MensSmellValues>
+                    header="Запах"
+                    value={smell}
+                    onChange={setSmell}
+                    options={mensSmell}
+                  />
+
                   <div>
                     <div className="text-xl font-medium mb-2">
                       <span>{t('log.painLevel')}</span>
@@ -264,42 +297,9 @@ export default function Log() {
         <Button
           className="w-full bg-primary text-white font-medium py-3 px-6 rounded-full hover:bg-primary-dark transition"
           onClick={saveLog}
-          disabled={isSaving}
         >
-          {isSaving ? (
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <svg
-                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              {t('log.saving')}
-            </motion.div>
-          ) : (
-            <>
-              <SaveIcon className="mr-2 h-4 w-4" />
-              {t('log.saveButton')}
-            </>
-          )}
+          <SaveIcon className="mr-2 h-4 w-4" />
+          {t('log.saveButton')}
         </Button>
       </main>
 

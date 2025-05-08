@@ -18,7 +18,8 @@ const localTranslations: Record<string, string> = {
   contraception: 'Контрацепция',
   goals: 'Цели использования приложения',
   activityLevel: 'Уровень активности',
-  sleepPattern: 'Продолжительность сна (часов)',
+  sleepPatterns: 'Продолжительность сна (часов)',
+  diet: 'Диета',
   stressLevel: 'Уровень стресса',
   medicalConditions: 'Заболевания',
   medications: 'Принимаемые препараты',
@@ -105,6 +106,10 @@ const localTranslations: Record<string, string> = {
   sisters: 'Родных сестер',
   cousins: 'Двоюродных сестер',
   aunt: 'Тети',
+
+  color: 'Цвет',
+  consistency: 'Консистентность',
+  smell: 'Запах',
 }
 
 const formatDate = (dateString: string | Date): string => {

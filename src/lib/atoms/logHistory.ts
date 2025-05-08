@@ -1,5 +1,10 @@
 import { storeVersion } from '@/lib/atoms/atomStore'
 import { FiveStars } from '@/types/FiveStars'
+import {
+  MensColorValues,
+  MensConsistencyValues,
+  MensSmellValues,
+} from '@/types/Log'
 import { atomWithStorage } from 'jotai/utils'
 
 export const commonSymptoms = [
@@ -30,6 +35,9 @@ export const commonMoods = [
 
 export interface LogEntry {
   flowIntensity: FiveStars | number
+  color: MensColorValues
+  consistency: MensConsistencyValues
+  smell: MensSmellValues
   padsUsed: number
   painIntensity: FiveStars | number
   symptoms: typeof commonSymptoms
