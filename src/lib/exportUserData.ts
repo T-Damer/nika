@@ -3,6 +3,10 @@ import { QuestionaryStore } from '@/lib/atoms/questionaryData'
 import { User } from '@/types'
 import { saveAs } from 'file-saver'
 import { utils, write } from 'xlsx'
+import {
+  physicalMensInputs,
+  PhysicalQuestionaryStore,
+} from './atoms/physicalMensData'
 
 const localTranslations: Record<string, string> = {
   name: 'Имя',
@@ -141,10 +145,14 @@ const flattenObject = (
       }
 
       const prefixedKey = prefix ? `${prefix}.${key}` : key
-      const translatedKey =
-        translateKeys && localTranslations[key]
-          ? localTranslations[key]
-          : prefixedKey
+      let translatedKey = prefixedKey
+
+      if (translateKeys) {
+        if (localTranslations[key]) translatedKey = localTranslations[key]
+        else if (physicalMensInputs[key])
+          translatedKey = physicalMensInputs[key].title
+        else translatedKey = prefixedKey
+      }
 
       const value = obj[key]
 
@@ -194,7 +202,8 @@ export default function exportUserData(
   fileName: string,
   user: User,
   logHistory?: LogHistory,
-  questionnaire?: QuestionaryStore
+  questionnaire?: QuestionaryStore,
+  physicalMensQuestionary?: PhysicalQuestionaryStore
 ) {
   const workbook = utils.book_new()
 
@@ -227,6 +236,20 @@ export default function exportUserData(
       workbook,
       utils.json_to_sheet([flatQuestionnaire]),
       'Семейный Анамнез'
+    )
+  }
+
+  if (physicalMensQuestionary) {
+    const flatQuestionnaire = flattenObject(
+      physicalMensQuestionary,
+      '',
+      true,
+      true
+    )
+    utils.book_append_sheet(
+      workbook,
+      utils.json_to_sheet([flatQuestionnaire]),
+      'Анкета Спорт'
     )
   }
 

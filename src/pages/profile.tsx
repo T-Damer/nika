@@ -26,14 +26,7 @@ import { useUser } from '@/contexts/user-context'
 import { useToast } from '@/hooks/use-toast'
 import { clearAllData } from '@/lib/storage'
 import { motion } from 'framer-motion'
-import {
-  Pen,
-  Save,
-  Trash2,
-  Dock,
-  ReceiptPoundSterling,
-  Receipt,
-} from 'lucide-react'
+import { Pen, Save, Trash2, Dock, GitBranch, BicepsFlexed } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useLocale from '@/hooks/useLocale'
@@ -43,6 +36,7 @@ import modalsAtom, { AvailableModals } from '@/lib/atoms/modalsAtom'
 import exportUserData from '@/lib/exportUserData'
 import logHistoryAtom from '@/lib/atoms/logHistory'
 import questionaryData from '@/lib/atoms/questionaryData'
+import physicalMensData from '@/lib/atoms/physicalMensData'
 
 const cycleLengthOptions = Array.from({ length: 31 }, (_, i) => 21 + i)
 
@@ -52,6 +46,7 @@ export default function Profile() {
   const setModal = useSetAtom(modalsAtom)
   const logHistory = useAtomValue(logHistoryAtom)
   const questionary = useAtomValue(questionaryData)
+  const physicalQuestionary = useAtomValue(physicalMensData)
   const { t, locale } = useLocale()
   const { user, updateUser } = useUser()
   const navigate = useNavigate()
@@ -100,8 +95,8 @@ export default function Profile() {
     const today = format(new Date(), 'dd-MM-yyyy')
     const fileName = user.name + ' ' + today
 
-    exportUserData(fileName, user, logHistory, questionary)
-  }, [user, logHistory, questionary])
+    exportUserData(fileName, user, logHistory, questionary, physicalQuestionary)
+  }, [user, logHistory, questionary, physicalQuestionary])
 
   return (
     <div className="min-h-screen flex flex-col pb-16">
@@ -243,8 +238,16 @@ export default function Profile() {
           variant="outline"
           onClick={() => setModal(AvailableModals.questionary)}
         >
-          <Dock />
-          Пройти опрос
+          <GitBranch />
+          Анкета о генеалогии
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => setModal(AvailableModals.physical)}
+        >
+          <BicepsFlexed />
+          Анкета о цикле при физ. нагрузке
         </Button>
 
         <Button size="full" onClick={exportData}>

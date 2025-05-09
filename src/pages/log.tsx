@@ -16,7 +16,6 @@ import logHistory, {
 } from '@/lib/atoms/logHistory'
 import { cn } from '@/lib/utils'
 import {
-  MensColorTypes,
   MensColorValues,
   MensConsistencyValues,
   MensSmellValues,
@@ -35,9 +34,9 @@ export default function Log() {
   const { toast } = useToast()
 
   const today = new Date()
-  const [color, setMensColor] = useState<MensColorValues>(mensColor.red)
+  const [color, setMensColor] = useState<MensColorValues>(mensColor.no)
   const [consistency, setConsistency] = useState<MensConsistencyValues>(
-    mensConsistency.creamy
+    mensConsistency.no
   )
   const [smell, setSmell] = useState<MensSmellValues>(mensSmell.no)
   const [selectedDate, setSelectedDate] = useState(today)
@@ -184,6 +183,7 @@ export default function Log() {
                     <Input
                       className="w-32"
                       type="number"
+                      inputMode="numeric"
                       step={1}
                       onChange={(e) =>
                         setPadsUsed(e.currentTarget.valueAsNumber)

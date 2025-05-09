@@ -1,4 +1,5 @@
 export const mensColor = {
+  no: 'Нет',
   red: 'Красный',
   yellowGreen: 'Желто-зеленый',
   white: 'Белый',
@@ -9,6 +10,7 @@ export type MensColorTypes = keyof typeof mensColor
 export type MensColorValues = (typeof mensColor)[MensColorTypes]
 
 export const mensConsistency = {
+  no: 'Нет',
   creamy: 'Кремовые',
   curdy: 'Творожистые',
   slimy: 'Слизистые',
